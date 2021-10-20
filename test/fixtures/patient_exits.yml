@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  patient_admission: one
+  date: 2021-10-20
+  reason: MyString
+  location: MyString
+  note: MyString
+
+two:
+  patient_admission: two
+  date: 2021-10-20
+  reason: MyString
+  location: MyString
+  note: MyString

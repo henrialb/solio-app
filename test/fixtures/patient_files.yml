@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  patient_admission: one
+  open_date: 2021-10-20
+  close_date: 2021-10-20
+  note: MyString
+
+two:
+  patient_admission: two
+  open_date: 2021-10-20
+  close_date: 2021-10-20
+  note: MyString

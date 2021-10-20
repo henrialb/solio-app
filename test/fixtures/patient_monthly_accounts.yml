@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  patient_file: one
+  month: 2021-10-20
+  total: 9.99
+  is_paid: false
+
+two:
+  patient_file: two
+  month: 2021-10-20
+  total: 9.99
+  is_paid: false
