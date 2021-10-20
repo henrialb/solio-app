@@ -7,7 +7,7 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins '*'
+    origins '*' # TODO: change in production
 
     resource '*',
       headers: :any,
