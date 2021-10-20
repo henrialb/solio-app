@@ -10,7 +10,121 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_20_151620) do
+ActiveRecord::Schema.define(version: 2021_10_20_170220) do
+
+  create_table "employee_admissions", force: :cascade do |t|
+    t.integer "employee_id", null: false
+    t.date "date"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["employee_id"], name: "index_employee_admissions_on_employee_id"
+  end
+
+  create_table "employee_exits", force: :cascade do |t|
+    t.integer "employee_admission_id", null: false
+    t.date "date"
+    t.string "note"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["employee_admission_id"], name: "index_employee_exits_on_employee_admission_id"
+  end
+
+  create_table "employees", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "full_name"
+    t.string "name"
+    t.boolean "is_active"
+    t.string "address"
+    t.string "citizen_no"
+    t.string "nif_no"
+    t.string "health_no"
+    t.string "phone"
+    t.string "email"
+    t.string "role"
+    t.date "dob"
+    t.string "nationality"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_employees_on_user_id"
+  end
+
+  create_table "patient_admissions", force: :cascade do |t|
+    t.integer "patient_id", null: false
+    t.date "date"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["patient_id"], name: "index_patient_admissions_on_patient_id"
+  end
+
+  create_table "patient_exits", force: :cascade do |t|
+    t.integer "patient_admission_id", null: false
+    t.date "date"
+    t.string "reason"
+    t.string "location"
+    t.string "note"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["patient_admission_id"], name: "index_patient_exits_on_patient_admission_id"
+  end
+
+  create_table "patient_expenses", force: :cascade do |t|
+    t.integer "patient_file_id", null: false
+    t.string "description"
+    t.decimal "amount"
+    t.date "date"
+    t.string "note"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["patient_file_id"], name: "index_patient_expenses_on_patient_file_id"
+  end
+
+  create_table "patient_files", force: :cascade do |t|
+    t.integer "patient_admission_id", null: false
+    t.date "open_date"
+    t.date "close_date"
+    t.string "note"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["patient_admission_id"], name: "index_patient_files_on_patient_admission_id"
+  end
+
+  create_table "patient_monthly_accounts", force: :cascade do |t|
+    t.integer "patient_file_id", null: false
+    t.date "month"
+    t.decimal "total"
+    t.boolean "is_paid"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["patient_file_id"], name: "index_patient_monthly_accounts_on_patient_file_id"
+  end
+
+  create_table "patient_relatives", force: :cascade do |t|
+    t.integer "patient_id", null: false
+    t.string "name"
+    t.string "relationship"
+    t.string "phone"
+    t.string "email"
+    t.string "address"
+    t.boolean "is_main"
+    t.string "note"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["patient_id"], name: "index_patient_relatives_on_patient_id"
+  end
+
+  create_table "patients", force: :cascade do |t|
+    t.string "full_name"
+    t.string "name"
+    t.date "dob"
+    t.boolean "is_active"
+    t.string "citizen_no"
+    t.string "nif_no"
+    t.string "health_no"
+    t.string "social_security_no"
+    t.string "clothes_tag"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -25,4 +139,29 @@ ActiveRecord::Schema.define(version: 2021_10_20_151620) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "visits", force: :cascade do |t|
+    t.integer "patient_id", null: false
+    t.integer "user_id", null: false
+    t.date "date"
+    t.time "time"
+    t.string "visitor_name"
+    t.boolean "is_video"
+    t.string "note"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["patient_id"], name: "index_visits_on_patient_id"
+    t.index ["user_id"], name: "index_visits_on_user_id"
+  end
+
+  add_foreign_key "employee_admissions", "employees"
+  add_foreign_key "employee_exits", "employee_admissions"
+  add_foreign_key "employees", "users"
+  add_foreign_key "patient_admissions", "patients"
+  add_foreign_key "patient_exits", "patient_admissions"
+  add_foreign_key "patient_expenses", "patient_files"
+  add_foreign_key "patient_files", "patient_admissions"
+  add_foreign_key "patient_monthly_accounts", "patient_files"
+  add_foreign_key "patient_relatives", "patients"
+  add_foreign_key "visits", "patients"
+  add_foreign_key "visits", "users"
 end
