@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_20_170220) do
+ActiveRecord::Schema.define(version: 2021_10_21_113227) do
 
   create_table "employee_admissions", force: :cascade do |t|
     t.integer "employee_id", null: false
@@ -33,7 +33,7 @@ ActiveRecord::Schema.define(version: 2021_10_20_170220) do
     t.integer "user_id", null: false
     t.string "full_name"
     t.string "name"
-    t.boolean "is_active"
+    t.boolean "is_active", default: true
     t.string "address"
     t.string "citizen_no"
     t.string "nif_no"
@@ -92,7 +92,7 @@ ActiveRecord::Schema.define(version: 2021_10_20_170220) do
     t.integer "patient_file_id", null: false
     t.date "month"
     t.decimal "total"
-    t.boolean "is_paid"
+    t.boolean "is_paid", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["patient_file_id"], name: "index_patient_monthly_accounts_on_patient_file_id"
@@ -105,7 +105,7 @@ ActiveRecord::Schema.define(version: 2021_10_20_170220) do
     t.string "phone"
     t.string "email"
     t.string "address"
-    t.boolean "is_main"
+    t.boolean "is_main", default: false
     t.string "note"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -116,7 +116,7 @@ ActiveRecord::Schema.define(version: 2021_10_20_170220) do
     t.string "full_name"
     t.string "name"
     t.date "dob"
-    t.boolean "is_active"
+    t.boolean "is_active", default: true
     t.string "citizen_no"
     t.string "nif_no"
     t.string "health_no"
@@ -134,7 +134,7 @@ ActiveRecord::Schema.define(version: 2021_10_20_170220) do
     t.datetime "remember_created_at"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.integer "role"
+    t.integer "role", default: 4
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
@@ -145,7 +145,7 @@ ActiveRecord::Schema.define(version: 2021_10_20_170220) do
     t.date "date"
     t.time "time"
     t.string "visitor_name"
-    t.boolean "is_video"
+    t.boolean "is_video", default: false
     t.string "note"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
