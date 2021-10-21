@@ -6,4 +6,6 @@ class Patient < ApplicationRecord
   has_many :patient_exits, through: :patient_admissions
 
   validates :full_name, presence: true
+
+  enum sex: { female: 1, male: 2 }
 end
