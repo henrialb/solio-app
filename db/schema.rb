@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_10_21_113227) do
+ActiveRecord::Schema.define(version: 2021_10_21_145604) do
 
   create_table "employee_admissions", force: :cascade do |t|
     t.integer "employee_id", null: false
@@ -124,6 +124,7 @@ ActiveRecord::Schema.define(version: 2021_10_21_113227) do
     t.string "clothes_tag"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "sex"
   end
 
   create_table "users", force: :cascade do |t|
