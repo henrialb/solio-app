@@ -5,4 +5,9 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   enum role: { admin: 0, manager: 1, nurse: 2, carer: 3, family: 4 }
+
+  belongs_to :employee
+  has_many :visits
+
+  validates :role, presence: true
 end
