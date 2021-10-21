@@ -61,6 +61,7 @@ GEM
       tzinfo (~> 2.0)
       zeitwerk (~> 2.3)
     bcrypt (3.1.16)
+    blueprinter (0.25.3)
     bootsnap (1.9.1)
       msgpack (~> 1.0)
     builder (3.2.4)
@@ -95,6 +96,7 @@ GEM
     nio4r (2.5.8)
     nokogiri (1.12.5-x86_64-darwin)
       racc (~> 1.4)
+    oj (3.13.9)
     orm_adapter (0.5.0)
     puma (5.5.2)
       nio4r (~> 2.0)
@@ -160,10 +162,12 @@ PLATFORMS
   x86_64-darwin-20
 
 DEPENDENCIES
+  blueprinter
   bootsnap (>= 1.4.4)
   byebug
   devise
   listen (~> 3.3)
+  oj
   puma (~> 5.0)
   rack-cors
   rails (~> 6.1.4, >= 6.1.4.1)
@@ -175,4 +179,4 @@ RUBY VERSION
    ruby 2.7.3p183
 
 BUNDLED WITH
-   2.2.24
+   2.2.26

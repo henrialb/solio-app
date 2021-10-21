@@ -3,7 +3,7 @@ class PatientsController < ApplicationController
 
   def index
     @patients = Patient.all
-    render json: @patients
+    render json: PatientBlueprint.render(@patients)
   end
 
   def create
