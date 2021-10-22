@@ -1,4 +1,4 @@
-const PatientDetail = ({ name, sex, dob }) => {
+const PatientDetail = ({ name, sex }) => {
   return (
     <div className="patient">
       <div className="patient-name">
