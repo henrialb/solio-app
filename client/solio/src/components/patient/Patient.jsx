@@ -1,6 +1,6 @@
-const Patient = ({name, sex, dob}) => {
+const Patient = ({name, sex, dob, setCurrentPatient}) => {
   return (
-    <div className="patient">
+    <div onClick={() => { setCurrentPatient({ name, sex }) }} className="patient">
       <div className="patient-name">
         {name} - {sex} - {dob}
       </div>
