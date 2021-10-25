@@ -18,7 +18,7 @@ class PatientsController < ApplicationController
   # end
 
   def show
-    render json: @patient
+    render json: PatientBlueprint.render(@patient)
   end
 
   def update

@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Link, Route } from 'react-router-dom'
 import {useState, useEffect} from 'react';
 import './App.scss';
-import Patient from '../patient/Patient';
-import PatientDetail from '../PatientDetail/PatientDetail';
+import PatientsIndex from '../PatientsIndex/PatientsIndex';
+import PatientShow from '../PatientShow/PatientShow';
 
 const API_URL = 'http://localhost:3000/patients'
 
@@ -23,14 +23,14 @@ const App = () => {
         patients.map(patient => {
           return (
             <Link to={`/patients/${patient.id}`}>
-              <Patient key={patient?.id} {...patient} setCurrentPatient={setCurrentPatient} />
+              <PatientsIndex key={patient?.id} {...patient} setCurrentPatient={setCurrentPatient} />
             </Link>
           )
         })
         )}/>
       {/* Show */}
       <Route path="/patients/:patientId" render={() => (
-        <PatientDetail name={currentPatient?.name} sex={currentPatient?.sex} />
+        <PatientShow name={currentPatient?.name} sex={currentPatient?.sex} />
       )} />
     </Router>
   );

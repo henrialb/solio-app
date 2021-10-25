@@ -1,4 +1,4 @@
-const PatientDetail = ({ name, sex }) => {
+const PatientShow = ({ name, sex }) => {
   return (
     <div className="patient">
       <div className="patient-name">
@@ -8,4 +8,4 @@ const PatientDetail = ({ name, sex }) => {
     </div>
   );
 }
-export default PatientDetail;
+export default PatientShow;

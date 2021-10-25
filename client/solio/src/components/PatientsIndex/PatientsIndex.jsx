@@ -1,10 +1,10 @@
-const Patient = ({name, sex, dob, setCurrentPatient}) => {
+const PatientsIndex = ({fullName, setCurrentPatient, name, sex}) => {
   return (
     <div onClick={() => { setCurrentPatient({ name, sex }) }} className="patient">
       <div className="patient-name">
-        {name} - {sex} - {dob}
+        {fullName}
       </div>
     </div>
   );
 }
- export default Patient;
+export default PatientsIndex;
