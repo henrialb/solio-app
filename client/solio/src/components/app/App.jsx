@@ -3,6 +3,7 @@ import {useState, useEffect} from 'react';
 import './App.scss';
 import PatientsIndex from '../PatientsIndex/PatientsIndex';
 import PatientShow from '../PatientShow/PatientShow';
+import PatientCreate from '../PatientCreate/PatientCreate';
 
 const API_URL = 'http://localhost:3000/patients'
 
@@ -18,6 +19,13 @@ const App = () => {
 
   return (
     <Router>
+      {/* New */}
+      <Route
+        path="/posts/new"
+        exact
+        component={PatientCreate}
+      />
+
       {/* Index */}
       <Route exact={true} path="/patients" render={() => (
         patients.map(patient => {
@@ -30,7 +38,7 @@ const App = () => {
         )}/>
       {/* Show */}
       <Route path="/patients/:patientId" render={() => (
-        <PatientShow name={currentPatient?.name} sex={currentPatient?.sex} />
+        <PatientShow key={currentPatient?.id} {...currentPatient} />
       )} />
     </Router>
   );

@@ -7,8 +7,12 @@ class PatientsController < ApplicationController
   end
 
   def create
-    @patient = Patient.create(patient_params)
-    render json: PatientBlueprint.render(@patient)
+    @patient = Patient.new(patient_params)
+    if @patient.save
+      render json: PatientBlueprint.render(@patient)
+    else
+      render json: @patient.errors, status: :unprocessable_entity
+    end
   end
 
   # def new
@@ -22,8 +26,11 @@ class PatientsController < ApplicationController
   end
 
   def update
-    @patient.update(patient_params)
-    render json: PatientBlueprint.render(@patient)
+    if @patient.update(patient_params)
+      render json: PatientBlueprint.render(@patient)
+    else
+      render json: @patient.errors, status: :unprocessable_entity
+    end
   end
 
   def destroy
