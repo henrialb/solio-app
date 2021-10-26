@@ -1,4 +1,4 @@
-class Api::PatientsController < ApplicationController
+class PatientsController < ApplicationController
   before_action :set_patient, only: %i[show update destroy]
 
   def index
