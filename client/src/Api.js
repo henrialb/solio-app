@@ -15,6 +15,7 @@ const collectErrors = (response) => {
   const fields = Object.keys(response)
   fields.forEach(field => {
     const prefix = capitalizeFirstLetter(field)
+    console.log({ response }) // TODO: remove
     response[field].forEach(message => {
       errors.push(`${prefix} ${message}`)
     })
@@ -98,7 +99,7 @@ const savePatient = (data, id=null) => {
   }
 
   const body = JSON.stringify({
-    post: data
+    patient: data
   })
 
   let response_ok = null
