@@ -11,7 +11,7 @@ class PatientForm extends Component {
       patient: {
         id: this.getPatientId(props),
         name: '',
-        fullName: '',
+        full_name: '',
         sex: '',
       },
       redirect: null,
@@ -60,7 +60,7 @@ class PatientForm extends Component {
 
     let patient = {
       name: this.state.patient.name,
-      fullName: this.state.patient.fullName,
+      full_name: this.state.patient.fullName,
       sex: this.state.patient.sex
     }
 
