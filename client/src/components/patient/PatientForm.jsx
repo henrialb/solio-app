@@ -11,7 +11,7 @@ class PatientForm extends Component {
       patient: {
         id: this.getPatientId(props),
         name: '',
-        fullName: '',
+        full_name: '',
         sex: '',
       },
       redirect: null,
@@ -19,7 +19,7 @@ class PatientForm extends Component {
     }
 
     this.setName = this.setName.bind(this)
-    this.setFullName = this.setFullName.bind(this)
+    this.setfullName = this.setfullName.bind(this)
     this.setSex = this.setSex.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
@@ -37,7 +37,7 @@ class PatientForm extends Component {
     this.setFieldState('name', newVal)
   }
 
-  setFullName(event) {
+  setfullName(event) {
     let newVal = event.target.value || ''
     this.setFieldState('fullName', newVal)
   }
@@ -60,7 +60,7 @@ class PatientForm extends Component {
 
     let patient = {
       name: this.state.patient.name,
-      fullName: this.state.patient.fullName,
+      full_name: this.state.patient.fullName,
       sex: this.state.patient.sex
     }
 
@@ -130,7 +130,7 @@ class PatientForm extends Component {
                 </div>
                 <div className="input-group">
                   <label htmlFor="fullName" className="form-label">Full name</label>
-                  <input type="text" name="fullName" id="fullName" value={patient.fullName} placeholder="Enter full name" onChange={this.setFullName} className="form-control" />
+                  <input type="text" name="fullName" id="fullName" value={patient.fullName} placeholder="Enter full name" onChange={this.setfullName} className="form-control" />
                 </div>
                 <div className="input-group">
                   <label htmlFor="sex" className="form-label">Sex</label>
