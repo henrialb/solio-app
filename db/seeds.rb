@@ -20,7 +20,6 @@ Patient.create!(name: 'Alberto', full_name: 'Alberto João Jardim', sex: 2, dob:
 puts 'Patients Created'
 puts '-------------'
 
-
 # seeding users
 puts 'Destroying Users'
 User.destroy_all
@@ -29,7 +28,6 @@ puts 'Creating Users'
 User.create!(email: 'maria@email.com', password: '123456', role: 2)
 User.create!(email: 'pcardoso@email.com', password: '123456', role: 2)
 User.create!(email: 'contanca@email.com', password: '123456', role: 3)
-
 
 puts 'Users Created'
 puts '-------------'

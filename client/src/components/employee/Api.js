@@ -22,9 +22,9 @@ const collectErrors = (response) => {
   return errors
 }
 
-const deletePatient = (id) => {
+const deleteEmployee = (id) => {
   let response_ok = null
-  return fetch(`${apiHost}/patients/${id}`, {
+  return fetch(`${apiHost}/employees/${id}`, {
     method: 'delete',
     headers: {
       'Content-Type': 'application/json'
@@ -47,9 +47,9 @@ const deletePatient = (id) => {
   })
 }
 
-const getPatients = () => {
+const getEmployees = () => {
   let response_ok = null
-  return fetch(`${apiHost}/patients`, {
+  return fetch(`${apiHost}/employees`, {
       method: 'get',
       headers: {
         'Content-Type': 'application/json'
@@ -68,9 +68,9 @@ const getPatients = () => {
     })
 }
 
-const getPatient = (id) => {
+const getEmployee = (id) => {
   let response_ok = null
-  return fetch(`${apiHost}/patients/${id}`, {
+  return fetch(`${apiHost}/employees/${id}`, {
     method: 'get',
     headers: {
       'Content-Type': 'application/json'
@@ -89,8 +89,8 @@ const getPatient = (id) => {
   })
 }
 
-const savePatient = (data, id=null) => {
-  let apiUrl = `${apiHost}/patients`
+const saveEmployee = (data, id=null) => {
+  let apiUrl = `${apiHost}/employees`
   let apiMethod = 'post'
   if (id) {
     apiUrl = `${apiUrl}/${id}`
@@ -98,7 +98,7 @@ const savePatient = (data, id=null) => {
   }
 
   const body = JSON.stringify({
-    patient: data
+    employee: data
   })
 
   let response_ok = null
@@ -123,8 +123,8 @@ const savePatient = (data, id=null) => {
 }
 
 module.exports = {
-  savePatient: savePatient,
-  getPatient: getPatient,
-  deletePatient: deletePatient,
-  getPatients: getPatients
+  saveEmployee: saveEmployee,
+  getEmployee: getEmployee,
+  deleteEmployee: deleteEmployee,
+  getEmployees: getEmployees
 }
