@@ -1,11 +1,11 @@
-import { Navbar, Footer } from './components/layout/Layout'
+import { Header, Footer } from './components/layout/Layout'
 
 import './App.scss';
 
 const App = () => {
   return (
     <div className="app">
-      <Navbar />
+      <Header />
       <div>Hello 🧐</div>
       <Footer />
     </div>
