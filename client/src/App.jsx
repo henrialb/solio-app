@@ -1,6 +1,14 @@
+import { Navbar, Footer } from './components/layout/Layout'
+
+import './App.scss';
+
 const App = () => {
   return (
-    <div>Hello 🧐</div>
+    <div className="app">
+      <Navbar />
+      <div>Hello 🧐</div>
+      <Footer />
+    </div>
   );
 }
 
