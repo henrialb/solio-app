@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Redirect } from 'react-router'
 
-const Api = require('../../Api.js')
+const Api = require('./Api.js')
 
 class PatientForm extends Component {
   constructor(props) {

@@ -1,15 +1,12 @@
 import React, { Component } from 'react'
 
-import {
-  BrowserRouter as Router,
-  Route,
-} from 'react-router-dom'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 
-import './App.scss';
+// import './App.scss'; TODO: remove
 
-import Patients from '../patient/Patients'
-import PatientForm from '../patient/PatientForm'
-import PatientDelete from '../patient/PatientDelete'
+import Patients from './components/patient/Patients'
+import PatientForm from './components/patient/PatientForm'
+import PatientDelete from './components/patient/PatientDelete'
 
 class App extends Component {
   render() {

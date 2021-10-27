@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link } from "react-router-dom"
 import PatientsTable from './PatientsTable'
 
-const Api = require('../../Api.js')
+const Api = require('./Api.js')
 
 class Patients extends Component {
   constructor(props) {
