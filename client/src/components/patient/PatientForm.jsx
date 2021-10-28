@@ -117,7 +117,7 @@ class PatientForm extends Component {
       healthNo: this.state.patient.healthNo,
       socialSecurityNo: this.state.patient.socialSecurityNo,
       clothesTag: this.state.patient.clothesTag,
-      isActive: this.state.patient.sex
+      isActive: this.state.patient.isActive
     }
 
     Api.savePatient(patient, this.state.patient.id)
@@ -190,7 +190,10 @@ class PatientForm extends Component {
                 </div>
                 <div className="input-group">
                   <label htmlFor="sex" className="form-label">Sex</label>
-                  <input type="text" name="sex" id="sex" value={patient.sex} placeholder="Enter sex" onChange={this.setSex} className="form-control" />
+                  <select name="sex" id="sex" value={patient.sex} onChange={this.setSex} className="form-control" >
+                    <option value="male">male</option>
+                    <option value="female">female</option>
+                  </select>
                 </div>
                 <div className="input-group">
                   <label htmlFor="dob" className="form-label">Date of birth</label>
@@ -212,9 +215,13 @@ class PatientForm extends Component {
                   <label htmlFor="socialSecurityNo" className="form-label">Social security number</label>
                   <input type="text" name="socialSecurityNo" id="socialSecurityNo" value={patient.socialSecurityNo} placeholder="Enter social security number" onChange={this.setSocialSecurityNo} className="form-control" />
                 </div>
+                {/* TODO: fix isActive, info is not being sent to db */}
                 <div className="input-group">
                   <label htmlFor="isActive" className="form-label">Is active?</label>
-                  <input type="text" name="isActive" id="isActive" value={patient.isActive} placeholder="Is active?" onChange={this.setIsActive} className="form-control" />
+                  <select name="isActive" id="isActive" value={patient.isActive} onChange={this.setIsActive} className="form-control" >
+                    <option value="1">true</option>
+                    <option value="0">false</option>
+                  </select>
                 </div>
                 <button className="btn btn-success">Submit</button>
               </form>
