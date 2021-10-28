@@ -9,7 +9,7 @@ const Header = () => {
         <Container>
           <Navbar.Brand href="#home">
             <img alt="" src="/logo192.png" width="30" height="30" className="d-inline-block align-top" />{' '}
-            Sólio – Interno
+            Sólio
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
