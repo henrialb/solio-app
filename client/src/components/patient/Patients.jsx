@@ -64,9 +64,7 @@ class Patients extends Component {
           </div>
         </div>
       )
-
     }
-
   }
 }
 

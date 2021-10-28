@@ -27,7 +27,7 @@ class PatientForm extends Component {
 
     this.setfullName = this.setfullName.bind(this)
     this.setName = this.setName.bind(this)
-    this.setSex = this.setSex.bind(this)    
+    this.setSex = this.setSex.bind(this)
     this.setDob = this.setDob.bind(this)
     this.setCitizenNo = this.setCitizenNo.bind(this)
     this.setNifNo = this.setNifNo.bind(this)
@@ -45,7 +45,7 @@ class PatientForm extends Component {
       return null
     }
   }
-  
+
   setfullName(event) {
     let newVal = event.target.value || ''
     this.setFieldState('fullName', newVal)
