@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { Header, Footer, Menu } from './components/layout/Layout'
 
 // import './App.scss'; TODO: remove
+import Employees from './components/employee/Employees'
+
 
 import Patients from './components/patient/Patients'
 import PatientForm from './components/patient/PatientForm'
@@ -26,6 +28,12 @@ const App = () => {
               <Route exact path='/patients'>
                 <Patients />
               </Route>
+
+              <Route exact path='/employees'>
+                <Employees />
+              </Route>
+
+
               <Route exact path='/patients/new'>
                 <PatientForm />
               </Route>
