@@ -13,4 +13,20 @@ puts 'Creating patients'
 Patient.create!(name: 'Gertrudes', full_name: 'Maria Gertrudes Silva', sex: 1, dob: Date.new(1936, 9, 16), citizen_no: '13345678', nif_no: '99999996', health_no: '11117111', social_security_no: '33333303', clothes_tag: 'MGS')
 Patient.create!(name: 'Ana', full_name: 'Ana Gomes', sex: 1, dob: Date.new(1940, 5, 11), citizen_no: '12345678', nif_no: '19999999', health_no: '11411111', social_security_no: '33333323', clothes_tag: 'MGS')
 Patient.create!(name: 'Alberto', full_name: 'Alberto João Jardim', sex: 2, dob: Date.new(1932, 3, 12), citizen_no: '12345668', nif_no: '99999999', health_no: '11111115', social_security_no: '33333333', clothes_tag: 'MGS')
-puts 'Done!'
+puts 'Done creating patients'
+puts '---------------'
+
+puts 'Destroying users'
+User.destroy_all
+
+puts 'Creating users'
+User.create!(email: 'ana.souza@email.com', password: '123456', role: 2)
+User.create!(email: 'maria.coelho@email.com', password: '123456', role: 2)
+puts 'Done creating users'
+puts '---------------'
+
+puts 'Creating employees'
+Employee.create!(user_id: 1, full_name: 'Ana Maria Souza', name: 'Ana', dob: Date.new(1978, 10, 16), citizen_no: '12344668', nif_no: '19988999', health_no: '12411601', address: 'Rua Principal, 1', phone: '9182736456', email: 'ana.souza@email.com', role: 'nurse', nationality: 'portuguese')
+Employee.create!(user_id: 2, full_name: 'Maria Coelho', name: 'Maria', dob: Date.new(1985, 7, 10), citizen_no: '12355668', nif_no: '19987999', health_no: '12417501', address: 'Rua Secundária, 2', phone: '9262736456', email: 'maria.coelho@email.com', role: 'nurse', nationality: 'portuguese')
+puts 'Done creating employees'
+puts '---------------'
