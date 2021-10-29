@@ -1,6 +1,8 @@
 .menu {
   width: 110px;
   height: 100vh;
+  position: sticky;
+  z-index: -1;
   background: #49669a;
   color: white;
   text-align: center;

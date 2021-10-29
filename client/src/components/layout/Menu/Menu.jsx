@@ -2,7 +2,8 @@ import './Menu.scss';
 
 const Menu = () => {
   return (
-    <div className="menu text-center pt-3 fixed-top">
+    // TODO: add fixed-top to menu div class?
+    <div className="menu text-center pt-3">
       <div className="menu-item py-3">
         <i class="fas fa-home d-block fs-3 pb-1"></i>
         <span className="fw-light">Início</span>
