@@ -1,28 +1,28 @@
-import React from 'react'
-import { useState, useEffect } from 'react';
+// import React from 'react'
+// import { useState, useEffect } from 'react';
 
-const API_URL = 'http://localhost:3000/employees'
+// const API_URL = 'http://localhost:3000/employees'
 
-const Employees = () => {
+// const Employees = () => {
 
-  const [employees, setEmployees] = useState({});
-  const [status, setStatus] = useState(false);
+//   const [employees, setEmployees] = useState({});
+//   const [status, setStatus] = useState(false);
 
-  useEffect(() => {
-    fetch(API_URL)
-      .then(data => data.json())
-      .then(json => {
-        setEmployees(json);
-      });
-  }, [status])
+//   useEffect(() => {
+//     fetch(API_URL)
+//       .then(data => data.json())
+//       .then(json => {
+//         setEmployees(json);
+//       });
+//   }, [status])
 
- return (
-  <>
-    employees.forEach(employee => {
-      console.log(employee)
-    });
-  </>
- )
-}
+//  return (
+//   <>
+//     employees.forEach(employee => {
+//       console.log(employee)
+//     });
+//   </>
+//  )
+// }
 
-export default Employees;
+// export default Employees;
