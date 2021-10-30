@@ -5,7 +5,7 @@ import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
 const Header = () => {
   return (
     // TODO: div needed?
-    <div className="header">
+    <header>
       <Navbar bg="dark" variant="dark">
         <Container>
           <Navbar.Brand href="#home">
@@ -29,7 +29,7 @@ const Header = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-    </div>
+    </header>
   );
 }
  export default Header;

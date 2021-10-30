@@ -20,7 +20,7 @@ const App = () => {
         <Header />
         <div className="main">
           <Menu />
-          <div className="content">
+          <div className="content d-flex flex-column h-100">
             <Switch>
               <Route exact path='/'>
                 <Patients />
