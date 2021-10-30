@@ -28,12 +28,9 @@ const App = () => {
               <Route exact path='/patients'>
                 <Patients />
               </Route>
-
               <Route exact path='/employees'>
                 <Employees />
               </Route>
-
-
               <Route exact path='/patients/new'>
                 <PatientForm />
               </Route>
@@ -54,9 +51,9 @@ const App = () => {
                 )}
               />
             </Switch>
+            <Footer />
           </div>
         </div>
-        <Footer />
       </div>
     </Router>
   );
