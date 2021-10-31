@@ -5,7 +5,7 @@ import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
 const Header = () => {
   return (
     // TODO: div needed?
-    <header>
+    <header className="">
       <Navbar bg="dark" variant="dark">
         <Container>
           <Navbar.Brand href="#home">

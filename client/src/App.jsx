@@ -18,9 +18,11 @@ const App = () => {
     <Router>
       <div className="app">
         <Header />
-        <div className="main">
-          <Menu />
-          <div className="content d-flex flex-column h-100">
+        <div className="wrapper d-flex">
+          <div className="sticky-top">
+            <Menu />
+          </div>
+          <main className="flex-grow-1 d-flex flex-column vh-100">
             <Switch>
               <Route exact path='/'>
                 <Patients />
@@ -52,7 +54,7 @@ const App = () => {
               />
             </Switch>
             <Footer />
-          </div>
+          </main>
         </div>
       </div>
     </Router>
