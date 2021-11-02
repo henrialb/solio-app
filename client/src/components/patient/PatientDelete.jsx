@@ -4,6 +4,7 @@ import { Redirect } from 'react-router'
 const Api = require('./Api.js')
 
 class PatientDelete extends Component {
+
   constructor(props) {
     super(props)
 

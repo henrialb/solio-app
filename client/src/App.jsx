@@ -1,5 +1,5 @@
 // import React, { Component } from 'react' TODO: remove this
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route, useParams } from 'react-router-dom'
 import { Header, Footer, Menu } from './components/layout/Layout'
 
 // import './App.scss'; TODO: remove
@@ -37,7 +37,7 @@ const App = () => {
               <Route exact path='/patients/:id'>
                 <PatientDetails />
               </Route>
-              {/* TODO: Refactor this */}
+              {/* TODO: Refactor this – check https://reactrouter.com/web/example/url-params */}
               <Route
                 exact path="/patients/:id/edit"
                 render={(routeProps) => (
@@ -45,9 +45,11 @@ const App = () => {
                 )}
               />
               <Route
-                exact path="/patients/:id/delete">
-                  <PatientDelete />
-              </Route>
+                exact path="/patients/:id/delete"
+                render={(routeProps) => (
+                  <PatientDelete {...routeProps} />
+                )}
+              />
 
             </Switch>
             <Footer />
