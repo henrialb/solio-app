@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-// import { useState, useEffect } from 'react';
 
-// const API_URL = 'http://localhost:3000/employees'
+const API_URL = 'http://localhost:3000/employees'
 
-// const Employees = () => {
+const Employees = () => {
 
   const [employees, setEmployees] = useState({});
 
@@ -24,4 +23,4 @@ import React, { useState, useEffect } from 'react';
   )
 }
 
-// export default Employees;
+export default Employees;
