@@ -48,11 +48,10 @@ const App = () => {
                 )}
               />
               <Route
-                exact path="/patients/:id/delete"
-                render={(routeProps) => (
-                  <PatientDelete {...routeProps} />
-                )}
-              />
+                exact path="/patients/:id/delete">
+                  <PatientDelete />
+              </Route>
+
             </Switch>
           </div>
         </div>
