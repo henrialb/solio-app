@@ -94,7 +94,7 @@ class PatientForm extends Component {
   setIsActive(event) {
     let newVal = event.target.value || ''
     this.setFieldState('isActive', newVal)
-  }
+  } // TODO: make this work
 
   setFieldState(field, newVal) {
     this.setState((prevState) => {

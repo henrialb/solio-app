@@ -5,6 +5,7 @@ import { Header, Footer, Menu } from './components/layout/Layout'
 // import './App.scss'; TODO: remove
 import Employees from './components/employee/Employees'
 import EmployeeDelete from "./components/employee/EmployeeDelete";
+import EmployeeForm from "./components/employee/EmployeeForm";
 
 import Patients from './components/patient/Patients'
 import PatientForm from './components/patient/PatientForm'
@@ -38,6 +39,9 @@ const App = () => {
               </Route>
               <Route exact path="/patients/:id">
                 <PatientDetails />
+              </Route>
+              <Route exact path="/employees/:id/edit">
+                <EmployeeForm />
               </Route>
               {/* TODO: Refactor this – check https://reactrouter.com/web/example/url-params */}
               <Route

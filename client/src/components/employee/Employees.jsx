@@ -6,7 +6,7 @@ const Api = require("./Api.js");
 const Employees = () => {
 
   const [employees, setEmployees] = useState([]);
-  const [errors, setErrors] = useState(null)
+  const [errors, setErrors] = useState(null) // TODO: not using erros
 
   useEffect(() => {
     Api.getEmployees()
@@ -17,15 +17,14 @@ const Employees = () => {
         }
         setEmployees(data)
       })
-  }, []) // with an empty array the code will only run once
+  }, []) // TODO: with an empty array the code will only run once
 
   return (
     <>
       {employees.map(employee => {
         return (
           <>
-            <p key={employee.id}>{employee.name}</p>
-            <p><Link className="btn btn-danger" to={`/employees/${employee.id}/delete`}>Delete</Link></p>
+            <p key={employee.id}>{employee.name} – <Link to={`/employees/${employee.id}/delete`}>Delete</Link></p>
           </>
         )
       })}
