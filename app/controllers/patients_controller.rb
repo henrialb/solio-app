@@ -3,26 +3,25 @@ class PatientsController < ApplicationController
 
   def index
     @patients = Patient.all
-    render json: @patients
-    # render json: PatientBlueprint.render(@patients) TODO: retirámos o Blueprinter porque não conseguíamos fazer PUT com os nomes certos
+    render json: PatientBlueprint.render(@patients)
   end
 
   def create
     @patient = Patient.new(patient_params)
     if @patient.save
-      render json: @patient
+      render json: PatientBlueprint.render(@patient)
     else
       render json: @patient.errors, status: :unprocessable_entity
     end
   end
 
   def show
-    render json: @patient
+    render json: PatientBlueprint.render(@patient)
   end
 
   def update
     if @patient.update(patient_params)
-      render json: @patient
+      render json: PatientBlueprint.render(@patient)
     else
       render json: @patient.errors, status: :unprocessable_entity
     end
