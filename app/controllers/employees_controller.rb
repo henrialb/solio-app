@@ -3,13 +3,13 @@ class EmployeesController < ApplicationController
 
   def index
     @employees = Employee.all
-    render json: EmployeeBlueprint.render(@employees)
+    render json: @employees
   end
 
   def create
-    @employee = EMployee.new(employee_params)
+    @employee = Employee.new(employee_params)
     if @employee.save
-      render json: EmployeeBlueprint.render(@employee)
+      render json: @employee
     else
       render json: @employee.errors, status: :unprocessable_entity
     end
@@ -22,12 +22,12 @@ class EmployeesController < ApplicationController
   # end
 
   def show
-    render json: EmployeeBlueprint.render(@employee)
+    render json: @employee
   end
 
   def update
     if @employee.update(employee_params)
-      render json: EmployeeBlueprint.render(@employee)
+      render json: @employee
     else
       render json: @employee.errors, status: :unprocessable_entity
     end

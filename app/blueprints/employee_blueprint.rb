@@ -9,5 +9,4 @@ class EmployeeBlueprint < Blueprinter::Base
   field :citizen_no, name: :citizenNo
   field :nif_no, name: :nifNo
   field :health_no, name: :healthNo
-
 end
