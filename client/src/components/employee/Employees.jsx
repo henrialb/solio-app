@@ -24,7 +24,8 @@ const Employees = () => {
       {employees.map(employee => {
         return (
           <>
-            <p key={employee.id}>{employee.name} – <Link to={`/employees/${employee.id}/delete`}>Delete</Link></p>
+            <p key={employee.id}>
+              {employee.name} – <Link to={`/employees/${employee.id}/edit`}>Edit</Link> <Link to={`/employees/${employee.id}/delete`}>Delete</Link></p>
           </>
         )
       })}

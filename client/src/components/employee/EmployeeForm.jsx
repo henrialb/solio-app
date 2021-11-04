@@ -51,17 +51,17 @@ const EmployeeForm = () => {
 
     // console.log(employee.fullName)
 
-    setEmployee({
-      full_name: employee.fullName
-    })
+    // setEmployee({
+    //   full_name: employee.fullName
+    // })
 
     Api.saveEmployee(employee, employee.id)
       .then(response => {
-        const [error, errors] = response
+        const [error, data] = response
         if (error) {
-          setErrors(error)
+          setErrors(data)
         } else {
-          return <Redirect to='/employees' />
+          <Redirect to='/employees' /> // TODO: Redirect (and handling errors) not working!
         }
       })
   }
@@ -88,8 +88,8 @@ const EmployeeForm = () => {
 
             <form onSubmit={handleSubmit}>
               <div className="input-group">
-                <label htmlFor="fullName" className="form-label">Full name</label>
-                <input type="text" name="fullName" id="fullName" value={employee.fullName} placeholder="Enter full name" onChange={handleChange} className="form-control" />
+                <label htmlFor="full_name" className="form-label">Full name</label>
+                <input type="text" name="full_name" id="full_name" value={employee.full_name} placeholder="Enter full name" onChange={handleChange} className="form-control" />
               </div>
               <div className="input-group">
                 <label htmlFor="name" className="form-label">Name</label>
