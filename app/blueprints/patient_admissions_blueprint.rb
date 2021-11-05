@@ -1,4 +1,4 @@
-class PatientAdmissionBlueprint < Blueprinter::Base
+class PatientAdmissionsBlueprint < Blueprinter::Base
   identifier :id
 
   fields :date

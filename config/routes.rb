@@ -3,4 +3,5 @@ Rails.application.routes.draw do
   devise_for :users
   resources :patients, only: %i[index show create destroy update]
   resources :employees, only: %i[index show create destroy update]
+  resources :patient_admissions, only: %i[index show create destroy update]
 end

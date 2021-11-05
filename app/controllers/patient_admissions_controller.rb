@@ -3,25 +3,25 @@ class PatientAdmissionsController < ApplicationController
 
   def index
     @patient_admissions = PatientAdmission.all
-    render json: PatientBlueprint.render(@patient_admissions)
+    render json: PatientAdmissionsBlueprint.render(@patient_admissions)
   end
 
   def create
     @patient_admission = PatientAdmission.new(patient_admission_params)
     if @patient_admission.save
-      render json: PatientAdmissionBlueprint.render(@patient_admission)
+      render json: PatientAdmissionsBlueprint.render(@patient_admission)
     else
       render json: @patient_admission.errors, status: :unprocessable_entity
     end
   end
 
   def show
-    render json: PatientAdmissionBlueprint.render(@patient_admission)
+    render json: PatientAdmissionsBlueprint.render(@patient_admission)
   end
 
   def update
     if @patient_admission.update(patient_admission_params)
-      render json: PatientAdmissionBlueprint.render(@patient_admission)
+      render json: PatientAdmissionsBlueprint.render(@patient_admission)
     else
       render json: @patient_admission.errors, status: :unprocessable_entity
     end

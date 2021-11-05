@@ -30,3 +30,10 @@ Employee.create!(user_id: 1, full_name: 'Ana Maria Souza', name: 'Ana', dob: Dat
 Employee.create!(user_id: 2, full_name: 'Maria Coelho', name: 'Maria', dob: Date.new(1985, 7, 10), citizen_no: '12355668', nif_no: '19987999', health_no: '12417501', address: 'Rua Secundária, 2', phone: '9262736456', email: 'maria.coelho@email.com', role: 'nurse', nationality: 'portuguese')
 puts 'Done creating employees'
 puts '---------------'
+
+puts 'Creating patient admissions'
+PatientAdmission.create!(patient_id: 1, date: Date.new(2020, 10, 15))
+PatientAdmission.create!(patient_id: 2, date: Date.new(2019, 8, 14))
+PatientAdmission.create!(patient_id: 3, date: Date.new(2019, 5, 13))
+puts 'Done creating patient admissions'
+puts '---------------'
