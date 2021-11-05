@@ -37,3 +37,15 @@ PatientAdmission.create!(patient_id: 2, date: Date.new(2019, 8, 14))
 PatientAdmission.create!(patient_id: 3, date: Date.new(2019, 5, 13))
 puts 'Done creating patient admissions'
 puts '---------------'
+
+puts 'Creating patient files'
+
+patient_admissions = PatientAdmission.all
+
+patient_admissions.each do |p_admission|
+  p_file = PatientFile.create!(patient_admission: p_admission, open_date: Date.new(2020, 10, 15), note: "Just chillin' killin'")
+  p_file.save!
+end
+
+puts 'Done creating patient files'
+puts '---------------'
