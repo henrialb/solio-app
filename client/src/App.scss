@@ -1,11 +1,17 @@
+// body {
+//   min-height: 100vh;
+//   display: flex;
+//   flex-direction: column;
+// }
+
 .app {
   font-family: "Helvetica Neue", Helvetica;
 }
 
-.main {
+.wrapper {
   display: flex;
 }
 
-.content {
-  flex-grow: 1;
-}
+// .content {
+//   flex-grow: 1;
+// }
