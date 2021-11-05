@@ -21,13 +21,6 @@ const EmployeeForm = () => {
     }
   }, [id]) // with an empty array the code will only run once
 
-  // const [name, setName] = useState('');
-
-  // const handleChange = (event) => {
-  //   setFullName(event.target.value);
-  //   // setName(event.target.value);
-  // }
-
   const handleChange = (event) => {
     let value = event.target.value;
     let name = event.target.name;
@@ -43,19 +36,12 @@ const EmployeeForm = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // const emailInput = event.target.email; // accessing directly
-    // const ageInput = event.target.elements.age; // accessing via `form.elements`
+    const banana = {
+      full_name: employee.fullName,
+      name: employee.name,
+    }
 
-    // console.log(emailInput.value); // output: 'foo@bar.com'
-    // console.log(ageInput.value); // output: '18'
-
-    // console.log(employee.fullName)
-
-    // setEmployee({
-    //   full_name: employee.fullName
-    // })
-
-    Api.saveEmployee(employee, employee.id)
+    Api.saveEmployee(banana, employee.id)
       .then(response => {
         const [error, data] = response
         if (error) {
@@ -88,8 +74,8 @@ const EmployeeForm = () => {
 
             <form onSubmit={handleSubmit}>
               <div className="input-group">
-                <label htmlFor="full_name" className="form-label">Full name</label>
-                <input type="text" name="full_name" id="full_name" value={employee.full_name} placeholder="Enter full name" onChange={handleChange} className="form-control" />
+                <label htmlFor="fullName" className="form-label">Full name</label>
+                <input type="text" name="fullName" id="fullName" value={employee.fullName} placeholder="Enter full name" onChange={handleChange} className="form-control" />
               </div>
               <div className="input-group">
                 <label htmlFor="name" className="form-label">Name</label>
