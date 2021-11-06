@@ -15,12 +15,6 @@ class EmployeesController < ApplicationController
     end
   end
 
-  # def new
-  # end
-
-  # def edit
-  # end
-
   def show
     render json: EmployeeBlueprint.render(@employee)
   end

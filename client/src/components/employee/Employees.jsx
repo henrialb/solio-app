@@ -7,7 +7,7 @@ const Api = require("./Api.js");
 const Employees = () => {
 
   const [employees, setEmployees] = useState([]);
-  const [errors, setErrors] = useState(null)
+  const [errors, setErrors] = useState(null) // TODO: not using erros
 
   useEffect(() => {
     axios.get('http://localhost:3000/employees').then((response) => {
@@ -31,8 +31,8 @@ const Employees = () => {
       {employees.map(employee => {
         return (
           <>
-            <p key={employee.id}>{employee.name}</p>
-            <p><Link className="btn btn-danger" to={`/employees/${employee.id}/delete`}>Delete</Link></p>
+            <p key={employee.id}>
+              {employee.name} – <Link to={`/employees/${employee.id}/edit`}>Edit</Link> <Link to={`/employees/${employee.id}/delete`}>Delete</Link></p>
           </>
         )
       })}
