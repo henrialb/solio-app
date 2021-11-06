@@ -12,6 +12,7 @@ const EmployeeDetails = () => {
 
   useEffect(() => {
     if (id) {
+      // TODO: change this to use axios
       Api.getEmployee(id)
         .then(response => {
           const [error, data] = response

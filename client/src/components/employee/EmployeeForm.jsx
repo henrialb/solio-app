@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, Redirect } from 'react-router-dom'
+import axios from 'axios';
+import applyCaseMiddleware from 'axios-case-converter';
 
 const Api = require('./Api.js')
 
@@ -7,6 +9,11 @@ const EmployeeForm = () => {
   const [employee, setEmployee] = useState({});
   const [errors, setErrors] = useState(null)
   const { id } = useParams(); // TODO: check if this is the correct way!
+
+  // TODO: put the following in a global Api.js
+  const client = applyCaseMiddleware(axios.create({
+      baseURL: "http://localhost:3000"
+    }));
 
   useEffect(() => {
     if(id) {
@@ -36,20 +43,12 @@ const EmployeeForm = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const banana = {
-      full_name: employee.fullName,
-      name: employee.name,
-    }
+    client.put('/employees/2', employee)
+      .then((response) => {
+        setEmployee(response.data);
+      });
 
-    Api.saveEmployee(banana, employee.id)
-      .then(response => {
-        const [error, data] = response
-        if (error) {
-          setErrors(data)
-        } else {
-          <Redirect to='/employees' /> // TODO: Redirect (and handling errors) not working!
-        }
-      })
+    // return <Redirect to='/employees' /> // TODO: handle errors and redirect to /employees
   }
 
   if (errors) {
