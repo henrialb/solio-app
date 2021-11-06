@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const Api = require("./Api.js");
 
@@ -9,15 +10,21 @@ const Employees = () => {
   const [errors, setErrors] = useState(null)
 
   useEffect(() => {
-    Api.getEmployees()
-      .then(response => {
-        const [error, data] = response
-        if(error) {
-          return setErrors(data)
-        }
-        setEmployees(data)
-      })
-  }, []) // with an empty array the code will only run once
+    axios.get('http://localhost:3000/employees').then((response) => {
+      setEmployees(response.data);
+    });
+  }, []);
+
+  // useEffect(() => {
+  //   Api.getEmployees()
+  //     .then(response => {
+  //       const [error, data] = response
+  //       if(error) {
+  //         return setErrors(data)
+  //       }
+  //       setEmployees(data)
+  //     })
+  // }, []) // with an empty array the code will only run once
 
   return (
     <>
