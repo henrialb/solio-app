@@ -5,4 +5,5 @@ Rails.application.routes.draw do
   resources :employees, only: %i[index show create destroy update]
   resources :patient_admissions, only: %i[index show create destroy update]
   resources :patient_files, only: %i[index show create destroy update]
+  resources :patient_expenses, only: %i[index show create destroy update]
 end

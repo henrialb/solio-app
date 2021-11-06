@@ -49,3 +49,15 @@ end
 
 puts 'Done creating patient files'
 puts '---------------'
+
+puts 'Creating patient expenses'
+
+patient_files = PatientFile.all
+
+patient_files.each do |p_file|
+  p_expense = PatientExpense.create!(patient_file: p_file, description: 'An expensive expense', amount: 100, note: 'What a note!!', date: Date.new(2021, 9, 6))
+  p_expense.save!
+end
+
+puts 'Done creating patient expenses'
+puts '---------------'
