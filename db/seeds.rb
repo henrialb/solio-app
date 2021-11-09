@@ -61,3 +61,34 @@ end
 
 puts 'Done creating patient expenses'
 puts '---------------'
+
+puts 'Creating patient relatives'
+PatientRelative.create!(patient_id: 1, name: 'Diogo', relationship: 'son', phone: '9152934704', email: 'diogo@diogoemail.com', address: 'Avenida Principal 7', is_main: true, note: 'usually visits at sundays')
+PatientRelative.create!(patient_id: 1, name: 'Madalena', relationship: 'daughter', phone: '9152934874', email: 'mada@email.com', address: 'Avenida Principal 7', is_main: false)
+PatientRelative.create!(patient_id: 2, name: 'José António', relationship: 'husband', phone: '9152627704', address: 'Avenida dos Moradores 2', is_main: true, note: 'visits everyday')
+puts 'Done creating patient relatives'
+puts '---------------'
+
+puts 'Creating patient exits'
+
+patient_admissions = PatientAdmission.all
+
+patient_admissions.each do |p_admission|
+  p_exit = PatientExit.create!(patient_admission: p_admission, date: Date.new(2021, 10, 15), reason: 'escaped', location: 'Who knows 🤷‍♀️', note: 'wtf')
+  p_exit.save!
+end
+
+puts 'Done creating patient exits'
+puts '---------------'
+
+puts 'Creating patient monthly accounts'
+
+patient_files = PatientFile.all
+
+patient_files.each do |p_file|
+  p_monthly_account = PatientMonthlyAccount.create!(patient_file: p_file, month: (Date.new(2021, 9, 6)).mon, total: 666, is_paid: false)
+  p_monthly_account.save!
+end
+
+puts 'Done creating patient monthly accounts'
+puts '---------------'
