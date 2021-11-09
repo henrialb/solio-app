@@ -1,44 +1,44 @@
 class PatientAdmissionsController < ApplicationController
-  before_action :set_patient, only: %i[show update destroy]
+  before_action :set_patient_admission, only: %i[show update destroy]
 
   def index
-    @patient_admissions = PatientAdmissions.all
-    render json: @patient_admissions
+    @patient_admissions = PatientAdmission.all
+    render json: PatientAdmissionBlueprint.render(@patient_admissions)
   end
 
   def create
-    @patient_admissions = Patient.new(patient_params)
-    if @patient_admissions.save
-      render json: PatientAdmissionsBlueprint.render(@patient_admissions)
+    @patient_admission = PatientAdmission.new(patient_admission_params)
+    if @patient_admission.save
+      render json: PatientAdmissionBlueprint.render(@patient_admission)
     else
-      render json: @patient_admissions.errors, status: :unprocessable_entity
+      render json: @patient_admission.errors, status: :unprocessable_entity
     end
   end
 
   def show
-    render json: PatientAdmissionsBlueprint.render(@patient_admissions)
+    render json: PatientAdmissionBlueprint.render(@patient_admission)
   end
 
   def update
-    if @patient_admissions.update(patient_params)
-      render json: PatientAdmissionsBlueprint.render(@patient_admissions)
+    if @patient_admission.update(patient_admission_params)
+      render json: PatientAdmissionBlueprint.render(@patient_admission)
     else
-      render json: @patient_admissions.errors, status: :unprocessable_entity
+      render json: @patient_admission.errors, status: :unprocessable_entity
     end
   end
 
   def destroy
-    @patient_admissions.destroy
+    @patient_admission.destroy
   end
 
   private
 
-  def set_patient
-    @patient_admissions = Patient.find(params[:id])
+  def set_patient_admission
+    @patient_admission = PatientAdmission.find(params[:id])
   end
 
-  def patient_params
-    params.require(:patient).permit(:full_name, :name, :dob, :is_active, :citizen_no, :nif_no, :health_no, :social_security_no, :clothes_tag, :sex)
+  def patient_admission_params
+    params.require(:patient_admission).permit(:date, :patient_id)
   end
 
 end

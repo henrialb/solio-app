@@ -7,7 +7,7 @@ class EmployeesController < ApplicationController
   end
 
   def create
-    @employee = EMployee.new(employee_params)
+    @employee = Employee.new(employee_params)
     if @employee.save
       render json: EmployeeBlueprint.render(@employee)
     else
