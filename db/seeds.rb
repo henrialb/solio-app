@@ -68,3 +68,15 @@ PatientRelative.create!(patient_id: 1, name: 'Madalena', relationship: 'daughter
 PatientRelative.create!(patient_id: 2, name: 'José António', relationship: 'husband', phone: '9152627704', address: 'Avenida dos Moradores 2', is_main: true, note: 'visits everyday')
 puts 'Done creating patient relatives'
 puts '---------------'
+
+puts 'Creating patient exits'
+
+patient_admissions = PatientAdmission.all
+
+patient_admissions.each do |p_admission|
+  p_exit = PatientExit.create!(patient_admission: p_admission, date: Date.new(2021, 10, 15), reason: 'escaped', location: 'Who knows 🤷‍♀️', note: 'wtf')
+  p_exit.save!
+end
+
+puts 'Done creating patient exits'
+puts '---------------'
