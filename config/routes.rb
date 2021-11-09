@@ -11,4 +11,5 @@ Rails.application.routes.draw do
   resources :employees, only: %i[index show create destroy update]
   resources :employee_admissions, only: %i[index show create destroy update]
   resources :employee_exits, only: %i[index show create destroy update]
+  resources :visits, only: %i[index show create destroy update]
 end

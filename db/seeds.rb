@@ -6,6 +6,9 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+puts 'Creating a lot of seeds 🌱'
+puts '---------------'
+
 puts 'Destroying patients'
 Patient.destroy_all
 
@@ -110,3 +113,14 @@ end
 
 puts 'Done creating employee exits'
 puts '---------------'
+
+puts 'Creating visits'
+Visit.destroy_all
+
+puts 'Creating visits'
+Visit.create!(patient_id: 1, date: Date.new(2021, 11, 9), time: Time.new(2021, 11, 9, 12), visitor_name: 'Mário', user_id: 1, is_video: true)
+Visit.create!(patient_id: 3, date: Date.new(2021, 11, 9), time: Time.new(2021, 11, 9, 13), visitor_name: 'Ana Margarida', user_id: 2, is_video: false, note:'will bring cake')
+puts 'Done creating visits'
+puts '---------------'
+
+puts 'Done seeding 💪🏽'
