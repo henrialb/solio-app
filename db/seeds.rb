@@ -80,3 +80,15 @@ end
 
 puts 'Done creating patient exits'
 puts '---------------'
+
+puts 'Creating patient monthly accounts'
+
+patient_files = PatientFile.all
+
+patient_files.each do |p_file|
+  p_monthly_account = PatientMonthlyAccount.create!(patient_file: p_file, month: (Date.new(2021, 9, 6)).mon, total: 666, is_paid: false)
+  p_monthly_account.save!
+end
+
+puts 'Done creating patient monthly accounts'
+puts '---------------'
