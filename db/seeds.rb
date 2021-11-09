@@ -92,3 +92,9 @@ end
 
 puts 'Done creating patient monthly accounts'
 puts '---------------'
+
+puts 'Creating employee admissions'
+EmployeeAdmission.create!(employee_id: 1, date: Date.new(2017, 9, 30))
+EmployeeAdmission.create!(employee_id: 2, date: Date.new(2018, 4, 22))
+puts 'Done creating employee admissions'
+puts '---------------'
