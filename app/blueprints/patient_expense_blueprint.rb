@@ -1,7 +1,5 @@
 class PatientExpenseBlueprint < Blueprinter::Base
   identifier :id
 
-  fields :description, :amount, :note, :date
-
-  field :patient_file_id, name: :patientFileId
+  fields :description, :amount, :note, :date, :patient_file_id
 end

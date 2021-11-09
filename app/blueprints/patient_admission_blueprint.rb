@@ -1,7 +1,5 @@
 class PatientAdmissionBlueprint < Blueprinter::Base
   identifier :id
 
-  fields :date
-
-  field :patient_id, name: :patientId
+  fields :date, :patient_id
 end
