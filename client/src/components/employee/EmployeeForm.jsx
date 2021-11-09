@@ -1,30 +1,20 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, Redirect } from 'react-router-dom'
-import axios from 'axios';
-import applyCaseMiddleware from 'axios-case-converter';
-
-const Api = require('./Api.js')
+import { client } from '../../Api'
 
 const EmployeeForm = () => {
   const [employee, setEmployee] = useState({});
   const [errors, setErrors] = useState(null)
   const { id } = useParams(); // TODO: check if this is the correct way!
 
-  // TODO: put the following in a global Api.js
-  const client = applyCaseMiddleware(axios.create({
-      baseURL: "http://localhost:3000"
-    }));
-
   useEffect(() => {
     if(id) {
-      Api.getEmployee(id)
-        .then(response => {
-          const [error, data] = response
-          if(error) {
-            return setErrors(data)
-          }
-          setEmployee(data)
-        })
+      client.get(`/employees/${id}`)
+      .then((response) => {
+        setEmployee(response.data);
+      }).catch(error => {
+        setErrors(error);
+      });
     }
   }, [id]) // with an empty array the code will only run once
 
