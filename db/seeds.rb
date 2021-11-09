@@ -6,6 +6,12 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+puts 'Destroying patient expenses'
+PatientExpense.destroy_all
+
+puts 'Destroying patient files'
+PatientFile.destroy_all
+
 puts 'Destroying patients'
 Patient.destroy_all
 
