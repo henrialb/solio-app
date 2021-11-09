@@ -1,26 +1,30 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Redirect, useParams } from 'react-router-dom'
-
-const Api = require('./Api.js')
+import { client } from '../../Api'
 
 const EmployeeDelete = () => {
 
-  const { id } = useParams(); // TODO: check if this is the correct way!
+  const [error, setError] = useState(null)
+  const { id } = useParams();
 
   useEffect(() => {
-    // TODO: changee this to use axios
-    Api.deleteEmployee(id)
-    // TODO: review this code – currently not accounting for errors
+    if(id) {
+      client.delete(`/employees/${id}`).then(() => {
+        alert("Employee deleted!")
+      }).catch(error => {
+        setError(error) // TODO: this is not working.
+      })}
+  }, [id])
 
-      // .then(
-      //   // const [error, data] = response
-      //   // if(error) {
-      //   //   return setErrors(data)
-      //   // }
-      //   <Redirect to='/patients' />
-      // )
-  }, [id]) // with an empty array the code will only run once
-  return <Redirect to='/employees' />
+  console.log(error)
+  if (error) { // TODO: error has not been set
+    <>
+      <h1>{error.message}</h1>
+      <p>{JSON.stringify(error, null, 2)}</p>
+    </>
+  } else {
+    return <Redirect to='/employees' />
+  }
 }
 
 export default EmployeeDelete

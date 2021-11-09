@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { useParams, Redirect } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import { client } from '../../Api'
 
 const EmployeeForm = () => {
+  const history = useHistory();
   const [employee, setEmployee] = useState({});
-  const [errors, setErrors] = useState(null)
-  const { id } = useParams(); // TODO: check if this is the correct way!
+  const [error, setError] = useState(null)
+  const { id } = useParams();
 
   useEffect(() => {
     if(id) {
@@ -13,7 +14,7 @@ const EmployeeForm = () => {
       .then((response) => {
         setEmployee(response.data);
       }).catch(error => {
-        setErrors(error);
+        setError(error);
       });
     }
   }, [id]) // with an empty array the code will only run once
@@ -33,34 +34,29 @@ const EmployeeForm = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    client.put('/employees/2', employee)
+    client.put(`/employees/${id}`, employee)
       .then((response) => {
         setEmployee(response.data);
+        alert("Employee edited!") // TODO: change this
       });
 
-    // return <Redirect to='/employees' /> // TODO: handle errors and redirect to /employees
+    // TODO: with useHistory, changes are not reflected in new path
+    history.push('/employees');
   }
 
-  if (errors) {
-    return errors
+  if (error) {
+    return (
+      <>
+        <h1>{error.message}</h1>
+        <p>{JSON.stringify(error, null, 2)}</p>
+      </>
+    )
   } else {
     return (
       <div className="container">
         <div className="row">
           <div className="col">
             <h3>Edit employee</h3>
-
-            {/* TODO: handle errors correctly */}
-            {errors?.length > 0 &&
-              <div>
-                {errors.map((error, index) =>
-                  <div className="alert-danger" key={index}>
-                    {error}
-                  </div>
-                )}
-              </div>
-            }
-
             <form onSubmit={handleSubmit}>
               <div className="input-group">
                 <label htmlFor="fullName" className="form-label">Full name</label>
