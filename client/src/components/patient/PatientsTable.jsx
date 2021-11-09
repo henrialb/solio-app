@@ -20,6 +20,9 @@ class PatientsTable extends Component {
             <tr>
               <th>ID</th>
               <th>Full Name</th>
+              <th>Cartão Cidadão</th>
+              <th>Data de Nascimento</th>
+              <th>Is Active</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -27,7 +30,10 @@ class PatientsTable extends Component {
             {patients.map(patient => (
               <tr key={patient.id}>
                 <td>{patient.id}</td>
-                <td>{patient.fullName}</td>
+                <td><Link to={`/patients/${patient.id}`} >{patient.fullName}</Link></td>
+                <td>{patient.citizenNo}</td>
+                <td>{patient.dob}</td>
+                <td>{patient.isActive}</td>
                 <td>
                   <Link className="btn btn-success" to={`/patients/${patient.id}/edit`}>Edit</Link>{' '}
                   <Link className="btn btn-danger" to={`/patients/${patient.id}/delete`}>Delete</Link>

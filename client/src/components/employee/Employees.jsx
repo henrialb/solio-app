@@ -1,26 +1,30 @@
 import React, { useState, useEffect } from 'react';
-
-const API_URL = 'http://localhost:3000/employees'
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const Employees = () => {
 
-  const [employees, setEmployees] = useState({});
+  const [employees, setEmployees] = useState([]);
+  const [errors, setErrors] = useState(null) // TODO: not using errors
 
   useEffect(() => {
-    fetch(API_URL)
-      .then(data => data.json())
-      .then(json => {
-        setEmployees(json);
-      });
-  }, [])
+    axios.get('http://localhost:3000/employees').then((response) => {
+      setEmployees(response.data);
+    });
+  }, []);
 
   return (
     <>
-    {employees.map(employee => {
-      return <div>{employee.name}</div>
-    })}
-    </>
+      {employees.map(employee => {
+        return (
+          <>
+            <p key={employee.id}>
+              {employee.name} – <Link to={`/employees/${employee.id}/edit`}>Edit</Link> <Link to={`/employees/${employee.id}/delete`}>Delete</Link></p>
+          </>
+        )
+      })}
+  </>
   )
 }
 
-export default Employees;
+export default Employees

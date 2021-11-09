@@ -30,3 +30,34 @@ Employee.create!(user_id: 1, full_name: 'Ana Maria Souza', name: 'Ana', dob: Dat
 Employee.create!(user_id: 2, full_name: 'Maria Coelho', name: 'Maria', dob: Date.new(1985, 7, 10), citizen_no: '12355668', nif_no: '19987999', health_no: '12417501', address: 'Rua Secundária, 2', phone: '9262736456', email: 'maria.coelho@email.com', role: 'nurse', nationality: 'portuguese')
 puts 'Done creating employees'
 puts '---------------'
+
+puts 'Creating patient admissions'
+PatientAdmission.create!(patient_id: 1, date: Date.new(2020, 10, 15))
+PatientAdmission.create!(patient_id: 2, date: Date.new(2019, 8, 14))
+PatientAdmission.create!(patient_id: 3, date: Date.new(2019, 5, 13))
+puts 'Done creating patient admissions'
+puts '---------------'
+
+puts 'Creating patient files'
+
+patient_admissions = PatientAdmission.all
+
+patient_admissions.each do |p_admission|
+  p_file = PatientFile.create!(patient_admission: p_admission, open_date: Date.new(2020, 10, 15), note: "Just chillin' killin'")
+  p_file.save!
+end
+
+puts 'Done creating patient files'
+puts '---------------'
+
+puts 'Creating patient expenses'
+
+patient_files = PatientFile.all
+
+patient_files.each do |p_file|
+  p_expense = PatientExpense.create!(patient_file: p_file, description: 'An expensive expense', amount: 100, note: 'What a note!!', date: Date.new(2021, 9, 6))
+  p_expense.save!
+end
+
+puts 'Done creating patient expenses'
+puts '---------------'
