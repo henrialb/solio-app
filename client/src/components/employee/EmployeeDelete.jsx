@@ -8,6 +8,7 @@ const EmployeeDelete = () => {
   const { id } = useParams(); // TODO: check if this is the correct way!
 
   useEffect(() => {
+    // TODO: changee this to use axios
     Api.deleteEmployee(id)
     // TODO: review this code – currently not accounting for errors
 
