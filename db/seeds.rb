@@ -61,3 +61,10 @@ end
 
 puts 'Done creating patient expenses'
 puts '---------------'
+
+puts 'Creating patient relatives'
+PatientRelative.create!(patient_id: 1, name: 'Diogo', relationship: 'son', phone: '9152934704', email: 'diogo@diogoemail.com', address: 'Avenida Principal 7', is_main: true, note: 'usually visits at sundays')
+PatientRelative.create!(patient_id: 1, name: 'Madalena', relationship: 'daughter', phone: '9152934874', email: 'mada@email.com', address: 'Avenida Principal 7', is_main: false)
+PatientRelative.create!(patient_id: 2, name: 'José António', relationship: 'husband', phone: '9152627704', address: 'Avenida dos Moradores 2', is_main: true, note: 'visits everyday')
+puts 'Done creating patient relatives'
+puts '---------------'
