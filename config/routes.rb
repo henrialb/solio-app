@@ -10,4 +10,5 @@ Rails.application.routes.draw do
   resources :patient_monthly_accounts, only: %i[index show create destroy update]
   resources :employees, only: %i[index show create destroy update]
   resources :employee_admissions, only: %i[index show create destroy update]
+  resources :employee_exits, only: %i[index show create destroy update]
 end

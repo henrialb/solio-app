@@ -98,3 +98,15 @@ EmployeeAdmission.create!(employee_id: 1, date: Date.new(2017, 9, 30))
 EmployeeAdmission.create!(employee_id: 2, date: Date.new(2018, 4, 22))
 puts 'Done creating employee admissions'
 puts '---------------'
+
+puts 'Creating employee exits'
+
+employee_admissions = EmployeeAdmission.all
+
+employee_admissions.each do |e_admission|
+  e_exit = EmployeeExit.create!(employee_admission: e_admission, date: Date.new(2021, 8, 2), note: 'Everything ok')
+  e_exit.save!
+end
+
+puts 'Done creating employee exits'
+puts '---------------'
