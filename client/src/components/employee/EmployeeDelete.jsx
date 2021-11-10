@@ -5,7 +5,7 @@ import { client } from '../../Api'
 const EmployeeDelete = () => {
 
   const [error, setError] = useState(null)
-  const { id } = useParams();
+  const { id } = useParams()
 
   useEffect(() => {
     if(id) {

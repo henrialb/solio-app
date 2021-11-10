@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { Link, Redirect, useParams } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import { client } from '../../Api'
 
 const EmployeeDetails = () => {
 
-  const [employee, setEmployee] = useState({});
+  const [employee, setEmployee] = useState({})
   const [error, setError] = useState(null)
-  const { id } = useParams(); // TODO: check if this is the correct way!
+  const { id } = useParams()
 
   useEffect(() => {
     if (id) {
@@ -48,4 +48,4 @@ const EmployeeDetails = () => {
   }
 }
 
-export default EmployeeDetails;
+export default EmployeeDetails
