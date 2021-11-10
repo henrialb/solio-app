@@ -1,17 +1,8 @@
 import React, { Component } from 'react'
 import { Link } from "react-router-dom"
 
-class PatientsTable extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      patients: props.patients
-    }
-  }
-
-  render() {
-    const patients = this.state.patients
-    if (patients.length === 0) {
+const PatientsTable = ({patients}) => {
+  if (patients.length === 0) {
       return <div></div>
     } else {
       return (
@@ -33,7 +24,7 @@ class PatientsTable extends Component {
                 <td><Link to={`/patients/${patient.id}`} >{patient.fullName}</Link></td>
                 <td>{patient.citizenNo}</td>
                 <td>{patient.dob}</td>
-                <td>{patient.isActive}</td>
+                <td>{String(patient.isActive)}</td>
                 <td>
                   <Link className="btn btn-success" to={`/patients/${patient.id}/edit`}>Edit</Link>{' '}
                   <Link className="btn btn-danger" to={`/patients/${patient.id}/delete`}>Delete</Link>
@@ -44,7 +35,6 @@ class PatientsTable extends Component {
         </table>
       )
     }
-  }
 }
 
 export default PatientsTable;

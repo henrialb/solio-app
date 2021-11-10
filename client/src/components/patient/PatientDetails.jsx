@@ -1,48 +1,44 @@
 import React, { useState, useEffect } from 'react'
-import { Link, Redirect, useParams } from "react-router-dom"
-
-const Api = require('./Api.js')
+import { Link, useParams } from "react-router-dom"
+import { client } from '../../Api'
 
 const PatientDetails = () => {
 
-  const [patient, setPatient] = useState({});
-  const [redirect, setRedirect] = useState(null) // TODO: setRedirect is never used
-  const [errors, setErrors] = useState(null)
-  const { id } = useParams(); // TODO: check if this is the correct way!
+  const [patient, setPatient] = useState({})
+  const [error, setError] = useState(null)
+  const { id } = useParams()
 
   useEffect(() => {
-    if(id) {
-      Api.getPatient(id)
-        .then(response => {
-          const [error, data] = response
-          if(error) {
-            return setErrors(data)
-          }
-          setPatient(data)
-        })
+    if (id) {
+      client.get(`/patients/${id}`).then((response) => {
+        setPatient(response.data)
+      }).catch(error => {
+        setError(error)
+      })
     }
   }, [id]) // with an empty array the code will only run once
 
-  if (redirect) {
+  if (error) {
     return (
-      <Redirect to={redirect} />
+      <>
+        <h1>{error.message}</h1>
+        <p>{JSON.stringify(error, null, 2)}</p>
+      </>
     )
   } else {
-    if(errors) {
-      return <h1>{errors}</h1>
-    }
     return (
       <>
         <Link to="/patients" >Go back</Link>
-        <p>{patient.fullName}</p>
-        <p>{patient.name}</p>
-        <p>{patient.sex}</p>
-        <p>{patient.dob}</p>
-        <p>{patient.citizenNo}</p>
-        <p>{patient.nifNo}</p>
-        <p>{patient.healthNo}</p>
-        <p>{patient.socialSecurityNo}</p>
-        <p>{patient.clothesTag}</p>
+        <p>Full name: {patient.fullName}</p>
+        <p>Name: {patient.name}</p>
+        <p>Sex: {patient.sex}</p>
+        <p>Nascimento: {patient.dob}</p>
+        <p>Cartão de Cidadão{patient.citizenNo}</p>
+        <p>NIF: {patient.nifNo}</p>
+        <p>Número de utente SNS: {patient.healthNo}</p>
+        <p>Seg. Social: {patient.socialSecurityNo}</p>
+        <p>Etiqueta roupa: {patient.clothesTag}</p>
+        <p>Is Active?: {String(patient.isActive)}</p>
       </>
     )
   }

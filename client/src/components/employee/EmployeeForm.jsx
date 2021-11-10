@@ -3,25 +3,25 @@ import { useParams, useHistory } from 'react-router-dom'
 import { client } from '../../Api'
 
 const EmployeeForm = () => {
-  const history = useHistory();
-  const [employee, setEmployee] = useState({});
+  const history = useHistory()
+  const [employee, setEmployee] = useState({})
   const [error, setError] = useState(null)
-  const { id } = useParams();
+  const { id } = useParams()
 
   useEffect(() => {
     if(id) {
       client.get(`/employees/${id}`)
       .then((response) => {
-        setEmployee(response.data);
+        setEmployee(response.data)
       }).catch(error => {
-        setError(error);
-      });
+        setError(error)
+      })
     }
   }, [id]) // with an empty array the code will only run once
 
   const handleChange = (event) => {
-    let value = event.target.value;
-    let name = event.target.name;
+    let value = event.target.value
+    let name = event.target.name
 
     setEmployee((prevalue) => {
       return {
@@ -32,16 +32,16 @@ const EmployeeForm = () => {
   }
 
   const handleSubmit = (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
     client.put(`/employees/${id}`, employee)
       .then((response) => {
-        setEmployee(response.data);
+        setEmployee(response.data)
         alert("Employee edited!") // TODO: change this
-      });
+      })
 
     // TODO: with useHistory, changes are not reflected in new path
-    history.push('/employees');
+    history.push('/employees')
   }
 
   if (error) {

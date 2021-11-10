@@ -1,44 +1,30 @@
-import React, { Component } from 'react'
-import { Redirect } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Redirect, useParams } from 'react-router-dom'
+import { client } from '../../Api'
 
-const Api = require('./Api.js')
+const PatientDelete = () => {
 
-class PatientDelete extends Component {
+  const [error, setError] = useState(null)
+  const { id } = useParams()
 
-  constructor(props) {
-    super(props)
+  useEffect(() => {
+    if(id) {
+      client.delete(`/patients/${id}`).then(() => {
+        alert("Patient deleted!")
+      }).catch(error => {
+        setError(error) // TODO: this is not working.
+      })}
+  }, [id])
 
-    this.state = {
-      id: props.match.params.id,
-      redirect: null
-    }
+  console.log(error)
+  if (error) { // TODO: error has not been set
+    <>
+      <h1>{error.message}</h1>
+      <p>{JSON.stringify(error, null, 2)}</p>
+    </>
+  } else {
+    return <Redirect to='/patients' />
   }
-
-  componentDidMount() {
-    Api.deletePatient(this.state.id)
-      .then(response => {
-        const [error] = response
-        if (error) {
-          // TODO: set flash
-        }
-        this.setState({
-          redirect: '/patients'
-        })
-      })
-  }
-
-  render() {
-    if (this.state.redirect) {
-      return (
-        <Redirect to={this.state.redirect} />
-      )
-    } else {
-      return (
-        <div></div>
-      )
-    }
-  }
-
 }
 
-export default PatientDelete;
+export default PatientDelete
