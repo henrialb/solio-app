@@ -1,6 +1,6 @@
-import './Menu.scss';
-import { Nav } from 'react-bootstrap';
-import MenuItem from './MenuItem';
+import './Menu.scss'
+import { Nav } from 'react-bootstrap'
+import MenuItem from './MenuItem'
 
 const Menu = () => {
   return (
