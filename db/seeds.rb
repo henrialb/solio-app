@@ -44,10 +44,11 @@ puts '---------------'
 puts 'Creating patient files'
 
 patient_admissions = PatientAdmission.all
-
 patient_admissions.each do |p_admission|
-  p_file = PatientFile.create!(patient_admission: p_admission, open_date: Date.new(2020, 10, 15), note: "Just chillin' killin'")
-  p_file.save!
+  rand(1..2).times do
+    p_file = PatientFile.create!(patient_admission: p_admission, open_date: Date.new(2020, 10, 15), note: "Just chillin' killin'")
+    p_file.save!
+  end
 end
 
 puts 'Done creating patient files'

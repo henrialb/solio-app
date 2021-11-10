@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { client } from '../../Api'
 import PatientsTable from './PatientsTable'
+import PatientFilesTable from './PatientFilesTable'
+
 
 const Patients = () => {
 
