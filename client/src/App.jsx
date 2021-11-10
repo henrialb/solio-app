@@ -1,11 +1,9 @@
-// import React, { Component } from 'react' TODO: remove this
-import { BrowserRouter as Router, Switch, Route, useParams } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { Header, Footer, Menu } from './components/layout/Layout'
 
-// import './App.scss'; TODO: remove
 import Employees from './components/employee/Employees'
-import EmployeeDelete from "./components/employee/EmployeeDelete";
-import EmployeeForm from "./components/employee/EmployeeForm";
+import EmployeeDelete from "./components/employee/EmployeeDelete"
+import EmployeeForm from "./components/employee/EmployeeForm"
 import EmployeeDetails from './components/employee/EmployeeDetails'
 
 import Patients from './components/patient/Patients'
@@ -13,7 +11,7 @@ import PatientForm from './components/patient/PatientForm'
 import PatientDelete from './components/patient/PatientDelete'
 import PatientDetails from './components/patient/PatientDetails'
 
-import './App.scss';
+import './App.scss'
 
 const App = () => {
   return (
@@ -67,7 +65,7 @@ const App = () => {
         </div>
       </div>
     </Router>
-  );
+  )
 }
 
-export default App;
+export default App

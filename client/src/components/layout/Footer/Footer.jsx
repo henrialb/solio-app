@@ -1,4 +1,4 @@
-import './Footer.scss';
+import './Footer.scss'
 
 const Footer = () => {
   return (
@@ -7,6 +7,6 @@ const Footer = () => {
         <span className="text-muted">footer</span>
       </div>
     </footer>
-  );
+  )
 }
- export default Footer;
+ export default Footer

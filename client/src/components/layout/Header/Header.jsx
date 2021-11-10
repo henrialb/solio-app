@@ -1,6 +1,6 @@
-import './Header.scss';
+import './Header.scss'
 
-import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap';
+import { Container, Navbar, Nav, NavDropdown } from 'react-bootstrap'
 
 const Header = () => {
   return (
@@ -30,6 +30,6 @@ const Header = () => {
         </Container>
       </Navbar>
     </header>
-  );
+  )
 }
- export default Header;
+ export default Header

@@ -1,5 +1,4 @@
-import { Link } from 'react-router-dom'
-import './Menu.scss';
+import './Menu.scss'
 
 const MenuItem = ({ icon, label }) => {
   return(
@@ -10,4 +9,4 @@ const MenuItem = ({ icon, label }) => {
   )
 }
 
-export default MenuItem;
+export default MenuItem
