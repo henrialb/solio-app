@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 
 const PatientFilesTable = ({ patientFiles }) => {
 
-  if (patientFiles.length === 0) { // TODO: improve this
+  if (patientFiles.length === 0) {
     return <div></div>
   } else {
     return (
