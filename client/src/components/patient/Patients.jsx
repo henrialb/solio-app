@@ -31,7 +31,6 @@ const Patients = () => {
         <div className="row">
           <div className="col">
             <PatientsTable patients={patients}></PatientsTable>
-            {console.log(patients)}
             <Link className="btn btn-primary" to="/patients/new">Add Patient</Link>
           </div>
         </div>

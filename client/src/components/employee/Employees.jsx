@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { client } from '../../Api'
+import EmployeesTable from './EmployeesTable'
 
 const Employees = () => {
 
@@ -24,16 +25,14 @@ const Employees = () => {
     )
   } else {
     return (
-      <>
-        {employees.map(employee => {
-          return (
-            <>
-              <p key={employee.id}>
-                <Link to={`employees/${employee.id}`} > {employee.name}</Link > – <Link to={`/employees/${employee.id}/edit`}>Edit</Link> <Link to={`/employees/${employee.id}/delete`}>Delete</Link></p>
-            </>
-          )
-        })}
-    </>
+      <div className="container">
+        <div className="row">
+          <div className="col">
+            <EmployeesTable employees={employees}></EmployeesTable>
+            <Link className="btn btn-primary" to="/employees/new">Add Employee</Link>
+          </div>
+        </div>
+      </div>
     )
   }
 }
