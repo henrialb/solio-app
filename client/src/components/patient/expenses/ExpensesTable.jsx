@@ -24,7 +24,7 @@ const ExpensesTable = ({ patientExpenses }) => {
             <tr key={expense.id}>
               <td>{expense.id}</td>
               <td>{expense.patientFileId}</td> {/* TODO: Patient name instead */}
-              <td>{expense.amount}</td>
+              <td>{expense.amount}€</td>
               <td>{expense.date}</td>
               <td>{expense.description}</td>
               <td>{expense.note}</td>
