@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from "react-router-dom"
 
-const PatientExpensesTable = ({ patientExpenses }) => {
+const ExpensesTable = ({ patientExpenses }) => {
 
   if (patientExpenses.length === 0) {
     return <div></div>
@@ -29,8 +29,8 @@ const PatientExpensesTable = ({ patientExpenses }) => {
               <td>{expense.description}</td>
               <td>{expense.note}</td>
               <td>
-                <Link className="btn btn-success" to={`/patients/expenses${expense.id}/edit`}>Edit</Link>{' '}
-                <Link className="btn btn-danger" to={`/patients/expenses${expense.id}/delete`}>Delete</Link>
+                <Link className="btn btn-success" to={`/despesas/${expense.id}/edit`}>Edit</Link>{' '}
+                <Link className="btn btn-danger" to={`/despesas/${expense.id}/delete`}>Delete</Link>
               </td>
             </tr>
           ))}
@@ -40,20 +40,4 @@ const PatientExpensesTable = ({ patientExpenses }) => {
   }
 }
 
-export default PatientExpensesTable;
-
-// DISPLAY IN OTHER PAGES
-
-// import PatientExpensesTable from './PatientExpensesTable'
-
-// const [patientExpenses, setPatientExpenses] = useState([])
-
-// useEffect(() => {
-//   client.get('/patient_expenses').then((response) => {
-//     setPatientExpenses(response.data)
-//   }).catch(error => {
-//     setError(error)
-//   })
-// }, [])
-
-//   < PatientExpensesTable patientExpenses = { patientExpenses } ></PatientExpensesTable >
+export default ExpensesTable;

@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { Redirect, useParams } from 'react-router-dom'
-import { client } from '../../Api'
+import { client } from '../../../Api'
 
-const EmployeeDelete = () => {
+const ExpenseDelete = () => {
 
   const [error, setError] = useState(null)
   const { id } = useParams()
 
   useEffect(() => {
-    if(id) {
-      client.delete(`/employees/${id}`).then(() => {
-        alert("Employee deleted!")
+    if (id) {
+      client.delete(`/patient_expenses/${id}`).then(() => {
+        alert("Expense deleted!")
       }).catch(error => {
         setError(error) // TODO: this is not working.
-      })}
+      })
+    }
   }, [id])
 
   console.log(error)
@@ -23,8 +24,8 @@ const EmployeeDelete = () => {
       <p>{JSON.stringify(error, null, 2)}</p>
     </>
   } else {
-    return <Redirect to='/employees' /> // TODO: make it redirect correctly
+    return <Redirect to='/despesas' /> // TODO: make it redirect correctly
   }
 }
 
-export default EmployeeDelete
+export default ExpenseDelete

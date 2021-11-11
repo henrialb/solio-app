@@ -14,6 +14,7 @@ import PatientDetails from './components/patient/PatientDetails'
 import './App.scss'
 
 import Expenses from './components/patient/expenses/Expenses'
+import ExpenseDelete from './components/patient/expenses/ExpenseDelete'
 
 const App = () => {
   return (
@@ -63,6 +64,9 @@ const App = () => {
               />
               <Route exact path="/employees/:id/delete">
                 <EmployeeDelete />
+              </Route>
+              <Route exact path="/despesas/:id/delete">
+                <ExpenseDelete />
               </Route>
             </Switch>
             <Footer />
