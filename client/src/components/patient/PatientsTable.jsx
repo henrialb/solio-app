@@ -1,5 +1,6 @@
 import React from 'react'
-import { Link } from "react-router-dom"
+import { Link } from 'react-router-dom'
+import { age } from '../../functions'
 
 const PatientsTable = ({patients}) => {
   if (patients.length === 0) {
@@ -11,6 +12,7 @@ const PatientsTable = ({patients}) => {
             <tr>
               <th>ID</th>
               <th>Full Name</th>
+              <th>Idade</th>
               <th>Cartão Cidadão</th>
               <th>Data de Nascimento</th>
               <th>Is Active</th>
@@ -22,6 +24,7 @@ const PatientsTable = ({patients}) => {
               <tr key={patient.id}>
                 <td>{patient.id}</td>
                 <td><Link to={`/patients/${patient.id}`} >{patient.fullName}</Link></td>
+                <td>{age(patient.dob)}</td>
                 <td>{patient.citizenNo}</td>
                 <td>{patient.dob}</td>
                 <td>{String(patient.isActive)}</td>
