@@ -1,9 +1,9 @@
 import React from 'react'
-import { Link } from "react-router-dom"
+import { Link } from 'react-router-dom'
 
 const PatientFilesTable = ({ patientFiles }) => {
 
-  if (patientFiles.length === 0) {
+  if (patientFiles.length === 0) { // TODO: improve this
     return <div></div>
   } else {
     return (
@@ -38,7 +38,7 @@ const PatientFilesTable = ({ patientFiles }) => {
   }
 }
 
-export default PatientFilesTable;
+export default PatientFilesTable
 
 // DISPLAY IN OTHER PAGES
 
