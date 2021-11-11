@@ -42,6 +42,8 @@ export default PatientFilesTable;
 
 // DISPLAY IN OTHER PAGES
 
+// import PatientFilesTable from './files/PatientFilesTable'
+
 // const [patientFiles, setPatientFiles] = useState([])
 
 // useEffect(() => {
