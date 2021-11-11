@@ -13,6 +13,8 @@ import PatientDetails from './components/patient/PatientDetails'
 
 import './App.scss'
 
+import Expenses from './components/patient/expenses/Expenses'
+
 const App = () => {
   return (
     <Router>
@@ -25,13 +27,16 @@ const App = () => {
           <main className="flex-grow-1 d-flex flex-column vh-100">
             <Switch>
               <Route exact path="/">
-                <Patients />
+                <h1>WIP: home page</h1>
               </Route>
               <Route exact path="/patients">
                 <Patients />
               </Route>
               <Route exact path="/employees">
                 <Employees />
+              </Route>
+              <Route exact path="/despesas">
+                <Expenses />
               </Route>
               <Route exact path="/patients/new">
                 <PatientForm />
