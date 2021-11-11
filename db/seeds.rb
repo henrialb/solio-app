@@ -60,7 +60,7 @@ patient_files = PatientFile.all
 
 patient_files.each do |p_file|
   rand(1..4).times do
-    p_expense = PatientExpense.create!(patient_file: p_file, description: 'An expensive expense', amount: rand(10..100), note: 'What a note!!', date: Date.new(2021, 9, 6))
+    p_expense = PatientExpense.create!(patient_file: p_file, description: 'An expensive expense', amount: rand(10.0..100.9), note: 'What a note!!', date: Date.new(2021, 9, 6))
     p_expense.save!
   end
 end
