@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 const ExpensesTable = ({ patientExpenses }) => {
 
   if (patientExpenses.length === 0) {
-    return <div></div>
+    return <div></div> // TODO: improve this
   } else {
     return (
       <table className="table">
