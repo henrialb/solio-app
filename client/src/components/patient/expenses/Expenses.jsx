@@ -30,7 +30,7 @@ const Expenses = () => {
           <div className="col">
             < ExpensesTable patientExpenses={patientExpenses} ></ExpensesTable >
             {console.log(patientExpenses)}
-            <Link className="btn btn-primary" to="#">Add Expense</Link>
+            <Link className="btn btn-primary" to="/despesas/new">Add Expense</Link>
           </div>
         </div>
       </div>

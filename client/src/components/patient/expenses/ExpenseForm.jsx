@@ -57,7 +57,7 @@ const ExpenseForm = () => {
               {/* TODO: change to patient name */}
               <div className="input-group">
                 <label htmlFor="patientFileId" className="form-label">Patient File Id</label>
-                <input type="text" name="patientFileId" id="patientFileId" value={expense.patientFileId} placeholder="Enter patient file id" onChange={handleChange} className="form-control" />
+                <input type="number" name="patientFileId" id="patientFileId" value={expense.patientFileId} placeholder="Enter patient file id" onChange={handleChange} className="form-control" />
               </div>
               <div className="input-group">
                 <label htmlFor="amount" className="form-label">Amount</label>

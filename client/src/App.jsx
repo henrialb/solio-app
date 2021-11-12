@@ -72,6 +72,9 @@ const App = () => {
               <Route exact path="/despesas/:id/edit">
                 <ExpenseForm />
               </Route>
+              <Route exact path="/despesas/new">
+                <ExpenseForm />
+              </Route>
             </Switch>
             <Footer />
           </main>
