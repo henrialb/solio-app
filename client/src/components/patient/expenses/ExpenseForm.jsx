@@ -59,9 +59,22 @@ const ExpenseForm = () => {
                 <label htmlFor="patientFileId" className="form-label">Patient File Id</label>
                 <input type="text" name="patientFileId" id="patientFileId" value={expense.patientFileId} placeholder="Enter patient file id" onChange={handleChange} className="form-control" />
               </div>
-
-
-
+              <div className="input-group">
+                <label htmlFor="amount" className="form-label">Amount</label>
+                <input type="number" name="amount" id="amount" value={expense.amount} placeholder="Enter amount" onChange={handleChange} className="form-control" />
+              </div>
+              <div className="input-group">
+                <label htmlFor="date" className="form-label">Date</label>
+                <input type="date" name="date" id="date" value={expense.date} placeholder="Enter date" onChange={handleChange} className="form-control" />
+              </div>
+              <div className="input-group">
+                <label htmlFor="description" className="form-label">Description</label>
+                <input type="text" name="description" id="description" value={expense.description} placeholder="Enter description" onChange={handleChange} className="form-control" />
+              </div>
+              <div className="input-group">
+                <label htmlFor="note" className="form-label">Note</label>
+                <input type="text" name="note" id="note" value={expense.note} placeholder="Enter note" onChange={handleChange} className="form-control" />
+              </div>
               <button className="btn btn-success">Submit</button>
             </form>
           </div>
