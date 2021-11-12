@@ -23,7 +23,7 @@ const PatientDelete = () => {
       <p>{JSON.stringify(error, null, 2)}</p>
     </>
   } else {
-    return <Redirect to='/patients' />
+    return <Redirect to='/patients' /> // TODO: make it redirect correctly
   }
 }
 

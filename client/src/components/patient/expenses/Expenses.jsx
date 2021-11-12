@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { client } from '../../../Api'
-import PatientExpensesTable from './PatientExpensesTable'
+import ExpensesTable from './ExpensesTable'
 
 const Expenses = () => {
 
@@ -28,9 +28,9 @@ const Expenses = () => {
       <div className="container">
         <div className="row">
           <div className="col">
-            < PatientExpensesTable patientExpenses={patientExpenses} ></PatientExpensesTable >
+            < ExpensesTable patientExpenses={patientExpenses} ></ExpensesTable >
             {console.log(patientExpenses)}
-            <Link className="btn btn-primary" to="#">Add Expense</Link>
+            <Link className="btn btn-primary" to="/despesas/new">Add Expense</Link>
           </div>
         </div>
       </div>

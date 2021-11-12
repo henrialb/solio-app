@@ -53,7 +53,6 @@ const PatientForm = () => {
       <div className="container">
         <div className="row">
           <div className="col">
-            <h3>Edit Patient</h3>
             <form onSubmit={handleSubmit}>
               <div className="input-group">
                 <label htmlFor="fullName" className="form-label">Full name</label>
