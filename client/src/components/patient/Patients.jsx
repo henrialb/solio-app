@@ -3,9 +3,7 @@ import { Link } from 'react-router-dom'
 import { client } from '../../Api'
 import PatientsTable from './PatientsTable'
 
-
 const Patients = () => {
-
   const [patients, setPatients] = useState([])
   const [error, setError] = useState(null)
 

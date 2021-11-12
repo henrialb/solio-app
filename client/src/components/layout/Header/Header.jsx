@@ -8,7 +8,7 @@ const Header = () => {
     <header className="">
       <Navbar bg="dark" variant="dark">
         <Container>
-          <Navbar.Brand href="#home">
+          <Navbar.Brand href="/">
             <img alt="" src="/logo192.png" width="30" height="30" className="d-inline-block align-top" />{' '}
             Sólio
           </Navbar.Brand>
