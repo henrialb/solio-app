@@ -31,11 +31,19 @@ const PatientForm = () => {
   const handleSubmit = (event) => {
     event.preventDefault()
 
-    client.put(`/patients/${id}`, patient)
+    if(id) { // Editing an existing patient
+      client.put(`/patients/${id}`, patient)
+        .then((response) => {
+          setPatient(response.data)
+          alert("Patient edited!") // TODO: change this alert
+        })
+    } else { // Adding a new patient
+      client.post('/patients', patient)
       .then((response) => {
         setPatient(response.data)
-        alert("Patient edited!") // TODO: change this
+        alert("Patient added!") // TODO: change this alert
       })
+    }
 
     // TODO: with useHistory, changes are not reflected in new path
     history.push('/patients')

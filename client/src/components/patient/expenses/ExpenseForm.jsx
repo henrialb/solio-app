@@ -31,11 +31,22 @@ const ExpenseForm = () => {
   const handleSubmit = (event) => {
     event.preventDefault()
 
-    client.put(`/patient_expenses/${id}`, expense)
-      .then((response) => {
-        setExpense(response.data)
-        alert("Expense edited!") // TODO: change this
-      })
+    if (id) {
+      client.put(`/patient_expenses/${id}`, expense)
+        .then((response) => {
+          setExpense(response.data)
+          alert("Expense edited!") // TODO: change this alert
+        })
+
+      // TODO: with useHistory, changes are not reflected in new path
+      history.push('/despesas')
+    } else {
+      client.post('/patient_expenses', expense)
+        .then((response) => {
+          setExpense(response.data)
+          alert("Expense added!") // TODO: change this alert
+        })
+    }
 
     // TODO: with useHistory, changes are not reflected in new path
     history.push('/despesas')
@@ -61,7 +72,7 @@ const ExpenseForm = () => {
               </div>
               <div className="input-group">
                 <label htmlFor="amount" className="form-label">Amount</label>
-                <input type="number" name="amount" id="amount" value={expense.amount} placeholder="Enter amount" onChange={handleChange} className="form-control" />
+                <input type="number" step=".01" name="amount" id="amount" value={expense.amount} placeholder="Enter amount" onChange={handleChange} className="form-control" />
               </div>
               <div className="input-group">
                 <label htmlFor="date" className="form-label">Date</label>

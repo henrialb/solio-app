@@ -43,6 +43,9 @@ const App = () => {
               <Route exact path="/patients/new">
                 <PatientForm />
               </Route>
+              <Route exact path="/employees/new">
+                <EmployeeForm />
+              </Route>
               <Route exact path="/patients/:id">
                 <PatientDetails />
               </Route>

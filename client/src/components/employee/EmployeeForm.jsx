@@ -34,11 +34,21 @@ const EmployeeForm = () => {
   const handleSubmit = (event) => {
     event.preventDefault()
 
-    client.put(`/employees/${id}`, employee)
+    if (id) { // edit existing employee
+      client.put(`/employees/${id}`, employee)
       .then((response) => {
-        setEmployee(response.data)
-        alert("Employee edited!") // TODO: change this
+          setEmployee(response.data)
+          alert("Employee edited!") // TODO: change this
+        })
+    } else { // add new employee
+      client.post('/employees', employee)
+      .then((response) => {
+          setEmployee(response.data)
+          alert("Employee added!") // TODO: change this
+        }).catch(error => {
+        setError(error)
       })
+    }
 
     // TODO: with useHistory, changes are not reflected in new path
     history.push('/employees')
@@ -66,33 +76,41 @@ const EmployeeForm = () => {
                 <label htmlFor="name" className="form-label">Name</label>
                 <input type="text" name="name" id="name" value={employee.name} placeholder="Enter name" onChange={handleChange} className="form-control" />
               </div>
+              <div className="input-group">
+                <label htmlFor="dob" className="form-label">Date of birth</label>
+                <input type="date" name="dob" id="dob" value={employee.dob} placeholder="Enter date of birth" onChange={handleChange} className="form-control" />
+              </div>
+              <div className="input-group">
+                <label htmlFor="email" className="form-label">Email</label>
+                <input type="email" name="email" id="email" value={employee.email} placeholder="Enter email" onChange={handleChange} className="form-control" />
+              </div>
+              <div className="input-group">
+                <label htmlFor="address" className="form-label">Morada</label>
+                <input type="text" name="address" id="address" value={employee.address} placeholder="Enter address" onChange={handleChange} className="form-control" />
+              </div>
+              <div className="input-group">
+                <label htmlFor="citizenNo" className="form-label">Citizen number</label>
+                <input type="text" name="citizenNo" id="citizenNo" value={employee.citizenNo} placeholder="Enter citizen number" onChange={handleChange} className="form-control" />
+              </div>
+              <div className="input-group">
+                <label htmlFor="nifNo" className="form-label">Nif number</label>
+                <input type="text" name="nifNo" id="nifNo" value={employee.nifNo} placeholder="Enter nif number" onChange={handleChange} className="form-control" />
+              </div>
+              <div className="input-group">
+                <label htmlFor="healthNo" className="form-label">Health number</label>
+                <input type="text" name="healthNo" id="healthNo" value={employee.healthNo} placeholder="Enter health number" onChange={handleChange} className="form-control" />
+              </div>
+              <div className="input-group">
+                <label htmlFor="socialSecurityNo" className="form-label">Social security number</label>
+                <input type="text" name="socialSecurityNo" id="socialSecurityNo" value={employee.socialSecurityNo} placeholder="Enter social security number" onChange={handleChange} className="form-control" />
+              </div>
               {/* <div className="input-group">
                 <label htmlFor="sex" className="form-label">Sex</label>
                 <select name="sex" id="sex" value={employee.sex} onChange={this.setSex} className="form-control" >
                   <option value="male">male</option>
                   <option value="female">female</option>
                 </select>
-              </div>
-              <div className="input-group">
-                <label htmlFor="dob" className="form-label">Date of birth</label>
-                <input type="date" name="dob" id="dob" value={employee.dob} placeholder="Enter date of birth" onChange={this.setDob} className="form-control" />
-              </div>
-              <div className="input-group">
-                <label htmlFor="citizenNo" className="form-label">Citizen number</label>
-                <input type="text" name="citizenNo" id="citizenNo" value={employee.citizenNo} placeholder="Enter citizen number" onChange={this.setCitizenNo} className="form-control" />
-              </div>
-              <div className="input-group">
-                <label htmlFor="nifNo" className="form-label">Nif number</label>
-                <input type="text" name="nifNo" id="nifNo" value={employee.nifNo} placeholder="Enter nif number" onChange={this.setNifNo} className="form-control" />
-              </div>
-              <div className="input-group">
-                <label htmlFor="healthNo" className="form-label">Health number</label>
-                <input type="text" name="healthNo" id="healthNo" value={employee.healthNo} placeholder="Enter health number" onChange={this.setHealthNo} className="form-control" />
-              </div>
-              <div className="input-group">
-                <label htmlFor="socialSecurityNo" className="form-label">Social security number</label>
-                <input type="text" name="socialSecurityNo" id="socialSecurityNo" value={employee.socialSecurityNo} placeholder="Enter social security number" onChange={this.setSocialSecurityNo} className="form-control" />
-              </div>
+              </div> */}
               {/* TODO: fix isActive, info is not being sent to db
               <div className="input-group">
                 <label htmlFor="isActive" className="form-label">Is active?</label>
