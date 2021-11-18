@@ -8,6 +8,10 @@ class EmployeesController < ApplicationController
 
   def create
     @employee = Employee.new(employee_params)
+    user = User.new(email: "#{@employee.name.strip}@gmail.com", password: '123456', role: 2)
+    user.save!
+    @employee['user_id'] = user.id
+    @employee['role'] = 'nurse'
     if @employee.save
       render json: EmployeeBlueprint.render(@employee)
     else

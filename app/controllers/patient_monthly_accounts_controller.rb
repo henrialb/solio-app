@@ -40,5 +40,4 @@ class PatientMonthlyAccountsController < ApplicationController
   def patient_monthly_account_params
     params.require(:patient_monthly_account).permit(:patient_file_id, :month, :total, :is_paid)
   end
-
 end
