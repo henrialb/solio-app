@@ -33,7 +33,7 @@ class PatientsController < ApplicationController
 
   def active
     @patients = Patient.where(is_active: true)
-    render json: PatientBlueprint.render(@active_patients)
+    render json: PatientBlueprint.render(@patients)
   end
 
   private
