@@ -32,7 +32,7 @@ class PatientsController < ApplicationController
   end
 
   def active
-    @patients = Patient.where(is_active: true)
+    @patients = Patient.where(is_active: true).includes(:patient_files)
     render json: PatientBlueprint.render(@patients)
   end
 
