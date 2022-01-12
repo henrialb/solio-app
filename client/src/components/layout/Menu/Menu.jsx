@@ -4,8 +4,7 @@ import MenuItem from './MenuItem'
 
 const Menu = () => {
   return (
-    // TODO: add fixed-top to menu div class?
-    <aside className="menu sticky-top text-center pt-3 d-flex flex-column vh-100">
+    <nav className="sidenav text-center pt-3 d-flex flex-column">
       <Nav defaultActiveKey="/" className="flex-column">
         <Nav.Link href="/">
           <MenuItem icon="home" label="Início" />
@@ -31,14 +30,7 @@ const Menu = () => {
           <MenuItem icon="sign-out-alt" label="Sair" />
         </Nav.Link>
       </Nav>
-
-      {/* <MenuItem icon="home" label="Início" path="/" />
-      <MenuItem icon="user-friends" label="Utentes" path="/patients" />
-      <MenuItem icon="receipt" label="Despesas" path="/despesas" />
-      <MenuItem icon="calendar-alt" label="Visitas" path="/visitas" />
-      <MenuItem icon="mortar-pestle" label="Farmácia" path="/farmacia" />
-      <MenuItem icon="cubes" label="Stocks" path="/stocks" /> */}
-    </aside>
+    </nav>
   )
 }
 
