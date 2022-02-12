@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_12_175427) do
+ActiveRecord::Schema.define(version: 2022_02_12_175428) do
 
   create_table "employee_admissions", force: :cascade do |t|
     t.integer "employee_id", null: false
@@ -70,12 +70,16 @@ ActiveRecord::Schema.define(version: 2022_02_12_175427) do
   create_table "patient_expenses", force: :cascade do |t|
     t.integer "patient_file_id", null: false
     t.string "description"
-    t.decimal "amount", precision: 6, scale: 2
+    t.decimal "amount"
     t.date "date"
     t.string "note"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "patient_id"
+    t.integer "patient_receivable_id"
     t.index ["patient_file_id"], name: "index_patient_expenses_on_patient_file_id"
+    t.index ["patient_id"], name: "index_patient_expenses_on_patient_id"
+    t.index ["patient_receivable_id"], name: "index_patient_expenses_on_patient_receivable_id"
   end
 
   create_table "patient_files", force: :cascade do |t|
@@ -100,7 +104,7 @@ ActiveRecord::Schema.define(version: 2022_02_12_175427) do
 
   create_table "patient_receivables", force: :cascade do |t|
     t.integer "patient_file_id", null: false
-    t.decimal "amount", precision: 6, scale: 2
+    t.decimal "amount"
     t.boolean "is_paid", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -176,6 +180,8 @@ ActiveRecord::Schema.define(version: 2022_02_12_175427) do
   add_foreign_key "patient_admissions", "patients"
   add_foreign_key "patient_exits", "patient_admissions"
   add_foreign_key "patient_expenses", "patient_files"
+  add_foreign_key "patient_expenses", "patient_receivables"
+  add_foreign_key "patient_expenses", "patients"
   add_foreign_key "patient_files", "patient_admissions"
   add_foreign_key "patient_payments", "patients"
   add_foreign_key "patient_receivables", "patient_files"
