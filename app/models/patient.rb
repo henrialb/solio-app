@@ -11,5 +11,4 @@ class Patient < ApplicationRecord
   validates :citizen_no, :nif_no, :health_no, :social_security_no, uniqueness: true
 
   enum sex: { female: 1, male: 2 }
-  # enum is_active: { true: 1, false: 2 } # TODO: not working. syntax issue?
 end
