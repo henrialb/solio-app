@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_12_175426) do
+ActiveRecord::Schema.define(version: 2022_02_12_175427) do
 
   create_table "employee_admissions", force: :cascade do |t|
     t.integer "employee_id", null: false
@@ -70,7 +70,7 @@ ActiveRecord::Schema.define(version: 2022_02_12_175426) do
   create_table "patient_expenses", force: :cascade do |t|
     t.integer "patient_file_id", null: false
     t.string "description"
-    t.decimal "amount"
+    t.decimal "amount", precision: 6, scale: 2
     t.date "date"
     t.string "note"
     t.datetime "created_at", precision: 6, null: false
@@ -88,16 +88,6 @@ ActiveRecord::Schema.define(version: 2022_02_12_175426) do
     t.index ["patient_admission_id"], name: "index_patient_files_on_patient_admission_id"
   end
 
-  create_table "patient_receivables", force: :cascade do |t|
-    t.integer "patient_file_id", null: false
-    t.date "month"
-    t.decimal "total"
-    t.boolean "is_paid", default: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["patient_file_id"], name: "index_patient_receivables_on_patient_file_id"
-  end
-
   create_table "patient_payments", force: :cascade do |t|
     t.integer "patient_id"
     t.date "date"
@@ -106,6 +96,20 @@ ActiveRecord::Schema.define(version: 2022_02_12_175426) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["patient_id"], name: "index_patient_payments_on_patient_id"
+  end
+
+  create_table "patient_receivables", force: :cascade do |t|
+    t.integer "patient_file_id", null: false
+    t.decimal "amount", precision: 6, scale: 2
+    t.boolean "is_paid", default: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "patient_id"
+    t.string "description"
+    t.integer "patient_payment_id"
+    t.index ["patient_file_id"], name: "index_patient_receivables_on_patient_file_id"
+    t.index ["patient_id"], name: "index_patient_receivables_on_patient_id"
+    t.index ["patient_payment_id"], name: "index_patient_receivables_on_patient_payment_id"
   end
 
   create_table "patient_relatives", force: :cascade do |t|
@@ -173,9 +177,10 @@ ActiveRecord::Schema.define(version: 2022_02_12_175426) do
   add_foreign_key "patient_exits", "patient_admissions"
   add_foreign_key "patient_expenses", "patient_files"
   add_foreign_key "patient_files", "patient_admissions"
-  add_foreign_key "patient_receivables", "patient_files"
-  add_foreign_key "patient_monthly_accounts", "patient_files"
   add_foreign_key "patient_payments", "patients"
+  add_foreign_key "patient_receivables", "patient_files"
+  add_foreign_key "patient_receivables", "patient_payments"
+  add_foreign_key "patient_receivables", "patients"
   add_foreign_key "patient_relatives", "patients"
   add_foreign_key "visits", "patients"
   add_foreign_key "visits", "users"
