@@ -38,6 +38,6 @@ class PatientExpensesController < ApplicationController
   end
 
   def patient_expense_params
-    params.require(:patient_expense).permit(:patient_file_id, :description, :amount, :note, :date)
+    params.require(:patient_expense).permit(:patient_file_id, :description, :amount, :note, :date, :patient_id, :patient_receivable_id)
   end
 end

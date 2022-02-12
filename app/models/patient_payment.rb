@@ -1,6 +1,6 @@
 class PatientPayment < ApplicationRecord
-  belongs_to :patient
   has_many :patient_receivables
+  belongs_to :patient
 
   validates :amount, presence: true
 end
