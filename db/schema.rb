@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_12_164228) do
+ActiveRecord::Schema.define(version: 2022_02_12_174750) do
 
   create_table "employee_admissions", force: :cascade do |t|
     t.integer "employee_id", null: false
@@ -88,14 +88,14 @@ ActiveRecord::Schema.define(version: 2022_02_12_164228) do
     t.index ["patient_admission_id"], name: "index_patient_files_on_patient_admission_id"
   end
 
-  create_table "patient_monthly_accounts", force: :cascade do |t|
+  create_table "patient_receivables", force: :cascade do |t|
     t.integer "patient_file_id", null: false
     t.date "month"
     t.decimal "total", precision: 6, scale: 2
     t.boolean "is_paid", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["patient_file_id"], name: "index_patient_monthly_accounts_on_patient_file_id"
+    t.index ["patient_file_id"], name: "index_patient_receivables_on_patient_file_id"
   end
 
   create_table "patient_relatives", force: :cascade do |t|
@@ -163,7 +163,7 @@ ActiveRecord::Schema.define(version: 2022_02_12_164228) do
   add_foreign_key "patient_exits", "patient_admissions"
   add_foreign_key "patient_expenses", "patient_files"
   add_foreign_key "patient_files", "patient_admissions"
-  add_foreign_key "patient_monthly_accounts", "patient_files"
+  add_foreign_key "patient_receivables", "patient_files"
   add_foreign_key "patient_relatives", "patients"
   add_foreign_key "visits", "patients"
   add_foreign_key "visits", "users"
