@@ -70,7 +70,7 @@ ActiveRecord::Schema.define(version: 2022_02_12_175428) do
   create_table "patient_expenses", force: :cascade do |t|
     t.integer "patient_file_id", null: false
     t.string "description"
-    t.decimal "amount"
+    t.decimal "amount", precision: 6, scale: 2
     t.date "date"
     t.string "note"
     t.datetime "created_at", precision: 6, null: false
@@ -104,7 +104,7 @@ ActiveRecord::Schema.define(version: 2022_02_12_175428) do
 
   create_table "patient_receivables", force: :cascade do |t|
     t.integer "patient_file_id", null: false
-    t.decimal "amount"
+    t.decimal "amount", precision: 6, scale: 2
     t.boolean "is_paid", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
