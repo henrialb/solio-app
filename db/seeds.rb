@@ -26,7 +26,7 @@ puts '---------------'
 puts 'Creating patient admissions'
 patients = Patient.all
 patients.each do |patient|
-  PatientAdmission.create!(patient_id: patient, date: Faker::Date.between(from: '1997-11-17', to: Date.today))
+  PatientAdmission.create!(patient_id: patient.id, date: Faker::Date.between(from: '1997-11-17', to: Date.today))
 end
 
 puts 'Creating patient files and exits'
@@ -34,27 +34,28 @@ admissions = PatientAdmission.all
 admissions.each do |admission|
   if admission.id.odd?
     file = PatientFile.create!(
-      patient_admission_id: admission,
+      patient_admission_id: admission.id,
       open_date: admission.date,
       close_date: Faker::Date.between(from: admission.date, to: Date.today),
       note: [nil, Faker::Lorem.sentence].sample
     )
     PatientExit.create!(
-      patient_admission_id: admission,
+      patient_admission_id: admission.id,
       date: file.close_date,
       reason: ['saiu', 'faleceu'].sample,
       location: Faker::TvShows::Simpsons.location,
       note: [nil, Faker::Lorem.sentence].sample
     )
   else
-    PatientFile.create!(patient_admission_id: admission, open_date: admission.date)
+    PatientFile.create!(patient_admission_id: admission.id, open_date: admission.date)
   end
 end
 
 # Create a second admission for first patient
 puts 'Adding a new admission and file for first patient'
-last_admission = PatientAdmission.create!(patient_id: Patient.first, date: Faker::Date.between(from: PatientExit.first.date, to: Date.today))
-PatientFile.create!(patient_admission_id: last_admission, open_date: last_admission.date)
+
+last_admission = PatientAdmission.create!(patient_id: Patient.first.id, date: Faker::Date.between(from: PatientExit.first.date, to: Date.today))
+PatientFile.create!(patient_admission_id: last_admission.id, open_date: last_admission.date)
 
 puts 'Done creating patient admissions, files and exits'
 puts '---------------'
@@ -66,15 +67,15 @@ expense_descriptions = %w[Farmácia Cabeleireiro Acompanhamento Fraldas Consumí
 
 patients.each do |patient|
   patient.patient_files.each do |patient_file|
-    (1..3).times do # receivables
+    rand(1..3).times do # receivables
       receivable_total = 0
       next_receivable = PatientReceivable.maximum(:id).to_i.next
 
-      (1..4).times do # expenses
+      rand(1..4).times do # expenses
         expense = PatientExpense.create!(
-        patient_file_id: patient_file,
-          patient_id: patient,
-          description: expense_description.sample,
+          patient_file_id: patient_file.id,
+          patient_id: patient.id,
+          description: expense_descriptions.sample,
           amount: Faker::Commerce.price(range: 2..29.99),
           date: Faker::Date.between(from: patient_file.open_date, to: Date.today),
           note: [nil, Faker::Lorem.sentence].sample,
@@ -85,16 +86,16 @@ patients.each do |patient|
 
       # Create Receivables
       expenses_receivable = PatientReceivable.new(
-        patient_id: patient,
-        patient_file_id: patient_file,
+        patient_id: patient.id,
+        patient_file_id: patient_file.id,
         amount: receivable_total,
         date: Faker::Date.between(from: patient_file.open_date,to: Date.today),
         description: 'Despesas',
         is_paid: [true, false].sample
       )
       monthly_fee_receivable = PatientReceivable.new(
-        patient_id: patient,
-        patient_file_id: patient_file,
+        patient_id: patient.id,
+        patient_file_id: patient_file.id,
         amount: patient.monthly_fee,
         date: expenses_receivable.date,
         description: 'Mensalidade',
@@ -105,7 +106,7 @@ patients.each do |patient|
 
       if expenses_receivable.is_paid?
         # Create Payment
-        payment = PatientPayment.create!(patient_id: patient, amount: total_amount, date: expenses_receivable.date, note: [nil, Faker::Lorem.sentence].sample)
+        payment = PatientPayment.create!(patient_id: patient.id, amount: total_amount, date: expenses_receivable.date, note: [nil, Faker::Lorem.sentence].sample)
 
         expenses_receivable.patient_payment_id = payment
         monthly_fee_receivable.patient_payment_id = payment
