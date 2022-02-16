@@ -40,3 +40,4 @@ gem 'devise'
 
 gem 'blueprinter'
 gem 'oj'
+gem 'faker'
