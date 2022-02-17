@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_12_175428) do
+ActiveRecord::Schema.define(version: 2022_02_17_015908) do
 
   create_table "employee_admissions", force: :cascade do |t|
     t.integer "employee_id", null: false
@@ -143,8 +143,8 @@ ActiveRecord::Schema.define(version: 2022_02_12_175428) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "sex"
-    t.float "monthly_fee"
-    t.float "balance"
+    t.decimal "monthly_fee"
+    t.decimal "balance"
   end
 
   create_table "users", force: :cascade do |t|
