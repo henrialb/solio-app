@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_02_12_175428) do
+ActiveRecord::Schema.define(version: 2022_02_17_015908) do
 
   create_table "employee_admissions", force: :cascade do |t|
     t.integer "employee_id", null: false
@@ -70,7 +70,7 @@ ActiveRecord::Schema.define(version: 2022_02_12_175428) do
   create_table "patient_expenses", force: :cascade do |t|
     t.integer "patient_file_id", null: false
     t.string "description"
-    t.decimal "amount"
+    t.decimal "amount", precision: 6, scale: 2
     t.date "date"
     t.string "note"
     t.datetime "created_at", precision: 6, null: false
@@ -104,7 +104,7 @@ ActiveRecord::Schema.define(version: 2022_02_12_175428) do
 
   create_table "patient_receivables", force: :cascade do |t|
     t.integer "patient_file_id", null: false
-    t.decimal "amount"
+    t.decimal "amount", precision: 6, scale: 2
     t.boolean "is_paid", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -143,8 +143,8 @@ ActiveRecord::Schema.define(version: 2022_02_12_175428) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.integer "sex"
-    t.float "monthly_fee"
-    t.float "balance"
+    t.decimal "monthly_fee"
+    t.decimal "balance"
   end
 
   create_table "users", force: :cascade do |t|

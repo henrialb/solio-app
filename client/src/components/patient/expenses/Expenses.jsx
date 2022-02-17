@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { client } from '../../../Api'
-import MonthlyAccountsTable from '../monthly-accounts/MonthlyAccountsTable'
+import ReceivablesTable from '../receivables/ReceivablesTable'
 import ExpensesTable from './ExpensesTable'
 
 const Expenses = () => {
@@ -18,7 +18,7 @@ const Expenses = () => {
     })
   }, [])
   useEffect(() => {
-    client.get('/patient_monthly_accounts').then((response) => {
+    client.get('/patient_receivables').then((response) => {
       setMonthlyAccounts(response.data)
     }).catch(error => {
       setError(error)
@@ -38,7 +38,7 @@ const Expenses = () => {
         <div className="row">
           <div className="col">
             <h1>Contas do mês</h1>
-            <MonthlyAccountsTable monthlyAccounts={monthlyAccounts} ></MonthlyAccountsTable>
+            <ReceivablesTable monthlyAccounts={monthlyAccounts} ></ReceivablesTable>
             <h1>Despesas</h1>
             <ExpensesTable patientExpenses={patientExpenses}></ExpensesTable>
             {console.log(monthlyAccounts)}
