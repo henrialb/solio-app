@@ -2,6 +2,11 @@ class PatientsController < ApplicationController
   before_action :set_patient, only: %i[show update destroy]
 
   def index
+    @patients = Patient.where(is_active: true).includes(:patient_files)
+    render json: PatientBlueprint.render(@patients)
+  end
+
+  def all
     @patients = Patient.all
     render json: PatientBlueprint.render(@patients)
   end
@@ -29,11 +34,6 @@ class PatientsController < ApplicationController
 
   def destroy
     @patient.destroy
-  end
-
-  def active
-    @patients = Patient.where(is_active: true).includes(:patient_files)
-    render json: PatientBlueprint.render(@patients)
   end
 
   private
