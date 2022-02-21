@@ -8,7 +8,22 @@ class PatientReceivablesController < ApplicationController
 
   def create
     @patient_receivable = PatientReceivable.new(patient_receivable_params)
+
+    expenses = PatientExpense.where(patient_id: @patient_receivable.patient_id, patient_receivable_id: nil)
+
+    amount = 0
+
+    expenses.each do |expense|
+      amount += expense.amount
+    end
+
+    @patient_receivable.amount = amount
+
     if @patient_receivable.save
+      expenses.each do |expense|
+        expense.patient_receivable_id = @patient_receivable.id
+        expense.save
+      end
       render json: PatientReceivableBlueprint.render(@patient_receivable)
     else
       render json: @patient_receivable.errors, status: :unprocessable_entity
@@ -38,6 +53,6 @@ class PatientReceivablesController < ApplicationController
   end
 
   def patient_receivable_params
-    params.require(:patient_receivable).permit(:patient_file_id, :amount, :patient_id, :description, :is_paid, :patient_payment_id)
+    params.require(:patient_receivable).permit(:patient_file_id, :patient_id, :description, :is_paid, :patient_payment_id)
   end
 end
