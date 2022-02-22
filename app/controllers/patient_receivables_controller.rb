@@ -6,7 +6,7 @@ class PatientReceivablesController < ApplicationController
     render json: PatientReceivableBlueprint.render(@patient_receivables)
   end
 
-  def create
+  def create_from_expenses
     @patient_receivable = PatientReceivable.new(patient_receivable_params)
     expenses = PatientExpense.where(patient_id: @patient_receivable.patient_id, patient_receivable_id: nil)
     @patient_receivable.amount = expenses.sum(:amount)
@@ -42,6 +42,6 @@ class PatientReceivablesController < ApplicationController
   end
 
   def patient_receivable_params
-    params.require(:patient_receivable).permit(:patient_file_id, :patient_id, :description, :is_paid, :patient_payment_id)
+    params.require(:patient_receivable).permit(:patient_file_id, :patient_id, :description, :amount, :is_paid, :patient_payment_id)
   end
 end
