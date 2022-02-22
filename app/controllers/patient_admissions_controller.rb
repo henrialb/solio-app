@@ -10,6 +10,7 @@ class PatientAdmissionsController < ApplicationController
     @patient_admission = PatientAdmission.new(patient_admission_params)
     if @patient_admission.save
       render json: PatientAdmissionBlueprint.render(@patient_admission)
+      PatientFile.create(patient_file_params)
     else
       render json: @patient_admission.errors, status: :unprocessable_entity
     end
@@ -41,4 +42,10 @@ class PatientAdmissionsController < ApplicationController
     params.require(:patient_admission).permit(:date, :patient_id)
   end
 
+  def patient_file_params
+    {
+      patient_admission_id: @patient_admission.id,
+      open_date: @patient_admission.date
+    }
+  end
 end
