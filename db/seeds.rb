@@ -112,14 +112,16 @@ patients.each do |patient|
         patient_file_id: patient_file.id,
         amount: receivable_total,
         description: 'Despesas',
-        is_paid: [true, false].sample
+        is_paid: [true, false].sample,
+        note: [nil, Faker::Lorem.sentence].sample
       )
       monthly_fee_receivable = PatientReceivable.new(
         patient_id: patient.id,
         patient_file_id: patient_file.id,
         amount: patient.monthly_fee,
         description: 'Mensalidade',
-        is_paid: expenses_receivable.is_paid
+        is_paid: expenses_receivable.is_paid,
+        note: [nil, Faker::Lorem.sentence].sample
       )
 
       total_amount = expenses_receivable.amount + monthly_fee_receivable.amount
