@@ -9,10 +9,8 @@ class PatientReceivablesController < ApplicationController
   def create
     @patient_receivable = PatientReceivable.new(patient_receivable_params)
 
-    expenses = PatientExpense.where(patient_id: @patient_receivable.patient_id, patient_receivable_id: nil)
-
     amount = 0
-
+    expenses = PatientExpense.where(patient_id: @patient_receivable.patient_id, patient_receivable_id: nil)
     expenses.each do |expense|
       amount += expense.amount
     end
