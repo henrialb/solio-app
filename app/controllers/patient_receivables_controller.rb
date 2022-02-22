@@ -9,20 +9,11 @@ class PatientReceivablesController < ApplicationController
   def create
     @patient_receivable = PatientReceivable.new(patient_receivable_params)
 
-    # amount = 0
     expenses = PatientExpense.where(patient_id: @patient_receivable.patient_id, patient_receivable_id: nil)
-    # expenses.each do |expense|
-    #   amount += expense.amount
-    # end
     amount = expenses.sum(:amount)
-
     @patient_receivable.amount = amount
 
     if @patient_receivable.save
-      # expenses.each do |expense|
-      #   expense.patient_receivable_id = @patient_receivable.id
-      #   expense.save
-      # end
       expenses.update_all(patient_receivable_id: @patient_receivable.id)
       render json: PatientReceivableBlueprint.render(@patient_receivable)
     else
