@@ -10,6 +10,8 @@ class PatientExitsController < ApplicationController
     @patient_exit = PatientExit.new(patient_exit_params)
     if @patient_exit.save
       render json: PatientExitBlueprint.render(@patient_exit)
+      file = PatientFile.where(patient_admission_id: @patient_exit.patient_admission_id, close_date: nil)
+      file.update(close_date: @patient_exit.date)
     else
       render json: @patient_exit.errors, status: :unprocessable_entity
     end
