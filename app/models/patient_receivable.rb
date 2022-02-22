@@ -5,5 +5,5 @@ class PatientReceivable < ApplicationRecord
   belongs_to :patient_payment, optional: true
 
   validates :amount, presence: true
-  validates :amount, numericality: true
+  validates :amount, numericality: { other_than: 0 }
 end
