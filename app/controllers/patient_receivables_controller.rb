@@ -6,6 +6,16 @@ class PatientReceivablesController < ApplicationController
     render json: PatientReceivableBlueprint.render(@patient_receivables)
   end
 
+  def create
+    @patient_receivable = PatientReceivable.new(patient_receivable_params)
+
+    if @patient_receivable.save
+      render json: PatientReceivableBlueprint.render(@patient_receivable)
+    else
+      render json: @patient_receivable.errors, status: :unprocessable_entity
+    end
+  end
+
   def create_from_expenses
     @patient_receivable = PatientReceivable.new(patient_receivable_params)
     expenses = PatientExpense.where(patient_id: @patient_receivable.patient_id, patient_receivable_id: nil)
@@ -13,6 +23,17 @@ class PatientReceivablesController < ApplicationController
 
     if @patient_receivable.save
       expenses.update_all(patient_receivable_id: @patient_receivable.id)
+      render json: PatientReceivableBlueprint.render(@patient_receivable)
+    else
+      render json: @patient_receivable.errors, status: :unprocessable_entity
+    end
+  end
+
+  def create_from_monthly_fee
+    @patient_receivable = PatientReceivable.new(patient_receivable_params)
+    @patient_receivable.amount = Patient.find(@patient_receivable.patient_id).monthly_fee
+
+    if @patient_receivable.save
       render json: PatientReceivableBlueprint.render(@patient_receivable)
     else
       render json: @patient_receivable.errors, status: :unprocessable_entity

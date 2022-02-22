@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   resources :patient_receivables, except: %i[add edit]
   post 'patient_receivables/create_from_expenses', to: 'patient_receivables#create_from_expenses'
+  post 'patient_receivables/create_from_monthly_fee', to: 'patient_receivables#create_from_monthly_fee'
 
   resources :patient_admissions, only: %i[index show create destroy update]
   resources :patient_files, only: %i[index show create destroy update]
