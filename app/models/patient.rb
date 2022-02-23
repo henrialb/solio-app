@@ -11,5 +11,6 @@ class Patient < ApplicationRecord
   validates :name, presence: true
   validates :citizen_no, :nif_no, :health_no, :social_security_no, uniqueness: true, allow_nil: true
 
-  enum sex: { female: 1, male: 2 }
+  enum sex: [:female, :male]
+  enum status: [:inactive, :active]
 end

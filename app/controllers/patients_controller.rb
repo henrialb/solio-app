@@ -2,7 +2,7 @@ class PatientsController < ApplicationController
   before_action :set_patient, only: %i[show update destroy]
 
   def index
-    @patients = Patient.where(is_active: true).includes(:patient_files)
+    @patients = Patient.active.includes(:patient_files)
     render json: PatientBlueprint.render(@patients)
   end
 
@@ -43,6 +43,6 @@ class PatientsController < ApplicationController
   end
 
   def patient_params
-    params.require(:patient).permit(:full_name, :name, :dob, :is_active, :citizen_no, :nif_no, :health_no, :social_security_no, :clothes_tag, :sex, :monthly_fee, :balance)
+    params.require(:patient).permit(:full_name, :name, :dob, :status, :citizen_no, :nif_no, :health_no, :social_security_no, :clothes_tag, :sex, :monthly_fee, :balance)
   end
 end
