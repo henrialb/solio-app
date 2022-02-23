@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_02_23_153441) do
+
+ActiveRecord::Schema[7.0].define(version: 2022_02_23_161337) do
   create_table "employee_admissions", force: :cascade do |t|
     t.integer "employee_id", null: false
     t.date "date"
@@ -135,7 +136,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_02_23_153441) do
     t.string "full_name"
     t.string "name"
     t.date "dob"
-    t.boolean "is_active", default: true
+    t.integer "status", default: 1
     t.string "citizen_no"
     t.string "nif_no"
     t.string "health_no"
