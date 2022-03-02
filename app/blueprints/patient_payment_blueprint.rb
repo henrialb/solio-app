@@ -1,5 +1,5 @@
 class PatientPaymentBlueprint < Blueprinter::Base
   identifier :id
 
-  fields :patient_id, :amount, :date, :note
+  fields :patient_id, :amount, :method, :date, :note
 end
