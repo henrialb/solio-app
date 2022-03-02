@@ -130,8 +130,8 @@ patients.each do |patient|
         # Create Payment
         payment = PatientPayment.create!(patient_id: patient.id, amount: total_amount, date: Date.today, method: rand(0..4), note: [nil, Faker::Lorem.sentence].sample)
 
-        expenses_receivable.patient_payment_id = payment
-        monthly_fee_receivable.patient_payment_id = payment
+        expenses_receivable.patient_payment_id = payment.id
+        monthly_fee_receivable.patient_payment_id = payment.id
       end
 
       expenses_receivable.save!
