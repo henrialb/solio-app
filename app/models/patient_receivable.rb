@@ -6,4 +6,6 @@ class PatientReceivable < ApplicationRecord
 
   validates :amount, presence: true
   validates :amount, numericality: { other_than: 0 }
+
+  enum status: [:unpaid, :paid]
 end
