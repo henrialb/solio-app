@@ -43,6 +43,35 @@ class PatientPaymentsController < ApplicationController
   end
 
   def destroy
+    patient = Patient.find(@patient_payment.patient_id)
+    patient_balance = patient.balance
+    receivables = PatientReceivable.where(patient_payment_id: @patient_payment)
+    total_receivables = receivables.sum(:amount)
+    receivables.update_all(status: "unpaid", patient_payment_id: nil)
+
+    if @patient_payment.amount <= total_receivables
+      updated_balance = patient_balance + total_receivables - @patient_payment.amount
+    else
+      excess_payment = @patient_payment.amount - total_receivables # the part of the payment amount that went into balance
+
+      if patient_balance >= excess_payment
+        updated_balance = patient_balance - excess_payment
+      else
+        used_excess_payment = excess_payment - patient_balance # the part of payment amount that went into balance and later was used to partially pay a receivable
+        paid_receivables = PatientReceivable.where(patient_id: patient).paid.order(created_at: :desc)
+        total_paid_receivables = 0
+
+        paid_receivables.each do |receivable|
+          receivable.update(status: "unpaid", patient_payment_id: nil)
+          total_paid_receivables += receivable.amount
+          break if total_paid_receivables >= used_excess_payment
+        end
+        updated_balance = total_paid_receivables - used_excess_payment
+      end
+    end
+
+    patient.update(balance: updated_balance)
+
     @patient_payment.destroy
   end
 
