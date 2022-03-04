@@ -13,19 +13,7 @@ class PatientPaymentsController < ApplicationController
       patient = Patient.find(@patient_payment.patient_id)
       funds = @patient_payment.amount + patient.balance
 
-      # unpaid_receivables = PatientReceivable.where(patient_id: patient).unpaid.order(amount: :asc)
-      # unpaid_receivables.each do |receivable|
-      #   if receivable.amount <= funds
-      #     receivable.update(status: "paid", patient_payment_id: @patient_payment.id)
-      #     funds -= receivable.amount
-      #   else
-      #     break
-      #   end
-      # end
-
-      updated_patient_balance = pay_outstanding_receivables(patient, funds, @patient_payment) # precisa .id?
-
-      patient.update(balance: updated_patient_balance) if updated_patient_balance != patient.balance
+      pay_outstanding_receivables(patient, funds, @patient_payment.id)
 
       render json: PatientPaymentBlueprint.render(@patient_payment)
     else
@@ -48,6 +36,7 @@ class PatientPaymentsController < ApplicationController
   def destroy
     patient = Patient.find(@patient_payment.patient_id)
     patient_balance = patient.balance
+
     receivables = PatientReceivable.where(patient_payment_id: @patient_payment)
     total_receivables = receivables.sum(:amount)
     receivables.update_all(status: :unpaid, patient_payment_id: nil)
@@ -60,24 +49,24 @@ class PatientPaymentsController < ApplicationController
       if patient_balance >= excess_payment
         funds = patient_balance - excess_payment
       else
-        used_excess_payment = excess_payment - patient_balance # the part of payment amount that went into balance and later was used to partially pay a receivable
+        used_excess_payment = excess_payment - patient_balance # the part of payment amount that went into balance and was later used to partially pay a receivable
         paid_receivables = PatientReceivable.where(patient_id: patient).paid.order(created_at: :desc)
         total_paid_receivables = 0
 
-        paid_receivables.each do |receivable|
-          receivable.update(status: :unpaid, patient_payment_id: nil)
-          total_paid_receivables += receivable.amount
+        ActiveRecord::Base.transaction do
+          paid_receivables.each do |receivable|
+            receivable.update(status: :unpaid, patient_payment_id: nil)
+            total_paid_receivables += receivable.amount
 
-          break if total_paid_receivables >= used_excess_payment
+            break unless total_paid_receivables < used_excess_payment
+          end
         end
 
         funds = total_paid_receivables - used_excess_payment
       end
     end
 
-    updated_patient_balance = @patient_payment.amount != total_receivables ? pay_outstanding_receivables(patient, funds) : funds
-
-    patient.update(balance: updated_patient_balance) if updated_patient_balance != patient_balance
+    pay_outstanding_receivables(patient, funds) if @patient_payment.amount != total_receivables
 
     @patient_payment.destroy
   end
@@ -92,19 +81,6 @@ class PatientPaymentsController < ApplicationController
     params.require(:patient_payment).permit(:patient_id, :amount, :method, :date, :note)
   end
 
-  # def pay_outstanding_receivables(patient, funds, patient_payment_id = nil)
-  #   PatientReceivable.where(patient_id: patient).unpaid.order(amount: :asc).each do |receivable|
-  #     receivable_amount = receivable.amount
-  #     if funds >= receivable_amount
-  #       receivable.update(status: "paid", patient_payment_id: patient_payment_id)
-  #       funds -= receivable_amount
-  #     else
-  #       funds
-  #       break
-  #     end
-  #   end
-  # end
-
   def pay_outstanding_receivables(patient, funds, patient_payment_id = nil)
     receivables = PatientReceivable.where(patient_id: patient).unpaid.order(amount: :asc)
 
@@ -115,8 +91,8 @@ class PatientPaymentsController < ApplicationController
         receivable.update(status: :paid, patient_payment_id: patient_payment_id)
         funds -= receivable.amount
       end
-    end
 
-    funds
+      patient.update(balance: funds) if funds != patient.balance
+    end
   end
 end
