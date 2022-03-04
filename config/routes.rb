@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   post 'patient_receivables/create_from_expenses', to: 'patient_receivables#create_from_expenses'
   post 'patient_receivables/create_from_monthly_fee', to: 'patient_receivables#create_from_monthly_fee'
 
-  resources :patient_payments, except: %i[add edit]
+  resources :patient_payments, except: %i[add edit update]
   resources :patient_admissions, except: %i[add edit]
   resources :patient_files, except: %i[add edit]
   resources :patient_exits, except: %i[add edit]

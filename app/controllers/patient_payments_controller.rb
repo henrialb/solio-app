@@ -25,13 +25,13 @@ class PatientPaymentsController < ApplicationController
     render json: PatientPaymentBlueprint.render(@patient_payment)
   end
 
-  def update
-    if @patient_payment.update(patient_payment_params)
-      render json: PatientPaymentBlueprint.render(@patient_payment)
-    else
-      render json: @patient_payment.errors, status: :unprocessable_entity
-    end
-  end
+  # def update
+  #   if @patient_payment.update(patient_payment_params)
+  #     render json: PatientPaymentBlueprint.render(@patient_payment)
+  #   else
+  #     render json: @patient_payment.errors, status: :unprocessable_entity
+  #   end
+  # end
 
   def destroy
     patient = Patient.find(@patient_payment.patient_id)
