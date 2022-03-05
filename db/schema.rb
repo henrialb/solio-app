@@ -105,7 +105,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_05_170415) do
   create_table "patient_receivables", force: :cascade do |t|
     t.integer "patient_file_id", null: false
     t.decimal "amount"
-    t.boolean "is_paid", default: false
+    t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "patient_id"

@@ -7,7 +7,7 @@ class PatientsController < ApplicationController
   end
 
   def all
-    @patients = Patient.all
+    @patients = Patient.all.includes(:patient_files)
     render json: PatientBlueprint.render(@patients)
   end
 
@@ -43,6 +43,6 @@ class PatientsController < ApplicationController
   end
 
   def patient_params
-    params.require(:patient).permit(:full_name, :name, :dob, :status, :citizen_no, :nif_no, :health_no, :social_security_no, :clothes_tag, :sex, :monthly_fee, :balance, :type, :insurer_amount)
+    params.require(:patient).permit(:full_name, :name, :dob, :status, :citizen_no, :nif_no, :health_no, :social_security_no, :clothes_tag, :sex, :monthly_fee, :balance, :type)
   end
 end
