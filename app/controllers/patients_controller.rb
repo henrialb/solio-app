@@ -7,7 +7,7 @@ class PatientsController < ApplicationController
   end
 
   def all
-    @patients = Patient.all
+    @patients = Patient.all.includes(:patient_files)
     render json: PatientBlueprint.render(@patients)
   end
 
