@@ -60,9 +60,9 @@ class PatientPaymentsController < ApplicationController
 
             break unless total_paid_receivables < used_excess_payment
           end
-        end
 
-        funds = total_paid_receivables - used_excess_payment
+          funds = total_paid_receivables - used_excess_payment
+        end
       end
     end
 
