@@ -31,47 +31,46 @@ class PatientReceivablesController < ApplicationController
 
   def create_from_monthly_fee
     patients = Patient.active
-    @date_dictionary = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
+    date_dictionary = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
 
     patients.each do |patient|
+
+      patient_monthly_receivable_params = {
+        patient_id: patient.id,
+        patient_file_id: patient.patient_files.last.id,
+        status: :unpaid,
+        description: "Mensalidade #{date_dictionary[Date.today.month - 1]}"
+      }
+
       if patient.scml?
-        @patient_receivable_scml = PatientReceivable.new(
-          patient_id: patient.id,
-          patient_file_id: patient.patient_files.last.id,
-          description: "Mensalidade #{@date_dictionary[Date.today.month - 1]} – SCML",
-          status: :unpaid
+        @patient_receivable = []
+
+        @patient_receivable << PatientReceivable.new(
+          patient_monthly_receivable_params.merge(
+            description: "Mensalidade #{date_dictionary[Date.today.month - 1]} – SCML",
+            amount: PatientReceivable.where(patient_id: patient.id).where("description LIKE ?", "%SCML%").last.amount
+          )
         )
-        @patient_receivable_scml.amount = PatientReceivable.where(patient_id: patient.id).where("description LIKE ?", "%SCML%").last.amount
 
-        @patient_receivable = PatientReceivable.new(
-          patient_id: patient.id,
-          patient_file_id: patient.patient_files.last.id,
-          description: "Mensalidade #{@date_dictionary[Date.today.month - 1]}",
-          status: :unpaid
+        @patient_receivable << PatientReceivable.new(
+          patient_monthly_receivable_params.merge(
+            amount: patient.monthly_fee - @patient_receivable[0].amount
+          )
         )
-        @patient_receivable.amount = patient.monthly_fee - @patient_receivable_scml.amount
-
-        @patient_receivable_scml.save
-        @patient_receivable.save
-
       else
-        @patient_receivable = PatientReceivable.new(
-          patient_id: patient.id,
-          patient_file_id: patient.patient_files.last.id,
-          description: "Mensalidade #{@date_dictionary[Date.today.month - 1]}",
-          status: :unpaid
+        @patient_receivable << PatientReceivable.new(
+          patient_monthly_receivable_params.merge(
+            amount: patient.monthly_fee
+          )
         )
-        @patient_receivable.amount = patient.monthly_fee
-
-        @patient_receivable.save
       end
     end
 
-    # if @patient_receivable.save
-    #   render json: PatientReceivableBlueprint.render(@patient_receivable)
-    # else
-    #   render json: @patient_receivable.errors, status: :unprocessable_entity
-    # end
+    if @patient_receivable.each { |receivable| receivable.save }
+      render json: PatientReceivableBlueprint.render(@patient_receivable.each { |receivable| receivable })
+    else
+      render json: @patient_receivable.each { |receivable| receivabl.errors }, status: :unprocessable_entity
+    end
   end
 
   def show
@@ -99,5 +98,4 @@ class PatientReceivablesController < ApplicationController
   def patient_receivable_params
     params.require(:patient_receivable).permit(:patient_file_id, :patient_id, :description, :amount, :status, :note, :patient_payment_id)
   end
-
 end
