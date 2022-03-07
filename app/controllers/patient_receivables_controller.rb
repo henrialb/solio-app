@@ -47,7 +47,7 @@ class PatientReceivablesController < ApplicationController
         @patient_receivable << PatientReceivable.new(
           patient_monthly_receivable_params.merge(
             description: "Mensalidade #{date_dictionary[Date.today.month - 1]} – SCML",
-            amount: PatientReceivable.where(patient_id: patient.id).where("description LIKE ?", "%SCML%").last.amount
+            amount: PatientReceivable.where(patient_id: patient.id).where("description LIKE ?", "Mensalidade%SCML").last.amount
           )
         )
 
