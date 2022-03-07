@@ -34,7 +34,6 @@ class PatientReceivablesController < ApplicationController
     date_dictionary = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
 
     patients.each do |patient|
-
       patient_monthly_receivable_params = {
         patient_id: patient.id,
         patient_file_id: patient.patient_files.last.id,
@@ -69,7 +68,7 @@ class PatientReceivablesController < ApplicationController
     if @patient_receivable.each { |receivable| receivable.save }
       render json: PatientReceivableBlueprint.render(@patient_receivable.each { |receivable| receivable })
     else
-      render json: @patient_receivable.each { |receivable| receivabl.errors }, status: :unprocessable_entity
+      render json: @patient_receivable.each { |receivable| receivable.errors }, status: :unprocessable_entity
     end
   end
 
