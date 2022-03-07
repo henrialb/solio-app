@@ -33,9 +33,9 @@ class PatientReceivablesController < ApplicationController
     patients = Patient.active
     date_dictionary = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
 
-    patients.each do |patient|
-      @patient_receivable = []
+    @patient_receivable = []
 
+    patients.each do |patient|
       monthly_fee_receivable_params = {
         patient_id: patient.id,
         patient_file_id: patient.patient_files.last.id,
