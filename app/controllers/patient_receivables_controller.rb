@@ -34,8 +34,6 @@ class PatientReceivablesController < ApplicationController
     date_dictionary = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
 
     patients.each do |patient|
-      @patient_receivable = []
-
       patient_monthly_receivable_params = {
         patient_id: patient.id,
         patient_file_id: patient.patient_files.last.id,
@@ -44,6 +42,8 @@ class PatientReceivablesController < ApplicationController
       }
 
       if patient.scml?
+        @patient_receivable = []
+
         @patient_receivable << PatientReceivable.new(
           patient_monthly_receivable_params.merge(
             description: "Mensalidade #{date_dictionary[Date.today.month - 1]} – SCML",
