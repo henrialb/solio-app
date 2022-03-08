@@ -33,7 +33,7 @@ class PatientReceivablesController < ApplicationController
     patients = Patient.active
     date_dictionary = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
 
-    @patient_receivable = []
+    @monthly_fee_receivables = []
 
     patients.each do |patient|
       monthly_fee_receivable_params = {
@@ -44,20 +44,20 @@ class PatientReceivablesController < ApplicationController
       }
 
       if patient.scml?
-        @patient_receivable << PatientReceivable.new(
+        @monthly_fee_receivables << PatientReceivable.new(
           monthly_fee_receivable_params.merge(
             description: "Mensalidade #{date_dictionary[Date.today.month - 1]} – SCML",
             amount: PatientReceivable.where(patient_id: patient.id).where("description LIKE ?", "Mensalidade%SCML").last.amount
           )
         )
 
-        @patient_receivable << PatientReceivable.new(
+        @monthly_fee_receivables << PatientReceivable.new(
           monthly_fee_receivable_params.merge(
-            amount: patient.monthly_fee - @patient_receivable[0].amount
+            amount: patient.monthly_fee - @monthly_fee_receivables[0].amount
           )
         )
       else
-        @patient_receivable << PatientReceivable.new(
+        @monthly_fee_receivables << PatientReceivable.new(
           monthly_fee_receivable_params.merge(
             amount: patient.monthly_fee
           )
@@ -65,10 +65,10 @@ class PatientReceivablesController < ApplicationController
       end
     end
 
-    if @patient_receivable.each { |receivable| receivable.save }
-      render json: PatientReceivableBlueprint.render(@patient_receivable.each { |receivable| receivable })
+    if @monthly_fee_receivables.each { |receivable| receivable.save }
+      render json: PatientReceivableBlueprint.render(@monthly_fee_receivables.each { |receivable| receivable })
     else
-      render json: @patient_receivable.each { |receivable| receivable.errors }, status: :unprocessable_entity
+      render json: @monthly_fee_receivables.each { |receivable| receivable.errors }, status: :unprocessable_entity
     end
   end
 
