@@ -46,13 +46,13 @@ class PatientReceivablesController < ApplicationController
         @monthly_fee_receivables << PatientReceivable.new(
           monthly_fee_receivable_params.merge(
             description: "Mensalidade #{date_dictionary[Date.today.month - 1]} – SCML",
-            amount: PatientReceivable.where(patient_id: patient.id).where("description LIKE ?", "Mensalidade%SCML").last.amount
+            amount: PatientReceivable.where(patient_id: patient.id).scml.last.amount
           )
         )
 
         @monthly_fee_receivables << PatientReceivable.new(
           monthly_fee_receivable_params.merge(
-            amount: patient.monthly_fee - @monthly_fee_receivables[0].amount
+            amount: patient.monthly_fee - @monthly_fee_receivables.last.amount
           )
         )
       else
@@ -64,18 +64,29 @@ class PatientReceivablesController < ApplicationController
       end
 
       # Create receivable as paid if patient has enough balance (only personal portion of monthly fee – not SCML)
-      personal_fee_amount = @monthly_fee_receivables.last.amount
-
-      if patient.balance >= personal_fee_amount
-        @monthly_fee_receivables.last.status = :paid if patient.update(balance: patient.balance - personal_fee_amount)
+      if patient.balance >= @monthly_fee_receivables.last.amount
+        @monthly_fee_receivables.last.status = :paid
       end
     end
 
-    if @monthly_fee_receivables.each { |receivable| receivable.save }
-      render json: PatientReceivableBlueprint.render(@monthly_fee_receivables.each { |receivable| receivable })
-    else
-      render json: @monthly_fee_receivables.each { |receivable| receivable.errors }, status: :unprocessable_entity
+    # transaction = ActiveRecord::Base.transaction do
+    ActiveRecord::Base.transaction do
+      @monthly_fee_receivables.each do |receivable|
+        if receivable.paid?
+          patient = Patient.find(receivable.patient_id)
+
+          patient.update(balance: patient.balance - receivable.amount)
+        end
+
+        receivable.save
+      end
     end
+
+    # if transaction
+    #   render json: PatientReceivableBlueprint.render(transaction)
+    # else
+    #   render json: transaction.errors, status: :unprocessable_entity
+    # end
   end
 
   def show
