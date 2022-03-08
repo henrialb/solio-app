@@ -32,7 +32,6 @@ class PatientReceivablesController < ApplicationController
   def create_from_monthly_fee
     patients = Patient.active
     date_dictionary = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
-
     @monthly_fee_receivables = []
 
     patients.each do |patient|
@@ -62,6 +61,13 @@ class PatientReceivablesController < ApplicationController
             amount: patient.monthly_fee
           )
         )
+      end
+
+      # Create receivable as paid if patient has enough balance (only personal portion of monthly fee – not SCML)
+      personal_fee_amount = @monthly_fee_receivables.last.amount
+
+      if patient.balance >= personal_fee_amount
+        @monthly_fee_receivables.last.status = :paid if patient.update(balance: patient.balance - personal_fee_amount)
       end
     end
 
