@@ -87,10 +87,29 @@ class PatientReceivablesController < ApplicationController
   end
 
   def update
-    if @patient_receivable.update(patient_receivable_params)
-      render json: PatientReceivableBlueprint.render(@patient_receivable)
-    else
-      render json: @patient_receivable.errors, status: :unprocessable_entity
+    params = patient_receivable_params
+    ActiveRecord::Base.transaction do
+      if @patient_receivable.description.upcase.include? "SCML"
+        if params[:amount] != @patient_receivable.amount
+          # change amount for personal portion of monthly fee
+        end
+
+        if @patient_receivable.unpaid? && params[:status] == 1
+          # create patient_payment
+          require 'date'
+
+          payment = PatientPayment.new(patient_id: @patient_receivable.patient.id, amount: @patient_receivable.amount, method: :bank_transfer, date: Date.today)
+
+          # add patient_payment_id to params
+          params.merge!(patient_payment_id: payment.id) if payment.save
+        end
+      end
+
+      if @patient_receivable.update(params)
+        render json: PatientReceivableBlueprint.render(@patient_receivable)
+      else
+        render json: @patient_receivable.errors, status: :unprocessable_entity
+      end
     end
   end
 
