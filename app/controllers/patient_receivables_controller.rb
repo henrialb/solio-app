@@ -2,7 +2,7 @@ class PatientReceivablesController < ApplicationController
   before_action :set_patient_receivable, only: %i[show update destroy]
 
   def index
-    @patient_receivables = PatientReceivable.all
+    @patient_receivables = PatientReceivable.all.includes(:patient_expenses)
     render json: PatientReceivableBlueprint.render(@patient_receivables)
   end
 
