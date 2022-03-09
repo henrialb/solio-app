@@ -69,7 +69,6 @@ class PatientReceivablesController < ApplicationController
       end
     end
 
-    # transaction = ActiveRecord::Base.transaction do
     ActiveRecord::Base.transaction do
       @monthly_fee_receivables.each do |receivable|
         if receivable.paid?
@@ -81,12 +80,6 @@ class PatientReceivablesController < ApplicationController
         receivable.save
       end
     end
-
-    # if transaction
-    #   render json: PatientReceivableBlueprint.render(transaction)
-    # else
-    #   render json: transaction.errors, status: :unprocessable_entity
-    # end
   end
 
   def show
