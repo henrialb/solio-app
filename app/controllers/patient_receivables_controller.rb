@@ -30,13 +30,55 @@ class PatientReceivablesController < ApplicationController
   end
 
   def create_from_monthly_fee
-    @patient_receivable = PatientReceivable.new(patient_receivable_params)
-    @patient_receivable.amount = Patient.find(@patient_receivable.patient_id).monthly_fee
+    patients = Patient.active
+    date_dictionary = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
+    @monthly_fee_receivables = []
 
-    if @patient_receivable.save
-      render json: PatientReceivableBlueprint.render(@patient_receivable)
-    else
-      render json: @patient_receivable.errors, status: :unprocessable_entity
+    patients.each do |patient|
+      monthly_fee_receivable_params = {
+        patient_id: patient.id,
+        patient_file_id: patient.patient_files.last.id,
+        status: :unpaid,
+        description: "Mensalidade #{date_dictionary[Date.today.month - 1]}"
+      }
+
+      if patient.scml?
+        @monthly_fee_receivables << PatientReceivable.new(
+          monthly_fee_receivable_params.merge(
+            description: "Mensalidade #{date_dictionary[Date.today.month - 1]} – SCML",
+            amount: PatientReceivable.where(patient_id: patient.id).scml.last.amount
+          )
+        )
+
+        @monthly_fee_receivables << PatientReceivable.new(
+          monthly_fee_receivable_params.merge(
+            amount: patient.monthly_fee - @monthly_fee_receivables.last.amount
+          )
+        )
+      else
+        @monthly_fee_receivables << PatientReceivable.new(
+          monthly_fee_receivable_params.merge(
+            amount: patient.monthly_fee
+          )
+        )
+      end
+
+      # Create receivable as paid if patient has enough balance (only personal portion of monthly fee – not SCML)
+      if patient.balance >= @monthly_fee_receivables.last.amount
+        @monthly_fee_receivables.last.status = :paid
+      end
+    end
+
+    ActiveRecord::Base.transaction do
+      @monthly_fee_receivables.each do |receivable|
+        if receivable.paid?
+          patient = Patient.find(receivable.patient_id)
+
+          patient.update(balance: patient.balance - receivable.amount)
+        end
+
+        receivable.save
+      end
     end
   end
 

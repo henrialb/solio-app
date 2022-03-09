@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_02_154109) do
+ActiveRecord::Schema[7.0].define(version: 2022_03_05_170415) do
   create_table "employee_admissions", force: :cascade do |t|
     t.integer "employee_id", null: false
     t.date "date"
@@ -146,6 +146,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_02_154109) do
     t.integer "sex"
     t.decimal "monthly_fee"
     t.decimal "balance"
+    t.integer "covenant", default: 0
   end
 
   create_table "users", force: :cascade do |t|

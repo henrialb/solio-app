@@ -13,4 +13,5 @@ class Patient < ApplicationRecord
 
   enum sex: [:female, :male]
   enum status: [:inactive, :active]
+  enum covenant: [:personal, :scml]
 end
