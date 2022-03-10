@@ -1,4 +1,6 @@
 class PatientReceivablesController < ApplicationController
+  include ReceivablePayable
+
   before_action :set_patient_receivable, only: %i[show update destroy]
 
   def index
@@ -39,6 +41,8 @@ class PatientReceivablesController < ApplicationController
         patient_id: patient.id,
         patient_file_id: patient.patient_files.last.id,
         status: :unpaid,
+        source: :monthly_fee,
+        accountable: :personal,
         description: "Mensalidade #{date_dictionary[Date.today.month - 1]}"
       }
 
@@ -46,7 +50,8 @@ class PatientReceivablesController < ApplicationController
         @monthly_fee_receivables << PatientReceivable.new(
           monthly_fee_receivable_params.merge(
             description: "Mensalidade #{date_dictionary[Date.today.month - 1]} – SCML",
-            amount: PatientReceivable.where(patient_id: patient.id).scml.last.amount
+            amount: PatientReceivable.where(patient_id: patient.id).scml.last.amount,
+            accountable: :scml
           )
         )
 
@@ -94,7 +99,35 @@ class PatientReceivablesController < ApplicationController
         unless params[:amount].nil? || params[:amount] == @patient_receivable.amount
           # Change amount for personal portion of monthly fee
           personal_fee_receivable = PatientReceivable.find(@patient_receivable.id + 1)
-          personal_fee_receivable.amount -= params[:amount] - @patient_receivable.amount
+
+          payment_difference = @patient_receivable.amount - params[:amount]
+
+          if personal_fee_receivable.paid? # Personal portion of the fee was already paid
+            patient = personal_fee_receivable.patient
+
+            if payment_difference.positive?
+              # Personal portion of the fee increases
+              if patient.balance >= payment_difference.abs
+                # There is enough balance to cover the difference
+                patient.balance -= payment_difference
+
+                patient.save
+              else
+                personal_fee_receivable.status = :unpaid
+                patient.balance += personal_fee_receivable.amount
+                # pay_outstanding_receivables(patient, personal_fee_receivable.amount) TODO: remove previous line
+              end
+            else
+              # Personal portion of the fee decreases, difference goes into balance
+
+              # patient.balance += payment_difference.abs
+              pay_outstanding_receivables(patient, payment_difference.abs) # TODO: remove previous line
+            end
+
+            patient.save # TODO: remove
+          end
+
+          personal_fee_receivable.amount += payment_difference
 
           personal_fee_receivable.save
         end
