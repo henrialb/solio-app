@@ -114,17 +114,14 @@ class PatientReceivablesController < ApplicationController
                 patient.save
               else
                 personal_fee_receivable.status = :unpaid
-                patient.balance += personal_fee_receivable.amount
-                # pay_outstanding_receivables(patient, personal_fee_receivable.amount) TODO: remove previous line
+
+                # Use amount of personal_fee_receivable as additional funds to patient balance, to pay outstanding receivables
+                pay_outstanding_receivables(patient, personal_fee_receivable.amount)
               end
             else
-              # Personal portion of the fee decreases, difference goes into balance
-
-              # patient.balance += payment_difference.abs
-              pay_outstanding_receivables(patient, payment_difference.abs) # TODO: remove previous line
+              # Personal portion of the fee decreases, difference goes into additional funds to pay outstanding receivables
+              pay_outstanding_receivables(patient, payment_difference.abs)
             end
-
-            patient.save # TODO: remove
           end
 
           personal_fee_receivable.amount += payment_difference

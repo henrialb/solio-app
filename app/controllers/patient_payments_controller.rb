@@ -46,13 +46,13 @@ class PatientPaymentsController < ApplicationController
     if @patient_payment.amount <= total_receivables
       additional_funds = total_receivables - @patient_payment.amount
     else
-      excess_payment = @patient_payment.amount - total_receivables # the part of the payment amount that went into balance
+      excess_payment = @patient_payment.amount - total_receivables # The portion of the payment amount that went into balance
 
       if patient_balance >= excess_payment
         additional_funds = excess_payment * -1
       else
-        used_excess_payment = excess_payment - patient_balance # the part of payment amount that went into balance and was later used to partially pay a receivable
-        paid_receivables = PatientReceivable.where(patient_id: patient).paid.order(created_at: :desc)
+        used_excess_payment = excess_payment - patient_balance # The portion of payment amount that went into balance and was later used to partially pay a receivable
+        paid_receivables = PatientReceivable.where(patient_id: patient).personal.paid.order(created_at: :desc)
         total_paid_receivables = 0
 
         ActiveRecord::Base.transaction do
