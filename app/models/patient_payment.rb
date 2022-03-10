@@ -5,4 +5,5 @@ class PatientPayment < ApplicationRecord
   validates :amount, :method, presence: true
 
   enum method: [:bank_transfer, :cash, :multibanco, :vale, :bitcoin]
+  enum accountable: [:personal, :scml]
 end

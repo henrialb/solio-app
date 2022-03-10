@@ -8,6 +8,8 @@ class PatientReceivable < ApplicationRecord
   validates :amount, numericality: { other_than: 0 }
 
   enum status: [:unpaid, :paid]
+  enum accountable: [:personal, :scml]
+  enum source: [:advance, :monthly_fee, :expenses]
 
   scope :scml, -> { where("description LIKE ?", "Mensalidade%SCML") }
 end
