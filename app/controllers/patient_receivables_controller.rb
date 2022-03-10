@@ -88,19 +88,24 @@ class PatientReceivablesController < ApplicationController
 
   def update
     params = patient_receivable_params
+
     ActiveRecord::Base.transaction do
       if @patient_receivable.description.upcase.include? "SCML"
-        if params[:amount] != @patient_receivable.amount
-          # change amount for personal portion of monthly fee
+        unless params[:amount].nil? || params[:amount] == @patient_receivable.amount
+          # Change amount for personal portion of monthly fee
+          personal_fee_receivable = PatientReceivable.find(@patient_receivable.id + 1)
+          personal_fee_receivable.amount -= params[:amount] - @patient_receivable.amount
+
+          personal_fee_receivable.save
         end
 
-        if @patient_receivable.unpaid? && params[:status] == 1
-          # create patient_payment
+        if @patient_receivable.unpaid? && params[:status] == 1 # status 1 = :paid
+          # Create patient_payment
           require 'date'
 
           payment = PatientPayment.new(patient_id: @patient_receivable.patient.id, amount: @patient_receivable.amount, method: :bank_transfer, date: Date.today)
 
-          # add patient_payment_id to params
+          # Add patient_payment_id to params
           params.merge!(patient_payment_id: payment.id) if payment.save
         end
       end
