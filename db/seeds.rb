@@ -113,6 +113,8 @@ patients.each do |patient|
         patient_file_id: patient_file.id,
         amount: receivable_total,
         description: 'Despesas',
+        accountable: :personal,
+        source: :expenses,
         status: [:unpaid, :paid].sample,
         note: [nil, Faker::Lorem.sentence].sample
       )
@@ -121,6 +123,8 @@ patients.each do |patient|
         patient_file_id: patient_file.id,
         amount: patient.monthly_fee,
         description: 'Mensalidade',
+        accountable: patient.scml? ? :scml : :personal,
+        source: :monthly_fee,
         status: expenses_receivable.status,
         note: [nil, Faker::Lorem.sentence].sample
       )
@@ -129,7 +133,14 @@ patients.each do |patient|
 
       if expenses_receivable.paid?
         # Create Payment
-        payment = PatientPayment.create!(patient_id: patient.id, amount: total_amount, date: Date.today, method: rand(0..4), note: [nil, Faker::Lorem.sentence].sample)
+        payment = PatientPayment.create!(
+          patient_id: patient.id,
+          amount: total_amount,
+          date: Date.today,
+          method: rand(0..4),
+          accountable: patient.scml? ? :scml : :personal,
+          note: [nil, Faker::Lorem.sentence].sample
+        )
 
         expenses_receivable.patient_payment_id = payment.id
         monthly_fee_receivable.patient_payment_id = payment.id

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_05_170415) do
+ActiveRecord::Schema[7.0].define(version: 2022_03_10_130525) do
   create_table "employee_admissions", force: :cascade do |t|
     t.integer "employee_id", null: false
     t.date "date"
@@ -99,6 +99,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_05_170415) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "method"
+    t.integer "accountable", default: 0
     t.index ["patient_id"], name: "index_patient_payments_on_patient_id"
   end
 
@@ -112,6 +113,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_05_170415) do
     t.string "description"
     t.integer "patient_payment_id"
     t.string "note"
+    t.integer "accountable", default: 0
+    t.integer "source", default: 2
     t.index ["patient_file_id"], name: "index_patient_receivables_on_patient_file_id"
     t.index ["patient_id"], name: "index_patient_receivables_on_patient_id"
     t.index ["patient_payment_id"], name: "index_patient_receivables_on_patient_payment_id"
