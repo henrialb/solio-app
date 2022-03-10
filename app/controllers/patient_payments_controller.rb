@@ -78,7 +78,7 @@ class PatientPaymentsController < ApplicationController
   end
 
   def patient_payment_params
-    params.require(:patient_payment).permit(:patient_id, :amount, :method, :date, :note)
+    params.require(:patient_payment).permit(:patient_id, :amount, :method, :accountable, :date, :note)
   end
 
   def pay_outstanding_receivables(patient, funds, patient_payment_id = nil)

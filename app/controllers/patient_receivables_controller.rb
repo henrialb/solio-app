@@ -90,7 +90,7 @@ class PatientReceivablesController < ApplicationController
     params = patient_receivable_params
 
     ActiveRecord::Base.transaction do
-      if @patient_receivable.description.upcase.include? "SCML"
+      if @patient_receivable.scml?
         unless params[:amount].nil? || params[:amount] == @patient_receivable.amount
           # Change amount for personal portion of monthly fee
           personal_fee_receivable = PatientReceivable.find(@patient_receivable.id + 1)
@@ -129,6 +129,6 @@ class PatientReceivablesController < ApplicationController
   end
 
   def patient_receivable_params
-    params.require(:patient_receivable).permit(:patient_file_id, :patient_id, :description, :amount, :status, :note, :patient_payment_id)
+    params.require(:patient_receivable).permit(:patient_file_id, :patient_id, :description, :amount, :source, :accountable, :status, :note, :patient_payment_id)
   end
 end
