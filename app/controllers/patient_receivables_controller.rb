@@ -1,4 +1,6 @@
 class PatientReceivablesController < ApplicationController
+  include ReceivablePayable
+
   before_action :set_patient_receivable, only: %i[show update destroy]
 
   def index
@@ -39,6 +41,8 @@ class PatientReceivablesController < ApplicationController
         patient_id: patient.id,
         patient_file_id: patient.patient_files.last.id,
         status: :unpaid,
+        source: :monthly_fee,
+        accountable: :personal,
         description: "Mensalidade #{date_dictionary[Date.today.month - 1]}"
       }
 
@@ -46,7 +50,8 @@ class PatientReceivablesController < ApplicationController
         @monthly_fee_receivables << PatientReceivable.new(
           monthly_fee_receivable_params.merge(
             description: "Mensalidade #{date_dictionary[Date.today.month - 1]} – SCML",
-            amount: PatientReceivable.where(patient_id: patient.id).scml.last.amount
+            amount: PatientReceivable.where(patient_id: patient.id).scml.last.amount,
+            accountable: :scml
           )
         )
 
@@ -87,10 +92,59 @@ class PatientReceivablesController < ApplicationController
   end
 
   def update
-    if @patient_receivable.update(patient_receivable_params)
-      render json: PatientReceivableBlueprint.render(@patient_receivable)
-    else
-      render json: @patient_receivable.errors, status: :unprocessable_entity
+    params = patient_receivable_params
+
+    ActiveRecord::Base.transaction do
+      if @patient_receivable.scml?
+        unless params[:amount].nil? || params[:amount] == @patient_receivable.amount
+          # Change amount for personal portion of monthly fee
+          personal_fee_receivable = PatientReceivable.find(@patient_receivable.id + 1)
+
+          payment_difference = @patient_receivable.amount - params[:amount]
+
+          if personal_fee_receivable.paid? # Personal portion of the fee was already paid
+            patient = personal_fee_receivable.patient
+
+            if payment_difference.positive?
+              # Personal portion of the fee increases
+              if patient.balance >= payment_difference
+                # There is enough balance to cover the difference
+                patient.balance -= payment_difference
+
+                patient.save
+              else
+                personal_fee_receivable.status = :unpaid
+
+                # Use amount of personal_fee_receivable as additional funds to patient balance, to pay outstanding receivables
+                pay_outstanding_receivables(patient, personal_fee_receivable.amount)
+              end
+            else
+              # Personal portion of the fee decreases, difference goes into additional funds to pay outstanding receivables
+              pay_outstanding_receivables(patient, payment_difference.abs)
+            end
+          end
+
+          personal_fee_receivable.amount += payment_difference
+
+          personal_fee_receivable.save
+        end
+
+        if @patient_receivable.unpaid? && params[:status] == 1 # status 1 = :paid
+          # Create patient_payment
+          require 'date'
+
+          payment = PatientPayment.new(patient_id: @patient_receivable.patient.id, amount: @patient_receivable.amount, method: :bank_transfer, date: Date.today)
+
+          # Add patient_payment_id to params
+          params.merge!(patient_payment_id: payment.id) if payment.save
+        end
+      end
+
+      if @patient_receivable.update(params)
+        render json: PatientReceivableBlueprint.render(@patient_receivable)
+      else
+        render json: @patient_receivable.errors, status: :unprocessable_entity
+      end
     end
   end
 
@@ -105,6 +159,6 @@ class PatientReceivablesController < ApplicationController
   end
 
   def patient_receivable_params
-    params.require(:patient_receivable).permit(:patient_file_id, :patient_id, :description, :amount, :status, :note, :patient_payment_id)
+    params.require(:patient_receivable).permit(:patient_file_id, :patient_id, :description, :amount, :source, :accountable, :status, :note, :patient_payment_id)
   end
 end

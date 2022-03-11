@@ -1,4 +1,6 @@
 class PatientPaymentsController < ApplicationController
+  include ReceivablePayable
+
   before_action :set_patient_payment, only: %i[show update destroy]
 
   def index
@@ -42,15 +44,15 @@ class PatientPaymentsController < ApplicationController
     receivables.update_all(status: :unpaid, patient_payment_id: nil)
 
     if @patient_payment.amount <= total_receivables
-      funds = patient_balance + total_receivables - @patient_payment.amount
+      additional_funds = total_receivables - @patient_payment.amount
     else
-      excess_payment = @patient_payment.amount - total_receivables # the part of the payment amount that went into balance
+      excess_payment = @patient_payment.amount - total_receivables # The portion of the payment amount that went into balance
 
       if patient_balance >= excess_payment
-        funds = patient_balance - excess_payment
+        additional_funds = excess_payment * -1
       else
-        used_excess_payment = excess_payment - patient_balance # the part of payment amount that went into balance and was later used to partially pay a receivable
-        paid_receivables = PatientReceivable.where(patient_id: patient).paid.order(created_at: :desc)
+        used_excess_payment = excess_payment - patient_balance # The portion of payment amount that went into balance and was later used to partially pay a receivable
+        paid_receivables = PatientReceivable.where(patient_id: patient).personal.paid.order(created_at: :desc)
         total_paid_receivables = 0
 
         ActiveRecord::Base.transaction do
@@ -61,12 +63,12 @@ class PatientPaymentsController < ApplicationController
             break unless total_paid_receivables < used_excess_payment
           end
 
-          funds = total_paid_receivables - used_excess_payment
+          additional_funds = total_paid_receivables - used_excess_payment - patient_balance
         end
       end
     end
 
-    pay_outstanding_receivables(patient, funds) if @patient_payment.amount != total_receivables
+    pay_outstanding_receivables(patient, additional_funds) if @patient_payment.amount != total_receivables
 
     @patient_payment.destroy
   end
@@ -78,21 +80,6 @@ class PatientPaymentsController < ApplicationController
   end
 
   def patient_payment_params
-    params.require(:patient_payment).permit(:patient_id, :amount, :method, :date, :note)
-  end
-
-  def pay_outstanding_receivables(patient, funds, patient_payment_id = nil)
-    receivables = PatientReceivable.where(patient_id: patient).unpaid.order(amount: :asc)
-
-    ActiveRecord::Base.transaction do
-      receivables.each do |receivable|
-        break if funds < receivable.amount
-
-        receivable.update(status: :paid, patient_payment_id: patient_payment_id)
-        funds -= receivable.amount
-      end
-
-      patient.update(balance: funds) if funds != patient.balance
-    end
+    params.require(:patient_payment).permit(:patient_id, :amount, :method, :accountable, :date, :note)
   end
 end
