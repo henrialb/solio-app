@@ -107,7 +107,7 @@ class PatientReceivablesController < ApplicationController
 
             if payment_difference.positive?
               # Personal portion of the fee increases
-              if patient.balance >= payment_difference.abs
+              if patient.balance >= payment_difference
                 # There is enough balance to cover the difference
                 patient.balance -= payment_difference
 
