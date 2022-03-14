@@ -5,4 +5,6 @@ class PatientFile < ApplicationRecord
 
   validates :open_date, presence: true
   validates :close_date, comparison: { greater_than_or_equal_to: :open_date }, allow_nil: true
+
+  enum facility: [:'36', :'21']
 end

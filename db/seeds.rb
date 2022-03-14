@@ -47,20 +47,26 @@ puts '---------------'
 # Patient Admissions, Files and Exits
 puts 'Creating patient admissions'
 patients = Patient.all
+
 patients.each do |patient|
   PatientAdmission.create!(patient_id: patient.id, date: Faker::Date.between(from: '1997-11-17', to: Date.today))
 end
 
 puts 'Creating patient files and exits'
 admissions = PatientAdmission.all
+
 admissions.each do |admission|
+  facility = [:'36', :'21'].sample
+
   if admission.id.odd?
     file = PatientFile.create!(
       patient_admission_id: admission.id,
+      facility: facility,
       open_date: admission.date,
       close_date: Faker::Date.between(from: admission.date, to: Date.today),
       note: [nil, Faker::Lorem.sentence].sample
     )
+
     PatientExit.create!(
       patient_admission_id: admission.id,
       date: file.close_date,
@@ -69,7 +75,7 @@ admissions.each do |admission|
       note: [nil, Faker::Lorem.sentence].sample
     )
   else
-    PatientFile.create!(patient_admission_id: admission.id, open_date: admission.date)
+    PatientFile.create!(patient_admission_id: admission.id, facility: facility, open_date: admission.date)
   end
 end
 
@@ -77,6 +83,7 @@ end
 puts 'Adding a new admission and file for first patient'
 
 admission = PatientAdmission.create!(patient_id: Patient.first.id, date: Faker::Date.between(from: PatientExit.first.date, to: Date.today))
+
 PatientFile.create!(patient_admission_id: admission.id, open_date: admission.date)
 
 puts 'Done creating patient admissions, files and exits'
@@ -102,6 +109,7 @@ patients.each do |patient|
           date: Faker::Date.between(from: patient_file.open_date, to: Date.today),
           note: [nil, Faker::Lorem.sentence].sample,
         )
+
         receivable_total += expense.amount
 
         expenses << expense
@@ -118,6 +126,7 @@ patients.each do |patient|
         status: [:unpaid, :paid].sample,
         note: [nil, Faker::Lorem.sentence].sample
       )
+
       monthly_fee_receivable = PatientReceivable.new(
         patient_id: patient.id,
         patient_file_id: patient_file.id,
@@ -150,6 +159,7 @@ patients.each do |patient|
 
       expenses.each do |expense|
         expense.patient_receivable_id = expenses_receivable.id
+
         expense.save!
       end
 
