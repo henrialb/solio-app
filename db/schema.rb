@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_10_130525) do
+ActiveRecord::Schema[7.0].define(version: 2022_03_14_175815) do
   create_table "employee_admissions", force: :cascade do |t|
     t.integer "employee_id", null: false
     t.date "date"
@@ -88,6 +88,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_10_130525) do
     t.string "note"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "facility"
     t.index ["patient_admission_id"], name: "index_patient_files_on_patient_admission_id"
   end
 

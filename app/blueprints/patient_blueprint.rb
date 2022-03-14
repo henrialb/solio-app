@@ -6,4 +6,8 @@ class PatientBlueprint < Blueprinter::Base
   field :files do |patient|
     patient.patient_files.ids if patient.patient_files.exists?
   end
+
+  field :facility do |patient|
+    patient.patient_files.last.facility if patient.active?
+  end
 end
