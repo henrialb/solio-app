@@ -6,6 +6,12 @@ class PatientExpensesController < ApplicationController
     render json: PatientExpenseBlueprint.render(@patient_expenses)
   end
 
+  def patient
+    patient = params[:id]
+    @patient_expenses = PatientExpense.where(patient_id: patient).includes(:patient_receivable)
+    render json: PatientExpenseBlueprint.render(@patient_expenses)
+  end
+
   def create
     @patient_expense = PatientExpense.new(patient_expense_params)
     if @patient_expense.save
