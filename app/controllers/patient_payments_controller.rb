@@ -13,9 +13,8 @@ class PatientPaymentsController < ApplicationController
 
     if @patient_payment.save
       patient = Patient.find(@patient_payment.patient_id)
-      funds = @patient_payment.amount + patient.balance
 
-      pay_outstanding_receivables(patient, funds, @patient_payment.id)
+      pay_outstanding_receivables(patient, @patient_payment.amount, @patient_payment.id)
 
       render json: PatientPaymentBlueprint.render(@patient_payment)
     else
