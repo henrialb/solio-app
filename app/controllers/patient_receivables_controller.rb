@@ -8,6 +8,12 @@ class PatientReceivablesController < ApplicationController
     render json: PatientReceivableBlueprint.render(@patient_receivables)
   end
 
+  def patient
+    patient = params[:id]
+    @patient_receivables = PatientReceivable.where(patient_id: patient).reverse_order
+    render json: PatientReceivableBlueprint.render(@patient_receivables)
+  end
+
   def create
     @patient_receivable = PatientReceivable.new(patient_receivable_params)
 
