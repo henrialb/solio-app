@@ -19,7 +19,7 @@ mensalidades = [1590, 1640, 1670, 1790]
 
 puts 'Creating patients'
 
-10.times do
+11.times do
   all_names = [names.sample, names.sample, surnames.sample, surnames.sample]
 
   Patient.create!(
@@ -82,7 +82,7 @@ puts 'Adding a new admission and file for first patient'
 
 admission = PatientAdmission.create!(patient_id: Patient.first.id, date: Faker::Date.between(from: PatientExit.first.date, to: Date.today))
 
-PatientFile.create!(patient_admission_id: admission.id, open_date: admission.date)
+PatientFile.create!(patient_admission_id: admission.id, open_date: admission.date, facility: [:'36', :'21'].sample)
 
 puts 'Done creating patient admissions, files and exits'
 puts '---------------'
@@ -94,6 +94,17 @@ expense_descriptions = %w(Farmácia Cabeleireiro Acompanhamento Fraldas Consumí
 
 patients.each do |patient|
   patient.patient_files.each do |patient_file|
+    rand(0..4).times do # expenses without receivable
+      PatientExpense.create(
+        patient_file_id: patient_file.id,
+        patient_id: patient.id,
+        description: expense_descriptions.sample,
+        amount: Faker::Commerce.price(range: 2..29.99),
+        date: Faker::Date.between(from: patient_file.open_date, to: Date.today),
+        note: [nil, Faker::Lorem.sentence].sample,
+      )
+    end
+
     rand(1..3).times do # receivables
       expenses = []
       receivable_total = 0

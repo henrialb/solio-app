@@ -38,6 +38,6 @@ class PatientFilesController < ApplicationController
   end
 
   def patient_file_params
-    params.require(:patient_file).permit(:patient_admission_id, :open_date, :close_date, :note)
+    params.require(:patient_file).permit(:patient_admission_id, :open_date, :close_date, :facility, :note)
   end
 end
