@@ -14,6 +14,10 @@ class PatientExpensesController < ApplicationController
 
   def create
     @patient_expense = PatientExpense.new(patient_expense_params)
+
+    patient_file_id = Patient.find(params[:patient_id]).patient_files.last.id
+    @patient_expense.update(patient_file_id: patient_file_id)
+
     if @patient_expense.save
       render json: PatientExpenseBlueprint.render(@patient_expense)
     else
