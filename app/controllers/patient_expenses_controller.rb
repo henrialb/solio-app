@@ -8,7 +8,7 @@ class PatientExpensesController < ApplicationController
 
   def patient
     patient = params[:id]
-    @patient_expenses = PatientExpense.where(patient_id: patient).includes(:patient_receivable).order(date: :desc)
+    @patient_expenses = PatientExpense.where(patient_id: patient).includes(:patient_receivable).order(date: :desc, id: :desc)
     render json: PatientExpenseBlueprint.render(@patient_expenses)
   end
 
