@@ -13,171 +13,173 @@ puts '---------------'
 puts 'Destroying patients and associated records'
 Patient.destroy_all
 
-names = %w(Maria Ana Joana Isabel Catarina Rita Vitória Luísa Raquel Aurora)
-surnames = %w(Ribeiro Pereira Domingues Cruz Silva Fernandes Antunes Machado Fontes Pinheiro)
-mensalidades = [1590, 1640, 1670, 1790]
-
 puts 'Creating patients'
 
-11.times do
-  all_names = [names.sample, names.sample, surnames.sample, surnames.sample]
+patients_file = File.read(Rails.root.join('lib', 'seeds', 'patients.csv'))
+patients_csv = CSV.parse(patients_file, headers: true, encoding: 'ISO-8859-1')
 
-  Patient.create!(
-    name: all_names.first,
-    full_name: all_names.join(' '),
-    dob: Faker::Date.birthday(min_age: 73, max_age: 104),
-    covenant: [:personal, :scml].sample,
-    sex: [:female, :male].sample,
-    status: [:active, :inactive].sample,
-    citizen_no: Faker::Number.number(digits: 8),
-    nif_no: Faker::Number.number(digits: 9),
-    health_no: Faker::Number.number(digits: 9),
-    social_security_no: Faker::Number.number(digits: 11),
-    clothes_tag: "#{all_names.first.first}#{all_names.second.first}#{all_names.last.first}",
-    monthly_fee: mensalidades.sample,
-    balance: Faker::Commerce.price(range: 0..10.0)
+patients_csv.each do |patient|
+  patient = patient[0].split(";")
+  Patient.create(
+    name: patient[1],
+    full_name: patient[2],
+    dob: patient[3],
+    covenant: patient[13].to_i,
+    sex: patient[4].to_i,
+    status: patient[12].to_i,
+    citizen_no: patient[5],
+    nif_no: patient[6],
+    health_no: patient[7],
+    social_security_no: patient[8],
+    clothes_tag: patient[9],
+    monthly_fee: patient[10],
+    balance: patient[11]
   )
 end
 
 puts 'Done creating patients'
 puts '---------------'
 
-# Patient Admissions, Files and Exits
-puts 'Creating patient admissions'
-patients = Patient.all
+# # Patient Admissions, Files and Exits
+# puts 'Creating patient admissions'
+# patient_admissions_file = File.read(Rails.root.join('lib', 'seeds', 'patient_admissions.csv'))
 
-patients.each do |patient|
-  PatientAdmission.create!(patient_id: patient.id, date: Faker::Date.between(from: '1997-11-17', to: Date.today))
-end
+# CSV.parse(patient_admissions_file, headers: true, encoding: 'ISO-8859-1') do |admission|
+#   PatientAdmission.create!(
+#     patient_id: admission['patient_id'],
+#     date: admission['date']
+#   )
+# end
 
-puts 'Creating patient files and exits'
-admissions = PatientAdmission.all
+# puts 'Creating patient files and exits'
 
-admissions.each do |admission|
-  facility = [:'36', :'21'].sample
+# patient_files_file = File.read(Rails.root.join('lib', 'seeds', 'patient_files.csv'))
 
-  if admission.id.odd?
-    file = PatientFile.create!(
-      patient_admission_id: admission.id,
-      facility: facility,
-      open_date: admission.date,
-      close_date: Faker::Date.between(from: admission.date, to: Date.today),
-      note: [nil, Faker::Lorem.sentence].sample
-    )
+# CSV.parse(patient_files_file, headers: true, encoding: 'ISO-8859-1') do |file|
+#   PatientFile.create!(
+#     patient_admission_id: PatientAdmission.where(patient_id: file['patient_id']),
+#     facility: file['facility'],
+#     open_date: file['open_date'],
+#     close_date: file['close_date'],
+#     note: file['note']
+#   )
+# end
 
-    PatientExit.create!(
-      patient_admission_id: admission.id,
-      date: file.close_date,
-      reason: ['saiu', 'faleceu'].sample,
-      location: Faker::TvShows::Simpsons.location,
-      note: [nil, Faker::Lorem.sentence].sample
-    )
-  else
-    PatientFile.create!(patient_admission_id: admission.id, facility: facility, open_date: admission.date)
-  end
-end
+# patient_exits_file = File.read(Rails.root.join('lib', 'seeds', 'patient_exits.csv'))
 
-# Create a second admission for first patient
-puts 'Adding a new admission and file for first patient'
+# CSV.parse(patient_exits_file, headers: true, encoding: 'ISO-8859-1') do |exit|
+#   PatientExit.create!(
+#     patient_admission_id: PatientAdmission.where(patient_id: exit['patient_id']),
+#     date: exit['date'],
+#     reason: exit['reason'],
+#     location: exit['location'],
+#     note: exit['note']
+#   )
+# end
 
-admission = PatientAdmission.create!(patient_id: Patient.first.id, date: Faker::Date.between(from: PatientExit.first.date, to: Date.today))
+# puts 'Done creating patient admissions, files and exits'
+# puts '---------------'
 
-PatientFile.create!(patient_admission_id: admission.id, open_date: admission.date, facility: [:'36', :'21'].sample)
 
-puts 'Done creating patient admissions, files and exits'
-puts '---------------'
 
-# Patient Expenses, Receivables and Payments
-puts 'Creating patient expenses, receivables and payments'
 
-expense_descriptions = %w(Farmácia Cabeleireiro Acompanhamento Fraldas Consumíveis)
 
-patients.each do |patient|
-  patient.patient_files.each do |patient_file|
-    rand(0..4).times do # expenses without receivable
-      PatientExpense.create(
-        patient_file_id: patient_file.id,
-        patient_id: patient.id,
-        description: expense_descriptions.sample,
-        amount: Faker::Commerce.price(range: 2..29.99),
-        date: Faker::Date.between(from: patient_file.open_date, to: Date.today),
-        note: [nil, Faker::Lorem.sentence].sample,
-      )
-    end
 
-    rand(1..3).times do # receivables
-      expenses = []
-      receivable_total = 0
 
-      rand(1..4).times do # expenses
-        expense = PatientExpense.new(
-          patient_file_id: patient_file.id,
-          patient_id: patient.id,
-          description: expense_descriptions.sample,
-          amount: Faker::Commerce.price(range: 2..29.99),
-          date: Faker::Date.between(from: patient_file.open_date, to: Date.today),
-          note: [nil, Faker::Lorem.sentence].sample,
-        )
 
-        receivable_total += expense.amount
 
-        expenses << expense
-      end
 
-      # Create Receivables
-      expenses_receivable = PatientReceivable.new(
-        patient_id: patient.id,
-        patient_file_id: patient_file.id,
-        amount: receivable_total,
-        description: 'Despesas',
-        accountable: :personal,
-        source: :expenses,
-        status: [:unpaid, :paid].sample,
-        note: [nil, Faker::Lorem.sentence].sample
-      )
+# # Patient Expenses, Receivables and Payments
+# puts 'Creating patient expenses, receivables and payments'
 
-      monthly_fee_receivable = PatientReceivable.new(
-        patient_id: patient.id,
-        patient_file_id: patient_file.id,
-        amount: patient.monthly_fee,
-        description: 'Mensalidade',
-        accountable: patient.scml? ? :scml : :personal,
-        source: :monthly_fee,
-        status: expenses_receivable.status,
-        note: [nil, Faker::Lorem.sentence].sample
-      )
+# expense_descriptions = %w(Farmácia Cabeleireiro Acompanhamento Fraldas Consumíveis)
 
-      total_amount = expenses_receivable.amount + monthly_fee_receivable.amount
+# patients.each do |patient|
+#   patient.patient_files.each do |patient_file|
+#     rand(0..4).times do # expenses without receivable
+#       PatientExpense.create(
+#         patient_file_id: patient_file.id,
+#         patient_id: patient.id,
+#         description: expense_descriptions.sample,
+#         amount: Faker::Commerce.price(range: 2..29.99),
+#         date: Faker::Date.between(from: patient_file.open_date, to: Date.today),
+#         note: [nil, Faker::Lorem.sentence].sample,
+#       )
+#     end
 
-      if expenses_receivable.paid?
-        # Create Payment
-        payment = PatientPayment.create!(
-          patient_id: patient.id,
-          amount: total_amount,
-          date: Date.today,
-          method: rand(0..4),
-          accountable: patient.scml? ? :scml : :personal,
-          note: [nil, Faker::Lorem.sentence].sample
-        )
+#     rand(1..3).times do # receivables
+#       expenses = []
+#       receivable_total = 0
 
-        expenses_receivable.patient_payment_id = payment.id
-        monthly_fee_receivable.patient_payment_id = payment.id
-      end
+#       rand(1..4).times do # expenses
+#         expense = PatientExpense.new(
+#           patient_file_id: patient_file.id,
+#           patient_id: patient.id,
+#           description: expense_descriptions.sample,
+#           amount: Faker::Commerce.price(range: 2..29.99),
+#           date: Faker::Date.between(from: patient_file.open_date, to: Date.today),
+#           note: [nil, Faker::Lorem.sentence].sample,
+#         )
 
-      expenses_receivable.save!
+#         receivable_total += expense.amount
 
-      expenses.each do |expense|
-        expense.patient_receivable_id = expenses_receivable.id
+#         expenses << expense
+#       end
 
-        expense.save!
-      end
+#       # Create Receivables
+#       expenses_receivable = PatientReceivable.new(
+#         patient_id: patient.id,
+#         patient_file_id: patient_file.id,
+#         amount: receivable_total,
+#         description: 'Despesas',
+#         accountable: :personal,
+#         source: :expenses,
+#         status: [:unpaid, :paid].sample,
+#         note: [nil, Faker::Lorem.sentence].sample
+#       )
 
-      monthly_fee_receivable.save!
-    end
-  end
-end
+#       monthly_fee_receivable = PatientReceivable.new(
+#         patient_id: patient.id,
+#         patient_file_id: patient_file.id,
+#         amount: patient.monthly_fee,
+#         description: 'Mensalidade',
+#         accountable: patient.scml? ? :scml : :personal,
+#         source: :monthly_fee,
+#         status: expenses_receivable.status,
+#         note: [nil, Faker::Lorem.sentence].sample
+#       )
 
-puts 'Done creating patient expenses, receivables and payments'
-puts '---------------'
+#       total_amount = expenses_receivable.amount + monthly_fee_receivable.amount
+
+#       if expenses_receivable.paid?
+#         # Create Payment
+#         payment = PatientPayment.create!(
+#           patient_id: patient.id,
+#           amount: total_amount,
+#           date: Date.today,
+#           method: rand(0..4),
+#           accountable: patient.scml? ? :scml : :personal,
+#           note: [nil, Faker::Lorem.sentence].sample
+#         )
+
+#         expenses_receivable.patient_payment_id = payment.id
+#         monthly_fee_receivable.patient_payment_id = payment.id
+#       end
+
+#       expenses_receivable.save!
+
+#       expenses.each do |expense|
+#         expense.patient_receivable_id = expenses_receivable.id
+
+#         expense.save!
+#       end
+
+#       monthly_fee_receivable.save!
+#     end
+#   end
+# end
+
+# puts 'Done creating patient expenses, receivables and payments'
+# puts '---------------'
 
 puts 'Done seeding the database 💪'
