@@ -16,10 +16,9 @@ Patient.destroy_all
 puts 'Creating patients'
 
 patients_file = File.read(Rails.root.join('lib', 'seeds', 'patients.csv'))
-patients_csv = CSV.parse(patients_file, headers: true, encoding: 'ISO-8859-1')
+patients_csv = CSV.parse(patients_file, headers: true, encoding: 'utf-8')
 
 patients_csv.each do |patient|
-  # patient = patient[0].split(";")
   Patient.create(
     name: patient['name'],
     full_name: patient['full_name'],
@@ -44,7 +43,7 @@ puts '---------------'
 puts 'Creating patient admissions'
 patient_admissions_file = File.read(Rails.root.join('lib', 'seeds', 'patient_admissions.csv'))
 
-CSV.parse(patient_admissions_file, headers: true, encoding: 'ISO-8859-1') do |admission|
+CSV.parse(patient_admissions_file, headers: true, encoding: 'utf-8') do |admission|
   PatientAdmission.create!(
     patient_id: admission['patient_id'],
     date: admission['date']
@@ -55,7 +54,7 @@ puts 'Creating patient files and exits'
 
 patient_files_file = File.read(Rails.root.join('lib', 'seeds', 'patient_files.csv'))
 
-CSV.parse(patient_files_file, headers: true, encoding: 'ISO-8859-1') do |file|
+CSV.parse(patient_files_file, headers: true, encoding: 'utf-8') do |file|
   PatientFile.create!(
     patient_admission_id: file['patient_admission_id'],
     facility: file['facility'],
@@ -67,7 +66,7 @@ end
 
 patient_exits_file = File.read(Rails.root.join('lib', 'seeds', 'patient_exits.csv'))
 
-CSV.parse(patient_exits_file, headers: true, encoding: 'ISO-8859-1') do |exit|
+CSV.parse(patient_exits_file, headers: true, encoding: 'utf-8') do |exit|
   PatientExit.create!(
     patient_admission_id: exit['patient_admission_id'],
     date: exit['date'],
