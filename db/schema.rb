@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_14_175815) do
+ActiveRecord::Schema[7.0].define(version: 2022_03_31_145620) do
   create_table "employee_admissions", force: :cascade do |t|
     t.integer "employee_id", null: false
     t.date "date"
@@ -45,6 +45,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_14_175815) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_employees_on_user_id"
+  end
+
+  create_table "jwt_denylist", force: :cascade do |t|
+    t.string "jti", null: false
+    t.datetime "exp", null: false
+    t.index ["jti"], name: "index_jwt_denylist_on_jti"
   end
 
   create_table "patient_admissions", force: :cascade do |t|
