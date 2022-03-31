@@ -19,75 +19,66 @@ patients_file = File.read(Rails.root.join('lib', 'seeds', 'patients.csv'))
 patients_csv = CSV.parse(patients_file, headers: true, encoding: 'ISO-8859-1')
 
 patients_csv.each do |patient|
-  patient = patient[0].split(";")
+  # patient = patient[0].split(";")
   Patient.create(
-    name: patient[1],
-    full_name: patient[2],
-    dob: patient[3],
-    covenant: patient[13].to_i,
-    sex: patient[4].to_i,
-    status: patient[12].to_i,
-    citizen_no: patient[5],
-    nif_no: patient[6],
-    health_no: patient[7],
-    social_security_no: patient[8],
-    clothes_tag: patient[9],
-    monthly_fee: patient[10],
-    balance: patient[11]
+    name: patient['name'],
+    full_name: patient['full_name'],
+    dob: patient['dob'],
+    covenant: patient['covenant'].to_i,
+    sex: patient['sex'].to_i,
+    status: patient['status'].to_i,
+    citizen_no: patient['citizen_no'],
+    nif_no: patient['nif_no'],
+    health_no: patient['health_no'],
+    social_security_no: patient['social_security_no'],
+    clothes_tag: patient['clothes_tag'],
+    monthly_fee: patient['monthly_fee'],
+    balance: patient['balance']
   )
 end
 
 puts 'Done creating patients'
 puts '---------------'
 
-# # Patient Admissions, Files and Exits
-# puts 'Creating patient admissions'
-# patient_admissions_file = File.read(Rails.root.join('lib', 'seeds', 'patient_admissions.csv'))
+# Patient Admissions, Files and Exits
+puts 'Creating patient admissions'
+patient_admissions_file = File.read(Rails.root.join('lib', 'seeds', 'patient_admissions.csv'))
 
-# CSV.parse(patient_admissions_file, headers: true, encoding: 'ISO-8859-1') do |admission|
-#   PatientAdmission.create!(
-#     patient_id: admission['patient_id'],
-#     date: admission['date']
-#   )
-# end
+CSV.parse(patient_admissions_file, headers: true, encoding: 'ISO-8859-1') do |admission|
+  PatientAdmission.create!(
+    patient_id: admission['patient_id'],
+    date: admission['date']
+  )
+end
 
-# puts 'Creating patient files and exits'
+puts 'Creating patient files and exits'
 
-# patient_files_file = File.read(Rails.root.join('lib', 'seeds', 'patient_files.csv'))
+patient_files_file = File.read(Rails.root.join('lib', 'seeds', 'patient_files.csv'))
 
-# CSV.parse(patient_files_file, headers: true, encoding: 'ISO-8859-1') do |file|
-#   PatientFile.create!(
-#     patient_admission_id: PatientAdmission.where(patient_id: file['patient_id']),
-#     facility: file['facility'],
-#     open_date: file['open_date'],
-#     close_date: file['close_date'],
-#     note: file['note']
-#   )
-# end
+CSV.parse(patient_files_file, headers: true, encoding: 'ISO-8859-1') do |file|
+  PatientFile.create!(
+    patient_admission_id: file['patient_admission_id'],
+    facility: file['facility'],
+    open_date: file['open_date'],
+    close_date: file['close_date'],
+    note: file['note']
+  )
+end
 
-# patient_exits_file = File.read(Rails.root.join('lib', 'seeds', 'patient_exits.csv'))
+patient_exits_file = File.read(Rails.root.join('lib', 'seeds', 'patient_exits.csv'))
 
-# CSV.parse(patient_exits_file, headers: true, encoding: 'ISO-8859-1') do |exit|
-#   PatientExit.create!(
-#     patient_admission_id: PatientAdmission.where(patient_id: exit['patient_id']),
-#     date: exit['date'],
-#     reason: exit['reason'],
-#     location: exit['location'],
-#     note: exit['note']
-#   )
-# end
+CSV.parse(patient_exits_file, headers: true, encoding: 'ISO-8859-1') do |exit|
+  PatientExit.create!(
+    patient_admission_id: exit['patient_admission_id'],
+    date: exit['date'],
+    reason: exit['reason'],
+    location: exit['location'],
+    note: exit['note']
+  )
+end
 
-# puts 'Done creating patient admissions, files and exits'
-# puts '---------------'
-
-
-
-
-
-
-
-
-
+puts 'Done creating patient admissions, files and exits'
+puts '---------------'
 
 # # Patient Expenses, Receivables and Payments
 # puts 'Creating patient expenses, receivables and payments'
