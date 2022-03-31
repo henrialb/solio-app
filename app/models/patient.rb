@@ -8,7 +8,7 @@ class Patient < ApplicationRecord
   has_many :patient_relatives, dependent: :destroy
   has_many :visits, dependent: :destroy
 
-  validates :name, presence: true
+  # validates :name, presence: true
   validates :citizen_no, :nif_no, :health_no, :social_security_no, uniqueness: true, allow_nil: true
 
   enum sex: [:female, :male]
