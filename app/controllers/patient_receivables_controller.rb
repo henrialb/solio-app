@@ -156,9 +156,12 @@ class PatientReceivablesController < ApplicationController
     end
   end
 
-  def destroy
-    @patient_receivable.destroy
-  end
+  # def destroy
+  #   if @patient_receivable.source == 'expenses'
+  #     @patient_receivable.patient_expenses
+  #   end
+  #   @patient_receivable.destroy
+  # end
 
   private
 
