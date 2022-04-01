@@ -32,3 +32,5 @@
 
 # Ignore to-do notes
 TODO
+
+/lib/seeds
