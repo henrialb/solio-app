@@ -1,6 +1,7 @@
 class PatientPaymentsController < ApplicationController
   include ReceivablePayable
 
+  before_action :authenticate_user!
   before_action :set_patient_payment, only: %i[show update destroy]
 
   def index
