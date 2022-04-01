@@ -157,6 +157,10 @@ class PatientReceivablesController < ApplicationController
   end
 
   def destroy
+    if @patient_receivable.source == 'expenses'
+      expenses = PatientExpense.where(patient_receivable_id: @patient_receivable.id)
+      expenses.update_all(patient_receivable_id: nil)
+    end
     @patient_receivable.destroy
   end
 
