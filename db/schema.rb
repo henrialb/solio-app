@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_14_175815) do
+ActiveRecord::Schema[7.0].define(version: 2022_04_02_104356) do
   create_table "patient_admissions", force: :cascade do |t|
     t.integer "patient_id", null: false
     t.date "date"
@@ -99,7 +99,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_14_175815) do
     t.datetime "updated_at", null: false
     t.integer "sex"
     t.decimal "monthly_fee"
-    t.decimal "balance"
+    t.decimal "balance", default: "0.0"
     t.integer "covenant", default: 0
   end
 
