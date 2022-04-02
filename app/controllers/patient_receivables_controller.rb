@@ -17,6 +17,8 @@ class PatientReceivablesController < ApplicationController
   def create
     @patient_receivable = PatientReceivable.new(patient_receivable_params)
 
+    pay_receivable_from_balance
+
     if @patient_receivable.save
       render json: PatientReceivableBlueprint.render(@patient_receivable)
     else
@@ -26,7 +28,9 @@ class PatientReceivablesController < ApplicationController
 
   def create_from_expenses
     @patient_receivable = PatientReceivable.new(patient_receivable_params)
-    patient = Patient.find(@patient_receivable.patient_id)
+
+    pay_receivable_from_balance
+
     expenses = PatientExpense.where(patient_id: @patient_receivable.patient_id, patient_receivable_id: nil)
     @patient_receivable.amount = expenses.sum(:amount)
     @patient_receivable.patient_file_id = patient.patient_files.last.id
@@ -172,5 +176,14 @@ class PatientReceivablesController < ApplicationController
 
   def patient_receivable_params
     params.require(:patient_receivable).permit(:patient_file_id, :patient_id, :description, :amount, :source, :expenses, :accountable, :status, :note, :patient_payment_id)
+  end
+
+  def pay_receivable_from_balance
+    @patient = Patient.find(@patient_receivable.patient_id)
+
+    if @patient.balance >= @patient_receivable.amount
+      @patient_receivable.status = 'paid' if @patient.balance >= @patient_receivable.amount
+      @patient.update(balance: @patient.balance - @patient_receivable.amount)
+    end
   end
 end
