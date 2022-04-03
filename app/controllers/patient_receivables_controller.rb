@@ -28,12 +28,12 @@ class PatientReceivablesController < ApplicationController
 
   def create_from_expenses
     @patient_receivable = PatientReceivable.new(patient_receivable_params)
+    expenses = PatientExpense.where(patient_id: @patient_receivable.patient_id, patient_receivable_id: nil)
+    @patient_receivable.amount = expenses.sum(:amount)
 
     pay_receivable_from_balance
 
-    expenses = PatientExpense.where(patient_id: @patient_receivable.patient_id, patient_receivable_id: nil)
-    @patient_receivable.amount = expenses.sum(:amount)
-    @patient_receivable.patient_file_id = patient.patient_files.last.id
+    @patient_receivable.patient_file_id = @patient.patient_files.last.id
 
     if @patient_receivable.save
       expenses.update_all(patient_receivable_id: @patient_receivable.id)
