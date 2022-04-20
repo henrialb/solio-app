@@ -1,11 +1,12 @@
 module ReceivablePayable
   def pay_outstanding_receivables(patient, additional_funds = 0, patient_payment_id = nil)
-    receivables = PatientReceivable.where(patient_id: patient, amount: additional_funds).unpaid.personal
+    receivables = PatientReceivable.where(patient_id: patient).unpaid.personal.to_a
 
-    unless receivables.empty?
-      receivables.first.update(status: :paid, patient_payment_id: patient_payment_id)
+    target_receivable = receivables.extract! { |receivable| receivable.amount == additional_funds }
+
+    unless target_receivable.empty?
+      target_receivable.first.update(status: :paid, patient_payment_id: patient_payment_id)
     else
-      receivables = PatientReceivable.where(patient_id: patient).unpaid.personal
       funds = patient.balance + additional_funds
 
       ActiveRecord::Base.transaction do
