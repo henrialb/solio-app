@@ -11,14 +11,24 @@ class PatientPaymentsController < ApplicationController
   def create
     @patient_payment = PatientPayment.new(patient_payment_params)
 
-    if @patient_payment.save
-      patient = Patient.find(@patient_payment.patient_id)
+    if @patient_payment.accountable == "scml" && @patient_payment.save
+      if pay_scml_receivables(@patient_payment.patient_id, @patient_payment.amount, @patient_payment.id)
+        render json: PatientPaymentBlueprint.render(@patient_payment)
+      else
+        @patient_payment.destroy
 
-      pay_outstanding_receivables(patient, @patient_payment.amount, @patient_payment.id)
-
-      render json: PatientPaymentBlueprint.render(@patient_payment)
+        render json: {amount: "O valor não bate certo com as contas da SCML por pagar"}, status: :unprocessable_entity
+      end
     else
-      render json: @patient_payment.errors, status: :unprocessable_entity
+      if @patient_payment.save
+        patient = Patient.find(@patient_payment.patient_id)
+
+        pay_outstanding_receivables(patient, @patient_payment.amount, @patient_payment.id)
+
+        render json: PatientPaymentBlueprint.render(@patient_payment)
+      else
+        render json: @patient_payment.errors, status: :unprocessable_entity
+      end
     end
   end
 
