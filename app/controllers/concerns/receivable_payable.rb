@@ -28,7 +28,9 @@ module ReceivablePayable
     if receivables.length == 1
       receivable = receivables.first
 
-      receivable.update(status: :paid, patient_payment_id: patient_payment_id) if receivable.amount == funds
+      return false if receivable.amount != funds
+
+      receivable.update(status: :paid, patient_payment_id: patient_payment_id)
     else
       if receivables.any? { |receivable| receivable.amount == funds }
         # There are multiple unpaid receivables but at least one matches the payment amount
