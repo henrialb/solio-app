@@ -6,6 +6,8 @@ class Patient < ApplicationRecord
   has_many :patient_files, through: :patient_admissions, dependent: :destroy
   has_many :patient_exits, through: :patient_admissions, dependent: :destroy
 
+  has_one_attached :profile_photo, dependent: :destroy
+
   validates :name, presence: true
   validates :citizen_no, :nif_no, :health_no, :social_security_no, uniqueness: true, allow_nil: true
 
