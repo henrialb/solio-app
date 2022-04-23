@@ -37,9 +37,4 @@ module SolioApp
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
   end
-
-  require "active_storage/attached"
-  ActiveSupport.on_load(:active_record) do
-    extend ActiveStorage::Attached::Macros
-  end
 end
