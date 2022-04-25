@@ -1,5 +1,6 @@
+include Rails.application.routes.url_helpers
+
 class PatientBlueprint < Blueprinter::Base
-  include Rails.application.routes.url_helpers
 
   identifier :id
 
