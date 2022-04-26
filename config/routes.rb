@@ -22,9 +22,7 @@ Rails.application.routes.draw do
   resources :patient_files, except: %i[add edit]
   resources :patient_exits, except: %i[add edit]
 
-  resources :patient_relatives, only: %i[index show create destroy update]
   resources :employees, only: %i[index show create destroy update]
   resources :employee_admissions, only: %i[index show create destroy update]
   resources :employee_exits, only: %i[index show create destroy update]
-  resources :visits, only: %i[index show create destroy update]
 end

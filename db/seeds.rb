@@ -6,6 +6,84 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+# puts 'About to spread seeds 🌱'
+# puts '---------------'
+
+# # Patients
+# puts 'Destroying patients and associated records'
+# Patient.destroy_all
+
+# puts 'Creating patients'
+
+# patients_file = File.read(Rails.root.join('lib', 'seeds', 'patients.csv'))
+# patients_csv = CSV.parse(patients_file, headers: true, encoding: 'utf-8')
+
+# patients_csv.each do |patient|
+#   Patient.create(
+#     name: patient['name'],
+#     full_name: patient['full_name'],
+#     dob: patient['dob'],
+#     covenant: patient['covenant'].to_i,
+#     sex: patient['sex'].to_i,
+#     status: patient['status'].to_i,
+#     citizen_no: patient['citizen_no'],
+#     nif_no: patient['nif_no'],
+#     health_no: patient['health_no'],
+#     social_security_no: patient['social_security_no'],
+#     clothes_tag: patient['clothes_tag'],
+#     monthly_fee: patient['monthly_fee'],
+#     balance: patient['balance']
+#   )
+# end
+
+# puts 'Done creating patients'
+# puts '---------------'
+
+# # Patient Admissions, Files and Exits
+# puts 'Creating patient admissions'
+# patient_admissions_file = File.read(Rails.root.join('lib', 'seeds', 'patient_admissions.csv'))
+
+# CSV.parse(patient_admissions_file, headers: true, encoding: 'utf-8') do |admission|
+#   PatientAdmission.create!(
+#     patient_id: admission['patient_id'],
+#     date: admission['date']
+#   )
+# end
+
+# puts 'Creating patient files and exits'
+
+# patient_files_file = File.read(Rails.root.join('lib', 'seeds', 'patient_files.csv'))
+
+# CSV.parse(patient_files_file, headers: true, encoding: 'utf-8') do |file|
+#   PatientFile.create!(
+#     patient_admission_id: file['patient_admission_id'],
+#     facility: file['facility'],
+#     open_date: file['open_date'],
+#     close_date: file['close_date'],
+#     note: file['note']
+#   )
+# end
+
+# patient_exits_file = File.read(Rails.root.join('lib', 'seeds', 'patient_exits.csv'))
+
+# CSV.parse(patient_exits_file, headers: true, encoding: 'utf-8') do |exit|
+#   PatientExit.create!(
+#     patient_admission_id: exit['patient_admission_id'],
+#     date: exit['date'],
+#     reason: exit['reason'],
+#     location: exit['location'],
+#     note: exit['note']
+#   )
+# end
+
+# puts 'Done creating patient admissions, files and exits'
+# puts '---------------'
+
+# puts 'Done seeding the database 💪'
+
+
+# ------------------ FAKE DATA SEEDS -----------------
+
 puts 'About to spread seeds 🌱'
 puts '---------------'
 

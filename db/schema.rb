@@ -10,41 +10,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_31_145620) do
-  create_table "employee_admissions", force: :cascade do |t|
-    t.integer "employee_id", null: false
-    t.date "date"
+ActiveRecord::Schema[7.0].define(version: 2022_04_23_112914) do
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["employee_id"], name: "index_employee_admissions_on_employee_id"
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
-  create_table "employee_exits", force: :cascade do |t|
-    t.integer "employee_admission_id", null: false
-    t.date "date"
-    t.string "note"
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.string "service_name", null: false
+    t.bigint "byte_size", null: false
+    t.string "checksum"
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["employee_admission_id"], name: "index_employee_exits_on_employee_admission_id"
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "employees", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.string "full_name"
-    t.string "name"
-    t.boolean "is_active", default: true
-    t.string "address"
-    t.string "citizen_no"
-    t.string "nif_no"
-    t.string "health_no"
-    t.string "phone"
-    t.string "email"
-    t.string "role"
-    t.date "dob"
-    t.string "nationality"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_employees_on_user_id"
+  create_table "active_storage_variant_records", force: :cascade do |t|
+    t.bigint "blob_id", null: false
+    t.string "variation_digest", null: false
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
   create_table "jwt_denylist", force: :cascade do |t|
@@ -127,20 +119,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_31_145620) do
     t.index ["patient_payment_id"], name: "index_patient_receivables_on_patient_payment_id"
   end
 
-  create_table "patient_relatives", force: :cascade do |t|
-    t.integer "patient_id", null: false
-    t.string "name"
-    t.string "relationship"
-    t.string "phone"
-    t.string "email"
-    t.string "address"
-    t.boolean "is_main", default: false
-    t.string "note"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["patient_id"], name: "index_patient_relatives_on_patient_id"
-  end
-
   create_table "patients", force: :cascade do |t|
     t.string "full_name"
     t.string "name"
@@ -155,7 +133,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_31_145620) do
     t.datetime "updated_at", null: false
     t.integer "sex"
     t.decimal "monthly_fee"
-    t.decimal "balance"
+    t.decimal "balance", default: "0.0", null: false
     t.integer "covenant", default: 0
   end
 
@@ -172,23 +150,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_31_145620) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  create_table "visits", force: :cascade do |t|
-    t.integer "patient_id", null: false
-    t.integer "user_id", null: false
-    t.date "date"
-    t.time "time"
-    t.string "visitor_name"
-    t.boolean "is_video", default: false
-    t.string "note"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["patient_id"], name: "index_visits_on_patient_id"
-    t.index ["user_id"], name: "index_visits_on_user_id"
-  end
-
-  add_foreign_key "employee_admissions", "employees"
-  add_foreign_key "employee_exits", "employee_admissions"
-  add_foreign_key "employees", "users"
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "patient_admissions", "patients"
   add_foreign_key "patient_exits", "patient_admissions"
   add_foreign_key "patient_expenses", "patient_files"
@@ -199,7 +162,4 @@ ActiveRecord::Schema[7.0].define(version: 2022_03_31_145620) do
   add_foreign_key "patient_receivables", "patient_files"
   add_foreign_key "patient_receivables", "patient_payments"
   add_foreign_key "patient_receivables", "patients"
-  add_foreign_key "patient_relatives", "patients"
-  add_foreign_key "visits", "patients"
-  add_foreign_key "visits", "users"
 end

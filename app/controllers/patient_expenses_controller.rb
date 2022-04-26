@@ -8,15 +8,14 @@ class PatientExpensesController < ApplicationController
   end
 
   def patient
-    patient = params[:id]
-    @patient_expenses = PatientExpense.where(patient_id: patient).includes(:patient_receivable).order(date: :desc, id: :desc)
+    @patient_expenses = PatientExpense.where(patient_id: params[:id]).includes(:patient_receivable).order(date: :desc, id: :desc)
     render json: PatientExpenseBlueprint.render(@patient_expenses)
   end
 
   def create
     @patient_expense = PatientExpense.new(patient_expense_params)
 
-    patient_file_id = Patient.find(params[:patient_id]).patient_files.last.id
+    patient_file_id = Patient.find(@patient_expense.patient_id).patient_files.last.id
     @patient_expense.update(patient_file_id: patient_file_id)
 
     if @patient_expense.save

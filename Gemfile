@@ -46,3 +46,5 @@ gem 'oj'
 
 # for seeds
 gem 'faker'
+
+gem 'csv'
