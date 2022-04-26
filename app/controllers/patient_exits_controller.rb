@@ -1,5 +1,4 @@
 class PatientExitsController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_patient_exit, only: %i[show update destroy]
 
   def index

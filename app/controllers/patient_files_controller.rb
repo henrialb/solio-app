@@ -1,5 +1,4 @@
 class PatientFilesController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_patient_file, only: %i[show update destroy]
 
   def index

@@ -1,5 +1,4 @@
 class PatientExpensesController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_patient_expense, only: %i[show update destroy]
 
   def index
