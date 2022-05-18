@@ -12,10 +12,20 @@ class PatientsController < ApplicationController
   end
 
   def create
+    params = patient_params
+
+    pipeline = ImageProcessing::Vips.source(params[:profile_photo])
+    params[:profile_photo].tempfile = pipeline.resize_to_fill!(400, 400)
+
     ActiveRecord::Base.transaction do
-      @patient = Patient.create(patient_params)
+      @patient = Patient.create(params)
       @patient_admission = PatientAdmission.create(patient_id: @patient.id, date: file_params[:open_date])
-      @patient_file = PatientFile.create(patient_admission_id: @patient_admission.id, facility: file_params[:facility], open_date: file_params[:open_date], note: file_params[:note])
+      @patient_file = PatientFile.create(
+        patient_admission_id: @patient_admission.id,
+        facility: file_params[:facility],
+        open_date: file_params[:open_date],
+        note: file_params[:note]
+      )
     end
 
     if @patient.id != nil
