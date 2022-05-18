@@ -66,6 +66,22 @@ GEM
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
+    aws-eventstream (1.2.0)
+    aws-partitions (1.587.0)
+    aws-sdk-core (3.131.0)
+      aws-eventstream (~> 1, >= 1.0.2)
+      aws-partitions (~> 1, >= 1.525.0)
+      aws-sigv4 (~> 1.1)
+      jmespath (~> 1.0)
+    aws-sdk-kms (1.57.0)
+      aws-sdk-core (~> 3, >= 3.127.0)
+      aws-sigv4 (~> 1.1)
+    aws-sdk-s3 (1.114.0)
+      aws-sdk-core (~> 3, >= 3.127.0)
+      aws-sdk-kms (~> 1)
+      aws-sigv4 (~> 1.4)
+    aws-sigv4 (1.5.0)
+      aws-eventstream (~> 1, >= 1.0.2)
     bcrypt (3.1.16)
     blueprinter (0.25.3)
     bootsnap (1.10.3)
@@ -104,6 +120,7 @@ GEM
     i18n (1.10.0)
       concurrent-ruby (~> 1.0)
     io-wait (0.2.1)
+    jmespath (1.6.1)
     jwt (2.3.0)
     listen (3.7.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
@@ -202,6 +219,7 @@ PLATFORMS
   x86_64-darwin-20
 
 DEPENDENCIES
+  aws-sdk-s3
   blueprinter
   bootsnap (>= 1.4.4)
   byebug
@@ -222,4 +240,4 @@ RUBY VERSION
    ruby 3.1.1p18
 
 BUNDLED WITH
-   2.3.7
+   2.3.13

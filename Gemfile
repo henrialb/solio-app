@@ -36,15 +36,17 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-# for authentication
+# For authentication
 gem 'devise'
 gem 'devise-jwt'
 
-# for the api json
+# For the api json
 gem 'blueprinter'
 gem 'oj'
 
-# for seeds
+# For seeds
 gem 'faker'
-
 gem 'csv'
+
+# For file storage
+gem "aws-sdk-s3", require: false
