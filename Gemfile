@@ -50,3 +50,6 @@ gem 'csv'
 
 # For file storage
 gem "aws-sdk-s3", require: false
+
+# For processing images (e.g. resizing)
+gem "image_processing", ">= 1.2"
