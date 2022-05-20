@@ -163,9 +163,20 @@ class PatientReceivablesController < ApplicationController
   def destroy
     if @patient_receivable.source == 'expenses'
       expenses = PatientExpense.where(patient_receivable_id: @patient_receivable.id)
-      expenses.update_all(patient_receivable_id: nil)
+
+      ActiveRecord::Base.transaction do
+        expenses.update_all(patient_receivable_id: nil)
+
+        if @patient_receivable.paid?
+          patient = @patient_receivable.patient
+          patient.update(balance: patient.balance += @patient_receivable.amount)
+        end
+
+        @patient_receivable.destroy
+      end
+    else
+      @patient_receivable.destroy if @patient_receivable.unpaid?
     end
-    @patient_receivable.destroy
   end
 
   private
