@@ -25,6 +25,8 @@ gem 'rack-cors'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  # For seeds
+  gem 'faker'
 end
 
 group :development do
@@ -36,6 +38,13 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
+group :production do
+  # For seeds
+  gem 'csv'
+  # For file storage
+  gem "aws-sdk-s3", require: false
+end
+
 # For authentication
 gem 'devise'
 gem 'devise-jwt'
@@ -43,13 +52,6 @@ gem 'devise-jwt'
 # For the api json
 gem 'blueprinter'
 gem 'oj'
-
-# For seeds
-gem 'faker'
-gem 'csv'
-
-# For file storage
-gem "aws-sdk-s3", require: false
 
 # For processing images (e.g. resizing)
 gem "image_processing", ">= 1.2"
