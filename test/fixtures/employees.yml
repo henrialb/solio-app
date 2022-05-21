@@ -6,13 +6,13 @@ one:
   name: MyString
   is_active: false
   address: MyString
-  citizen_no: MyString
-  nif_no: MyString
-  health_no: MyString
+  citizen_num: MyString
+  nif_num: MyString
+  health_num: MyString
   phone: MyString
   email: MyString
   role: MyString
-  dob: 2021-10-20
+  date_of_birth: 2021-10-20
   nationality: MyString
 
 two:
@@ -21,11 +21,11 @@ two:
   name: MyString
   is_active: false
   address: MyString
-  citizen_no: MyString
-  nif_no: MyString
-  health_no: MyString
+  citizen_num: MyString
+  nif_num: MyString
+  health_num: MyString
   phone: MyString
   email: MyString
   role: MyString
-  dob: 2021-10-20
+  date_of_birth: 2021-10-20
   nationality: MyString

@@ -9,7 +9,7 @@ class Patient < ApplicationRecord
   has_one_attached :profile_photo, dependent: :destroy
 
   validates :name, presence: true
-  validates :citizen_no, :nif_no, :health_no, :social_security_no, uniqueness: true, allow_nil: true
+  validates :citizen_num, :nif_num, :health_num, :social_security_num, uniqueness: true, allow_nil: true
 
   enum sex: [:female, :male]
   enum status: [:inactive, :active]

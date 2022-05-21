@@ -58,7 +58,7 @@ class PatientsController < ApplicationController
   end
 
   def patient_params
-    params.permit(:full_name, :name, :dob, :status, :citizen_no, :nif_no, :health_no, :social_security_no, :clothes_tag, :sex, :monthly_fee, :balance, :covenant, :profile_photo)
+    params.permit(:full_name, :name, :date_of_birth, :status, :citizen_num, :nif_num, :health_num, :social_security_num, :clothes_tag, :sex, :monthly_fee, :balance, :covenant, :profile_photo)
   end
 
   def file_params
