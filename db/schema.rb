@@ -11,6 +11,9 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.0].define(version: 2022_04_27_214724) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -39,14 +42,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_27_214724) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "jwt_denylist", force: :cascade do |t|
-    t.string "jti", null: false
-    t.datetime "exp", null: false
-    t.index ["jti"], name: "index_jwt_denylist_on_jti"
-  end
-
   create_table "patient_admissions", force: :cascade do |t|
-    t.integer "patient_id", null: false
+    t.bigint "patient_id", null: false
     t.date "date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -54,7 +51,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_27_214724) do
   end
 
   create_table "patient_exits", force: :cascade do |t|
-    t.integer "patient_admission_id", null: false
+    t.bigint "patient_admission_id", null: false
     t.date "date"
     t.string "reason"
     t.string "location"
@@ -65,22 +62,22 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_27_214724) do
   end
 
   create_table "patient_expenses", force: :cascade do |t|
-    t.integer "patient_file_id", null: false
+    t.bigint "patient_file_id", null: false
     t.string "description"
     t.decimal "amount"
     t.date "date"
     t.string "note"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "patient_id"
-    t.integer "patient_receivable_id"
+    t.bigint "patient_id"
+    t.bigint "patient_receivable_id"
     t.index ["patient_file_id"], name: "index_patient_expenses_on_patient_file_id"
     t.index ["patient_id"], name: "index_patient_expenses_on_patient_id"
     t.index ["patient_receivable_id"], name: "index_patient_expenses_on_patient_receivable_id"
   end
 
   create_table "patient_files", force: :cascade do |t|
-    t.integer "patient_admission_id", null: false
+    t.bigint "patient_admission_id", null: false
     t.date "open_date"
     t.date "close_date"
     t.string "note"
@@ -91,7 +88,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_27_214724) do
   end
 
   create_table "patient_payments", force: :cascade do |t|
-    t.integer "patient_id"
+    t.bigint "patient_id"
     t.date "date"
     t.decimal "amount"
     t.string "note"
@@ -103,14 +100,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_27_214724) do
   end
 
   create_table "patient_receivables", force: :cascade do |t|
-    t.integer "patient_file_id", null: false
+    t.bigint "patient_file_id", null: false
     t.decimal "amount"
     t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "patient_id"
+    t.bigint "patient_id"
     t.string "description"
-    t.integer "patient_payment_id"
+    t.bigint "patient_payment_id"
     t.string "note"
     t.integer "accountable", default: 0
     t.integer "source", default: 2

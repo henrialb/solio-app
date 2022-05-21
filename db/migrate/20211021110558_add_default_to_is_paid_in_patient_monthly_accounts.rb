@@ -1,5 +1,5 @@
 class AddDefaultToIsPaidInPatientMonthlyAccounts < ActiveRecord::Migration[6.1]
   def change
-    change_column :patient_monthly_accounts, :is_paid, :boolean, default: false
+    change_column :patient_monthly_accounts, :is_paid, :integer, default: 0
   end
 end

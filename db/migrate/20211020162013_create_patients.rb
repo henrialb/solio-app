@@ -4,7 +4,7 @@ class CreatePatients < ActiveRecord::Migration[6.1]
       t.string :full_name
       t.string :name
       t.date :dob
-      t.boolean :is_active
+      t.integer :is_active
       t.string :citizen_no
       t.string :nif_no
       t.string :health_no

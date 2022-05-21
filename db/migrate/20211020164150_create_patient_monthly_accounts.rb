@@ -4,7 +4,7 @@ class CreatePatientMonthlyAccounts < ActiveRecord::Migration[6.1]
       t.references :patient_file, null: false, foreign_key: true
       t.date :month
       t.decimal :total
-      t.boolean :is_paid
+      t.integer :is_paid
 
       t.timestamps
     end
