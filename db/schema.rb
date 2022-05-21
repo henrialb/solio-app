@@ -121,10 +121,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_27_214724) do
     t.string "name"
     t.date "date_of_birth"
     t.integer "status", default: 1, null: false
-    t.string "citizen_no"
-    t.string "nif_no"
-    t.string "health_no"
-    t.string "social_security_no"
+    t.string "citizen_num"
+    t.string "nif_num"
+    t.string "health_num"
+    t.string "social_security_num"
     t.string "clothes_tag"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
