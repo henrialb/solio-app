@@ -6,9 +6,9 @@ one:
   name: MyString
   is_active: false
   address: MyString
-  citizen_no: MyString
-  nif_no: MyString
-  health_no: MyString
+  citizen_num: MyString
+  nif_num: MyString
+  health_num: MyString
   phone: MyString
   email: MyString
   role: MyString
@@ -21,9 +21,9 @@ two:
   name: MyString
   is_active: false
   address: MyString
-  citizen_no: MyString
-  nif_no: MyString
-  health_no: MyString
+  citizen_num: MyString
+  nif_num: MyString
+  health_num: MyString
   phone: MyString
   email: MyString
   role: MyString

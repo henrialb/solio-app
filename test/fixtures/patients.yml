@@ -5,10 +5,10 @@ one:
   name: MyString
   date_of_birth: 2021-10-20
   is_active: false
-  citizen_no: MyString
-  nif_no: MyString
-  health_no: MyString
-  social_security_no: MyString
+  citizen_num: MyString
+  nif_num: MyString
+  health_num: MyString
+  social_security_num: MyString
   clothes_tag: MyString
 
 two:
@@ -16,8 +16,8 @@ two:
   name: MyString
   date_of_birth: 2021-10-20
   is_active: false
-  citizen_no: MyString
-  nif_no: MyString
-  health_no: MyString
-  social_security_no: MyString
+  citizen_num: MyString
+  nif_num: MyString
+  health_num: MyString
+  social_security_num: MyString
   clothes_tag: MyString
