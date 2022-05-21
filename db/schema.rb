@@ -83,7 +83,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_27_214724) do
     t.string "note"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "facility"
+    t.integer "facility", null: false
     t.index ["patient_admission_id"], name: "index_patient_files_on_patient_admission_id"
   end
 
@@ -94,23 +94,23 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_27_214724) do
     t.string "note"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "method"
-    t.integer "accountable", default: 0
+    t.integer "method", null: false
+    t.integer "accountable", default: 0, null: false
     t.index ["patient_id"], name: "index_patient_payments_on_patient_id"
   end
 
   create_table "patient_receivables", force: :cascade do |t|
     t.bigint "patient_file_id", null: false
     t.decimal "amount"
-    t.integer "status", default: 0
+    t.integer "status", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "patient_id"
-    t.string "description"
+    t.string "description", null: false
     t.bigint "patient_payment_id"
     t.string "note"
-    t.integer "accountable", default: 0
-    t.integer "source", default: 2
+    t.integer "accountable", default: 0, null: false
+    t.integer "source", default: 2, null: false
     t.index ["patient_file_id"], name: "index_patient_receivables_on_patient_file_id"
     t.index ["patient_id"], name: "index_patient_receivables_on_patient_id"
     t.index ["patient_payment_id"], name: "index_patient_receivables_on_patient_payment_id"
@@ -120,7 +120,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_27_214724) do
     t.string "full_name"
     t.string "name"
     t.date "dob"
-    t.integer "status", default: 1
+    t.integer "status", default: 1, null: false
     t.string "citizen_no"
     t.string "nif_no"
     t.string "health_no"
@@ -128,10 +128,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_27_214724) do
     t.string "clothes_tag"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "sex"
+    t.integer "sex", null: false
     t.decimal "monthly_fee"
     t.decimal "balance", default: "0.0", null: false
-    t.integer "covenant", default: 0
+    t.integer "covenant", default: 0, null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -142,7 +142,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_27_214724) do
     t.datetime "remember_created_at", precision: nil
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "role", default: 4
+    t.integer "role", default: 4, null: false
     t.string "jti", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["jti"], name: "index_users_on_jti", unique: true
