@@ -119,7 +119,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_27_214724) do
   create_table "patients", force: :cascade do |t|
     t.string "full_name"
     t.string "name"
-    t.date "dob"
+    t.date "date_of_birth"
     t.integer "status", default: 1, null: false
     t.string "citizen_no"
     t.string "nif_no"

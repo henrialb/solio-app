@@ -22,7 +22,7 @@
 #   Patient.create(
 #     name: patient['name'],
 #     full_name: patient['full_name'],
-#     dob: patient['dob'],
+#     date_of_birth: patient['date_of_birth'],
 #     covenant: patient['covenant'].to_i,
 #     sex: patient['sex'].to_i,
 #     status: patient['status'].to_i,
@@ -103,7 +103,7 @@ puts 'Creating patients'
   Patient.create!(
     name: all_names.first,
     full_name: all_names.join(' '),
-    dob: Faker::Date.birthday(min_age: 73, max_age: 104),
+    date_of_birth: Faker::Date.birthday(min_age: 73, max_age: 104),
     covenant: [:personal, :scml].sample,
     sex: [:female, :male].sample,
     status: [:active, :inactive].sample,

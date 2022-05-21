@@ -3,7 +3,7 @@
 one:
   full_name: MyString
   name: MyString
-  dob: 2021-10-20
+  date_of_birth: 2021-10-20
   is_active: false
   citizen_no: MyString
   nif_no: MyString
@@ -14,7 +14,7 @@ one:
 two:
   full_name: MyString
   name: MyString
-  dob: 2021-10-20
+  date_of_birth: 2021-10-20
   is_active: false
   citizen_no: MyString
   nif_no: MyString

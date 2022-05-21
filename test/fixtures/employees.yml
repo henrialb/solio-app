@@ -12,7 +12,7 @@ one:
   phone: MyString
   email: MyString
   role: MyString
-  dob: 2021-10-20
+  date_of_birth: 2021-10-20
   nationality: MyString
 
 two:
@@ -27,5 +27,5 @@ two:
   phone: MyString
   email: MyString
   role: MyString
-  dob: 2021-10-20
+  date_of_birth: 2021-10-20
   nationality: MyString
