@@ -39,11 +39,12 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 group :production do
-  # For seeds
-  gem 'csv'
   # For file storage
   gem "aws-sdk-s3", require: false
 end
+
+# For seeds
+gem 'csv'
 
 # For authentication
 gem 'devise'
