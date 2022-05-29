@@ -94,7 +94,7 @@ class PatientReceivablesController < ApplicationController
           patient.update(balance: patient.balance - receivable.amount)
         end
 
-        receivable.save
+        receivable.save if receivable.amount.positive?
       end
     end
   end
