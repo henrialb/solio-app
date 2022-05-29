@@ -47,6 +47,7 @@ class PatientReceivablesController < ApplicationController
     patients = Patient.active
     date_dictionary = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
     @monthly_fee_receivables = []
+    month = Date.today.day < 20 ? date_dictionary[Date.today.month - 1] : date_dictionary[Date.today.month]
 
     patients.each do |patient|
       monthly_fee_receivable_params = {
@@ -55,13 +56,13 @@ class PatientReceivablesController < ApplicationController
         status: :unpaid,
         source: :monthly_fee,
         accountable: :personal,
-        description: "Mensalidade #{date_dictionary[Date.today.month - 1]}"
+        description: "Mensalidade #{month}"
       }
 
       if patient.scml?
         @monthly_fee_receivables << PatientReceivable.new(
           monthly_fee_receivable_params.merge(
-            description: "Mensalidade #{date_dictionary[Date.today.month - 1]} – SCML",
+            description: "Mensalidade #{month} – SCML",
             amount: PatientReceivable.where(patient_id: patient.id).scml.last.amount,
             accountable: :scml
           )
