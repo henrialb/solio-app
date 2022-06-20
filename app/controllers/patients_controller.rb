@@ -15,7 +15,7 @@ class PatientsController < ApplicationController
     params = patient_params
 
     pipeline = ImageProcessing::Vips.source(params[:profile_photo])
-    params[:profile_photo].tempfile = pipeline.resize_to_fill!(400, 400)
+    params[:profile_photo].tempfile = pipeline.resize_to_fill!(400, 400) unless params[:profile_photo].nil?
 
     ActiveRecord::Base.transaction do
       @patient = Patient.create(params)
