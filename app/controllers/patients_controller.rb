@@ -2,7 +2,7 @@ class PatientsController < ApplicationController
   before_action :set_patient, only: %i[show update destroy]
 
   def index
-    @patients = Patient.active.includes(:patient_files)
+    @patients = Patient.active.includes(:patient_files).sort
     render json: PatientBlueprint.render(@patients)
   end
 
