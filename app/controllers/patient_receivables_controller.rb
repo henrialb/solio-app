@@ -44,15 +44,15 @@ class PatientReceivablesController < ApplicationController
   end
 
   def create_from_monthly_fee
-    patients = Patient.active
+    patients = Patient.active.includes(:patient_files, :patient_receivables)
     date_dictionary = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
     @monthly_fee_receivables = []
     month = Date.today.day < 20 ? date_dictionary[Date.today.month - 1] : date_dictionary[Date.today.month]
 
     patients.each do |patient|
       monthly_fee_receivable_params = {
-        patient_id: patient.id,
-        patient_file_id: patient.patient_files.last.id,
+        patient: patient,
+        patient_file: patient.patient_files.last,
         status: :unpaid,
         source: :monthly_fee,
         accountable: :personal,
@@ -60,10 +60,12 @@ class PatientReceivablesController < ApplicationController
       }
 
       if patient.scml?
+        previous_scml_receivable = patient.patient_receivables.scml.last
+
         @monthly_fee_receivables << PatientReceivable.new(
           monthly_fee_receivable_params.merge(
             description: "Mensalidade #{month} – SCML",
-            amount: PatientReceivable.where(patient_id: patient.id).scml.last.amount,
+            amount: !previous_scml_receivable.nil? ? previous_scml_receivable.amount : 1000,
             accountable: :scml
           )
         )
@@ -83,17 +85,14 @@ class PatientReceivablesController < ApplicationController
 
       # Create receivable as paid if patient has enough balance (only personal portion of monthly fee – not SCML)
       if patient.balance >= @monthly_fee_receivables.last.amount
-        @monthly_fee_receivables.last.status = :paid
+        @monthly_fee_receivables.last.status = :paid if @monthly_fee_receivables.last.personal?
       end
     end
 
     ActiveRecord::Base.transaction do
       @monthly_fee_receivables.each do |receivable|
-        if receivable.paid?
-          patient = Patient.find(receivable.patient_id)
-
-          patient.update(balance: patient.balance - receivable.amount)
-        end
+        patient = receivable.patient
+        patient.update(balance: patient.balance - receivable.amount) if receivable.paid?
 
         receivable.save if receivable.amount.positive?
       end
