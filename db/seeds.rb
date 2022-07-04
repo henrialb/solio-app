@@ -254,3 +254,18 @@
 # puts '---------------'
 
 # puts 'Done seeding the database 💪'
+
+# ------------------ PATIENT PHOTOS -----------------
+
+# require "open-uri"
+
+# patients_to_seed = [] # Include patient id in this array to add photo to a patient
+
+# Patient.active.each do |patient|
+#   next unless patients_to_seed.include?(patient.id)
+
+#   # Add photos to lib/img
+#   file = URI.open(Rails.root.join('lib', 'img', patient.id.to_s + '.png'))
+
+#   patient.profile_photo.attach(io: file, filename: patient.name + '.jpg', content_type: 'image/jpg')
+# end
