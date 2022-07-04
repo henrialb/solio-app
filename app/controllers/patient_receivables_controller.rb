@@ -83,10 +83,11 @@ class PatientReceivablesController < ApplicationController
         )
       end
 
-      # Create receivable as paid if patient has enough balance (only personal portion of monthly fee – not SCML)
-      if patient.balance >= @monthly_fee_receivables.last.amount
-        @monthly_fee_receivables.last.status = :paid if @monthly_fee_receivables.last.personal?
-      end
+      # TODO: refactor this
+      @monthly_fee_receivables.last.status = :paid if
+        @monthly_fee_receivables.last.personal? &&
+        patient.balance >= @monthly_fee_receivables.last.amount &&
+        @monthly_fee_receivables.last.amount.positive?
     end
 
     ActiveRecord::Base.transaction do
